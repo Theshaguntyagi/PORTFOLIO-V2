@@ -1,0 +1,439 @@
+/* ============================================
+   COMPLETE NAVBAR CSS - FULL WIDTH FIX
+   ============================================ */
+
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* ============================================
+   ROOT VARIABLES
+   ============================================ */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.208 0.042 265.755);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --border: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+}
+
+.dark,
+[data-theme="dark"] {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --border: rgba(255, 255, 255, 0.1);
+  --ring: oklch(0.551 0.027 264.364);
+}
+
+/* ============================================
+   NAVBAR HEADER - FULL WIDTH
+   ============================================ */
+.navbar-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Visibility animations */
+.navbar-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.navbar-visible {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s ease-out;
+}
+
+/* Scrolled state */
+.navbar-light.navbar-scrolled {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-dark.navbar-scrolled {
+  background-color: rgba(15, 20, 40, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Top state */
+.navbar-light.navbar-top {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navbar-dark.navbar-top {
+  background-color: rgba(15, 20, 40, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   NAVBAR CONTAINER
+   ============================================ */
+.navbar-3d-card {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2rem;
+}
+
+/* ============================================
+   LOGO/BRAND
+   ============================================ */
+.navbar-brand-wrapper {
+  flex-shrink: 0;
+}
+
+.navbar-brand {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-light .navbar-brand {
+  color: rgb(20, 20, 30);
+  text-shadow: none;
+}
+
+.navbar-brand:hover {
+  color: rgb(100, 180, 255);
+}
+
+.navbar-light .navbar-brand:hover {
+  color: rgb(53, 60, 154);
+}
+
+.navbar-logo-text {
+  display: inline-block;
+}
+
+/* ============================================
+   DESKTOP NAVIGATION
+   ============================================ */
+.navbar-menu-desktop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.navbar-item-wrapper {
+  opacity: 1;
+}
+
+.navbar-link {
+  font-family: 'Inter', sans-serif;
+  font-variation-settings: 'wght' 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: block;
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-light .navbar-link {
+  color: rgba(20, 20, 30, 0.8);
+  text-shadow: none;
+}
+
+.navbar-light .navbar-link:hover {
+  color: rgb(53, 60, 154);
+}
+
+.navbar-dark .navbar-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-dark .navbar-link:hover {
+  color: rgb(236, 237, 245);
+}
+
+.navbar-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  font-variation-settings: 'wght' 600;
+}
+
+.navbar-light .navbar-link:hover {
+  background-color: rgba(53, 60, 154, 0.1);
+}
+
+.navbar-link-active {
+  color: rgb(100, 180, 255) !important;
+  background-color: rgba(100, 180, 255, 0.2) !important;
+  font-variation-settings: 'wght' 600 !important;
+}
+
+.navbar-light .navbar-link-active {
+  color: rgb(53, 60, 154) !important;
+  background-color: rgba(53, 60, 154, 0.15) !important;
+}
+
+/* ============================================
+   MOBILE MENU TOGGLE
+   ============================================ */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  border-radius: 0.375rem;
+}
+
+.navbar-light .mobile-menu-toggle {
+  color: rgb(20, 20, 30);
+}
+
+.mobile-menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.navbar-light .mobile-menu-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   MOBILE MENU
+   ============================================ */
+.navbar-menu-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  margin-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  animation: mobileMenuSlideIn 0.3s ease-out;
+}
+
+.navbar-light .navbar-menu-mobile {
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes mobileMenuSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar-link-mobile {
+  font-family: 'Inter', sans-serif;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: block;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-light .navbar-link-mobile {
+  color: rgba(20, 20, 30, 0.85);
+  text-shadow: none;
+}
+
+.navbar-link-mobile:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: rgb(100, 180, 255);
+}
+
+.navbar-light .navbar-link-mobile:hover {
+  background-color: rgba(53, 60, 154, 0.1);
+  color: rgb(53, 60, 154);
+}
+
+.navbar-link-mobile.navbar-link-active {
+  color: rgb(100, 180, 255);
+  background-color: rgba(100, 180, 255, 0.2);
+  font-weight: 600;
+}
+
+.navbar-light .navbar-link-mobile.navbar-link-active {
+  color: rgb(53, 60, 154);
+  background-color: rgba(53, 60, 154, 0.15);
+}
+
+/* ============================================
+   THEME TOGGLE
+   ============================================ */
+.navbar-theme-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.theme-toggle {
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  border-radius: 9999px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-light .theme-toggle {
+  color: rgb(20, 20, 30);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  color: rgb(100, 180, 255);
+  background-color: rgba(100, 180, 255, 0.2);
+}
+
+.navbar-light .theme-toggle:hover {
+  color: rgb(53, 60, 154);
+  background-color: rgba(53, 60, 154, 0.15);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  .navbar-header {
+    padding: 0.625rem 1rem;
+  }
+
+ 
+
+  .navbar-menu-desktop {
+    display: flex;
+    justify-content: flex-start;   /* 🔥 yahi fix hai */
+    align-items: center;
+    gap: 10px;
+
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    padding-left: 8px;             /* Home ko visible rakhega */
+    padding-right: 8px;
+  }
+   
+
+  .navbar-link {
+    font-size: 12px;
+    padding: 6px 8px;
+    flex-shrink: 0;
+  }
+
+
+
+  .navbar-menu-desktop::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hamburger completely disable (as per your requirement) */
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+
+
+
+
+
+
+
+ .mobile-menu-toggle {
+  display: none !important;
+}
+
+  .navbar-container {
+    gap: 0.75rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.15rem;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-header {
+    padding: 0.5rem 0.75rem;
+  }
+
+
+
+  .navbar-brand {
+    flex-shrink: 0;   /* Vansh Tyagi compress nahi hoga */
+  }
+
+
+
+  .navbar-link-mobile {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Variable font utility */
+.variable-font {
+  font-family: 'Inter', sans-serif;
+  font-variation-settings: 'wght' 400;
+  transition: font-variation-settings 0.3s ease;
+}
+
+.variable-font:hover {
+  font-variation-settings: 'wght' 600;
+}
