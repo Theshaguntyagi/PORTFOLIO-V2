@@ -1,13 +1,16 @@
 {
-  "name": "portfolio",
+  "name": "shagun-portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://Theshaguntyagi.github.io/PORTFOLIO-V2",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "firebase": "^12.7.0",

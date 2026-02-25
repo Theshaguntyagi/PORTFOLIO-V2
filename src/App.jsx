@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Layout from './components/Layout';
 import PreLandingPage from './components/PreLandingPage';
@@ -30,34 +30,32 @@ function App() {
   };
 
   return (
-    <Router>
-      <div style={{ position: 'relative', minHeight: '100vh' }}>
-        <AnimatePresence mode="wait">
-          {showPreLanding && (
-            <PreLandingPage onEnter={handleEnterPortfolio} />
-          )}
-        </AnimatePresence>
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      <AnimatePresence mode="wait">
+        {showPreLanding && (
+          <PreLandingPage onEnter={handleEnterPortfolio} />
+        )}
+      </AnimatePresence>
 
-        <AnimatePresence mode="wait">
-          {showMainContent && (
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<Home />} />
-                  <Route path="about" element={<About />} />
-                  <Route path="experience" element={<Experience />} />
-                  <Route path="projects" element={<Projects />} />
-                  <Route path="testimonials" element={<Testimonials />} />
-                  <Route path="blog" element={<Blog />} />
-                  <Route path="blog/:id" element={<BlogDetail />} />
-                  <Route path="contact" element={<Contact />} />
-                </Route>
-              </Routes>
-            </div>
-          )}
-        </AnimatePresence>
-      </div>
-    </Router>
+      <AnimatePresence mode="wait">
+        {showMainContent && (
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="about" element={<About />} />
+                <Route path="experience" element={<Experience />} />
+                <Route path="projects" element={<Projects />} />
+                <Route path="testimonials" element={<Testimonials />} />
+                <Route path="blog" element={<Blog />} />
+                <Route path="blog/:id" element={<BlogDetail />} />
+                <Route path="contact" element={<Contact />} />
+              </Route>
+            </Routes>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
