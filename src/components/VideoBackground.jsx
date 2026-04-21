@@ -2,7 +2,9 @@ import React from 'react';
 import '../styles/VideoBackground.css';
 
 const VideoBackground = ({ theme }) => {
-  const videoSrc = theme === 'dark' ? 'public/moon1.mp4' : 'public/sun.mp4';
+  const videoSrc = theme === 'dark'
+  ? `${import.meta.env.BASE_URL}moon1.mp4`
+  : `${import.meta.env.BASE_URL}sun.mp4`;
 
   return (
     <div className="video-background">
