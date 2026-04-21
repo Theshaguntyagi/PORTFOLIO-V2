@@ -1,0 +1,518 @@
+/* =========================
+   FONTS
+   ========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* =========================
+   GLOBAL RESET
+   Kill the 2px border from global.css .card rule
+   ========================= */
+
+.about .card {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+  border-radius: 14px !important;
+  padding: 18px !important;
+}
+
+.about .card:hover {
+  border-color: rgba(255, 255, 255, 0.12) !important; /* keep it, ::before handles purple */
+}
+
+/* Dark override — low opacity so backdrop-filter blur actually shows */
+.dark-theme .about .card {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Light override — low opacity so backdrop-filter blur actually shows */
+.light-theme .about .card {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* =========================
+   ROOT / BASE
+   ========================= */
+
+.about {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  padding: 60px 20px 80px;
+  color: var(--foreground);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.about-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.about-header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.dark-theme .about-header h1  { color: #f1f0ff; }
+.light-theme .about-header h1 { color: #1a1a2e; }
+
+.about-header p {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.dark-theme .about-header p  { color: rgba(255, 255, 255, 0.45); }
+.light-theme .about-header p { color: rgba(0, 0, 0, 0.45); }
+
+/* =========================
+   SECTION TITLES (h2)
+   ========================= */
+
+.about h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dark-theme .about h2  { color: #e8e6ff; }
+.light-theme .about h2 { color: #1a1a2e; }
+
+/* =========================
+   CARD HEADING (h3)
+   ========================= */
+
+.about h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  margin: 0 0 4px;
+}
+
+.dark-theme .about h3  { color: #f0eeff; }
+.light-theme .about h3 { color: #1a1a2e; }
+
+/* =========================
+   BODY TEXT (p)
+   ========================= */
+
+.about p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.dark-theme .about p  { color: rgba(255, 255, 255, 0.5); }
+.light-theme .about p { color: rgba(0, 0, 0, 0.55); }
+
+/* =========================
+   GRID
+   ========================= */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* =========================
+   GLOW ANIMATION
+   ========================= */
+
+@keyframes glowMove {
+  0%   { transform: translate(-10%, -10%) scale(1);    }
+  50%  { transform: translate(10%,  10%)  scale(1.1);  }
+  100% { transform: translate(-5%,  5%)   scale(1.05); }
+}
+
+/* =========================
+   CARD — BASE
+   Exact clone of .timeline-card
+   ========================= */
+
+.about .card {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: 0.3s;
+  z-index: 0;
+}
+
+/* =========================
+   CARD ::before — purple gradient border on hover
+   Exact same as .timeline-card::before
+   ========================= */
+
+.about .card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid transparent;
+
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) border-box;
+
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+
+  opacity: 0;
+  transition: 0.3s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.about .card:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.7);
+}
+
+/* =========================
+   CARD ::after — animated glow bg
+   Exact same as .timeline-card::after (the bottom override block)
+   ========================= */
+
+.about .card::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.4),  transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(99,  102, 241, 0.35), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(168, 85,  247, 0.2),  transparent 60%);
+
+  filter: blur(50px);
+  animation: glowMove 10s linear infinite alternate;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about .card:hover::after {
+  opacity: 0.6;
+}
+
+/* Light — softer glow */
+.light-theme .about .card::after {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(124, 58,  237, 0.2),  transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(99,  102, 241, 0.16), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(168, 85,  247, 0.1),  transparent 60%);
+}
+
+.light-theme .about .card:hover::after {
+  opacity: 0.5;
+}
+
+/* =========================
+   CARD HOVER — lift + glow shadow
+   ========================= */
+
+.about .card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 30px 80px rgba(139, 92, 246, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* =========================
+   CURSOR GLOW
+   ========================= */
+
+.about .card .cursor-glow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 70%);
+  top: var(--y);
+  left: var(--x);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+.about .card:hover .cursor-glow {
+  opacity: 1;
+}
+
+/* Keep all card content above glow layers */
+.about .card > *:not(.cursor-glow) {
+  position: relative;
+  z-index: 3;
+}
+
+/* =========================
+   EDUCATION CARD
+   ========================= */
+
+.edu-card { cursor: default; }
+
+.edu-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.edu-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.dark-theme .edu-icon  { background: rgba(139, 92, 246, 0.18); color: #a78bfa; }
+.light-theme .edu-icon { background: rgba(124, 58, 237, 0.1);  color: #7c3aed; }
+
+.edu-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.edu-card p  { font-size: 13px; margin-bottom: 6px; }
+
+.edu-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.edu-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.dark-theme .edu-meta span {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.light-theme .edu-meta span {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* =========================
+   SKILLS CARD
+   ========================= */
+
+.skill-box { cursor: default; }
+
+.skill-box h4 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.dark-theme .skill-box h4  { color: #a78bfa; }
+.light-theme .skill-box h4 { color: #7c3aed; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.tags span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.dark-theme .tags span {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.light-theme .tags span {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.tags span:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.light-theme .tags span:hover {
+  border-color: #7c3aed;
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.08);
+}
+
+/* =========================
+   ACHIEVEMENTS SECTION
+   ========================= */
+
+.achievements {
+  margin-top: 70px;
+  text-align: center;
+}
+
+.achievements h2 {
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 0;
+}
+
+.ach-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.ach-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 22px 16px !important;
+  text-align: center;
+  cursor: default;
+}
+
+.ach-card svg { opacity: 0.6; }
+.dark-theme .ach-card svg  { color: #a78bfa; }
+.light-theme .ach-card svg { color: #7c3aed; }
+
+.about .ach-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.dark-theme .about .ach-card h3  { color: #c4b5fd; }
+.light-theme .about .ach-card h3 { color: #7c3aed; }
+
+.ach-card p {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* =========================
+   CERTIFICATIONS SECTION
+   ========================= */
+
+.certifications {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.certifications h2 {
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 0;
+}
+
+.cert-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.cert-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 14px !important;
+  text-align: center;
+  cursor: default;
+}
+
+.cert-card svg { opacity: 0.55; }
+.dark-theme .cert-card svg  { color: #a78bfa; }
+.light-theme .cert-card svg { color: #7c3aed; }
+
+.about .cert-card h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.about .cert-card p {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.55;
+  line-height: 1.4;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 768px) {
+  .about-header h1 { font-size: 28px; }
+  .about-grid      { grid-template-columns: 1fr; }
+  .ach-grid,
+  .cert-grid       { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .ach-grid,
+  .cert-grid { grid-template-columns: 1fr; }
+}

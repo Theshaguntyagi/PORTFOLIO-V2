@@ -1,0 +1,421 @@
+/* ============================================
+   COMPLETE NAVBAR CSS - GLASSMORPHISM + HAMBURGER
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* ============================================
+   ROOT VARIABLES
+   ============================================ */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.208 0.042 265.755);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --border: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+}
+
+.dark, [data-theme="dark"] {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --border: rgba(255, 255, 255, 0.1);
+  --ring: oklch(0.551 0.027 264.364);
+}
+
+/* ============================================
+   NAVBAR HEADER
+   ============================================ */
+.navbar-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  isolation: isolate;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* DARK MODE (match your cards) */
+.dark .navbar-header,
+[data-theme="dark"] .navbar-header {
+  background: rgba(255, 255, 255, 0.08);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* LIGHT MODE */
+.light .navbar-header {
+  background: rgba(255, 255, 255, 0.12);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.navbar-header::after {
+  content: "";
+  position: absolute;
+  inset: -100%;
+
+  background:
+    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.25), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.2), transparent 50%);
+
+  filter: blur(60px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.navbar-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.navbar-visible {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s ease-out;
+}
+
+
+
+/* ============================================
+   NAVBAR CONTAINER
+   ============================================ */
+.navbar-3d-card {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+
+
+.navbar-logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2rem;
+}
+
+/* ============================================
+   BRAND / LOGO
+   ============================================ */
+.navbar-brand-wrapper {
+  flex-shrink: 0;
+}
+
+.navbar-brand {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-light .navbar-brand {
+  color: rgb(20, 20, 30);
+  text-shadow: none;
+}
+
+.navbar-brand:hover { color: rgb(100, 180, 255); }
+.navbar-light .navbar-brand:hover { color: rgb(53, 60, 154); }
+
+/* ============================================
+   DESKTOP NAV LINKS
+   ============================================ */
+.navbar-menu-desktop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.navbar-link {
+  font-family: 'Inter', sans-serif;
+  font-variation-settings: 'wght' 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: block;
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-light .navbar-link { color: rgba(20, 20, 30, 0.8); text-shadow: none; }
+.navbar-dark .navbar-link { color: rgba(255, 255, 255, 0.9); }
+.navbar-link:hover { background-color: rgba(255, 255, 255, 0.15); font-variation-settings: 'wght' 600; }
+.navbar-light .navbar-link:hover { background-color: rgba(53, 60, 154, 0.1); color: rgb(53, 60, 154); }
+.navbar-dark .navbar-link:hover { color: rgb(236, 237, 245); }
+
+.navbar-link-active {
+  color: rgb(100, 180, 255) !important;
+  background-color: rgba(100, 180, 255, 0.2) !important;
+  font-variation-settings: 'wght' 600 !important;
+}
+.navbar-light .navbar-link-active {
+  color: rgb(53, 60, 154) !important;
+  background-color: rgba(53, 60, 154, 0.15) !important;
+}
+/* ============================================
+   RIGHT CONTROLS GROUP (theme + hamburger)
+   ============================================ */
+.navbar-right-controls {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============================================
+   HAMBURGER BUTTON
+   ============================================ */
+.mobile-menu-toggle {
+  display: none;          /* hidden on desktop */
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.navbar-light .mobile-menu-toggle {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: rgb(20, 20, 30);
+}
+
+.mobile-menu-toggle:hover {
+  background: rgba(100, 180, 255, 0.2);
+  border-color: rgba(100, 180, 255, 0.4);
+  color: rgb(100, 180, 255);
+}
+
+.navbar-light .mobile-menu-toggle:hover {
+  background: rgba(53, 60, 154, 0.08);
+  border-color: rgba(53, 60, 154, 0.3);
+  color: rgb(53, 60, 154);
+}
+
+/* ============================================
+   MOBILE DROPDOWN MENU
+   ============================================ */
+.navbar-menu-mobile {
+  display: none;          /* collapsed by default */
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.navbar-light .navbar-menu-mobile {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Opened state — toggled by JS class */
+.navbar-menu-mobile.is-open {
+  display: flex;
+  animation: mobileMenuSlideIn 0.25s ease-out both;
+}
+
+@keyframes mobileMenuSlideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.navbar-link-mobile {
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+  animation: mobileLinkFade 0.3s ease both;
+}
+
+@keyframes mobileLinkFade {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.navbar-light .navbar-link-mobile {
+  color: rgba(20, 20, 30, 0.85);
+}
+
+.navbar-link-mobile:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgb(100, 180, 255);
+}
+
+.navbar-light .navbar-link-mobile:hover {
+  background: rgba(53, 60, 154, 0.08);
+  color: rgb(53, 60, 154);
+}
+
+.navbar-link-mobile.navbar-link-active {
+  color: rgb(100, 180, 255);
+  background: rgba(100, 180, 255, 0.18);
+  font-weight: 600;
+}
+
+.navbar-light .navbar-link-mobile.navbar-link-active {
+  color: rgb(53, 60, 154);
+  background: rgba(53, 60, 154, 0.12);
+}
+
+/* Dot indicator before each link */
+.navbar-link-mobile::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.35;
+  flex-shrink: 0;
+}
+
+.navbar-link-mobile.navbar-link-active::before {
+  opacity: 1;
+}
+
+/* ============================================
+   RESPONSIVE — activate mobile layout
+   ============================================ */
+@media (max-width: 768px) {
+  .navbar-header { padding: 0.625rem 1rem; }
+  .navbar-container { gap: 0.75rem; }
+  .navbar-brand { font-size: 1.15rem; }
+
+  /* Hide desktop links */
+  .navbar-menu-desktop { display: none !important; }
+
+  /* Show hamburger */
+  .mobile-menu-toggle { display: flex; }
+
+  /* Remove the old standalone theme wrapper */
+  .navbar-theme-wrapper { display: none; }
+
+  .theme-toggle { width: 36px; height: 36px; }
+}
+
+@media (max-width: 480px) {
+  .navbar-header { padding: 0.5rem 0.75rem; }
+  .navbar-brand { flex-shrink: 0; }
+  .navbar-link-mobile { font-size: 0.9rem; padding: 0.625rem 0.875rem; }
+}
+
+/* ============================================
+   THEME TOGGLE
+   ============================================ */
+.navbar-theme-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.theme-toggle {
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  border-radius: 9999px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-light .theme-toggle {
+  color: rgb(20, 20, 30);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  color: rgb(100, 180, 255);
+  background: rgba(100, 180, 255, 0.2);
+}
+
+.navbar-light .theme-toggle:hover {
+  color: rgb(53, 60, 154);
+  background: rgba(53, 60, 154, 0.12);
+}
+
+/* ===============================
+   NAVBAR FIX PATCH
+=============================== */
+
+/* Force desktop layout */
+@media (min-width: 769px) {
+  .navbar-menu-desktop {
+    display: flex !important;
+    flex: none;
+  }
+
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+}
+
+/* Improve layout stability */
+.navbar-container {
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+/* Prevent menu collapse */
+.navbar-menu-desktop {
+  flex: none;
+}

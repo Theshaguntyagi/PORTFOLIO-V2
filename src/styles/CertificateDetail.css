@@ -1,0 +1,70 @@
+/* PAGE */
+.cert-page {
+  padding: 100px 20px;
+}
+
+/* MAIN GLASS CARD */
+.cert-card-main {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(24px);
+
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+
+  transition: 0.3s;
+}
+
+.cert-card-main:hover {
+  border-color: #7c3aed;
+  box-shadow:
+    0 0 20px rgba(124,58,237,0.3),
+    0 20px 80px rgba(124,58,237,0.2);
+}
+
+/* IMAGE */
+.cert-image img {
+  width: 100%;
+  border-radius: 14px;
+  margin: 20px 0;
+}
+
+/* GRID */
+.cert-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .cert-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* SIDE */
+.cert-side {
+  display: flex;
+  align-items: start;
+}
+
+/* BUTTON */
+.verify-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 10px 14px;
+
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.verify-btn:hover {
+  border-color: #7c3aed;
+  color: #7c3aed;
+}

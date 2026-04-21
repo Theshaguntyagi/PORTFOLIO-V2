@@ -1,0 +1,137 @@
+.footer {
+  position: relative;
+  margin-top: 80px;
+  padding: 60px 20px;
+
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(20px);
+
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* GLOW */
+.footer-glow {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 500px;
+  height: 120px;
+
+  background: rgba(124,58,237,0.2);
+  filter: blur(80px);
+}
+
+/* GRID */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* CARD */
+.footer-card {
+  padding: 0;            /* remove card padding */
+  background: none;      /* ❌ remove glass */
+  border: none;          /* ❌ remove border */
+  box-shadow: none;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 100px;   /* increase spacing */
+}
+
+.footer-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.footer-card p,
+.footer-card a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+}
+
+.footer-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-card li {
+  margin-bottom: 6px;
+}
+
+.footer {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(20px);
+}
+
+.footer-card {
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding-right: 20px;
+}
+
+.footer-card:last-child {
+  border-right: none;
+}
+
+.footer-card:hover {
+  border-color: #7c3aed;
+  box-shadow: 0 0 20px rgba(124,58,237,0.2);
+}
+
+/* LINKS */
+.footer-card a {
+  display: block;
+  margin: 6px 0;
+  color: rgba(255,255,255,0.8);
+}
+
+.footer-card a:hover {
+  color: #7c3aed;
+}
+
+/* SOCIAL */
+.footer-socials a {
+  margin-right: 10px;
+}
+
+/* SHORTCUTS */
+.footer-shortcuts kbd {
+  padding: 2px 6px;
+  border-radius: 6px;
+
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.footer-shortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* BOTTOM */
+.footer-bottom {
+  margin-top: 30px;
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(255,255,255,0.1);
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.heart {
+  color: #7c3aed;
+}
