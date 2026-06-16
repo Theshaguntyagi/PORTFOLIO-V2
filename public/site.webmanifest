@@ -1,0 +1,25 @@
+{
+  "id": "/PORTFOLIO-V2/",
+  "name": "Shagun Tyagi — AI/ML Engineer",
+  "short_name": "Shagun Tyagi",
+  "description": "Portfolio of Shagun Tyagi, AI/ML Engineer & Full Stack Developer.",
+  "start_url": "/PORTFOLIO-V2/",
+  "scope": "/PORTFOLIO-V2/",
+  "display": "standalone",
+  "background_color": "#0f1428",
+  "theme_color": "#0f1428",
+  "icons": [
+    {
+      "src": "/PORTFOLIO-V2/profile.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/PORTFOLIO-V2/profile.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

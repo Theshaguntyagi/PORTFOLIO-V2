@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Shagun Tyagi</title>
+    <!--
+      GitHub Pages SPA redirect (rafgraph/spa-github-pages).
+      GitHub Pages has no server-side rewrites, so a refresh/deep-link to
+      /PORTFOLIO-V2/about would 404. This page captures that, encodes the
+      path into a query string, and bounces to index.html, which decodes it
+      back into a clean URL (see the inline script in index.html).
+      pathSegmentsToKeep = 1 keeps the "/PORTFOLIO-V2" project-page prefix.
+    -->
+    <script type="text/javascript">
+      var pathSegmentsToKeep = 1;
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

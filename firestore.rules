@@ -1,0 +1,91 @@
+rules_version = '2';
+
+// Security rules for the portfolio's Firestore data.
+// Deploy with:  firebase deploy --only firestore:rules
+// (or paste into Firebase console → Firestore → Rules).
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Only the site owner (signed in with this Google account) may manage blogs.
+    // Keep this in sync with OWNER_EMAIL in src/firebase.js.
+    function isOwner() {
+      return request.auth != null
+          && request.auth.token.email == 'theshaguntyagi@gmail.com';
+    }
+
+    // BLOG POSTS — world-readable; only the owner can create/edit/delete.
+    // Visitors may bump ONLY the `likes` / `views` counters (nothing else).
+    match /blogs/{postId} {
+      allow read: if true;
+      allow create, delete: if isOwner();
+      allow update: if isOwner()
+        || request.resource.data.diff(resource.data)
+             .affectedKeys().hasOnly(['likes', 'views']);
+    }
+
+    // CONTACT FORM — anyone may submit; only the owner may read/manage.
+    match /contacts/{id} {
+      allow create: if true;
+      allow read, update, delete: if isOwner();
+    }
+
+    // NEWSLETTER SIGNUPS — anyone may subscribe; only the owner may read.
+    match /newsletter/{id} {
+      allow create: if true;
+      allow read, update, delete: if isOwner();
+    }
+
+    // PUSH-NOTIFICATION TOKENS — anyone may register their device token.
+    // `read` is needed by the client's "already subscribed?" dedupe query.
+    // (FCM tokens aren't PII; tighten to `isOwner()` if you remove that check.)
+    match /notificationSubscribers/{id} {
+      allow create, read: if true;
+      allow update, delete: if isOwner();
+    }
+
+    // TESTIMONIALS — anyone may submit (pending); only approved are public.
+    match /testimonials/{id} {
+      allow read: if resource.data.approved == true || isOwner();
+      allow create: if request.resource.data.approved == false
+                    && request.resource.data.name is string
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() < 1000;
+      allow update, delete: if isOwner();
+    }
+
+    // GUESTBOOK — signed-in visitors may leave a note; everyone can read.
+    // Owner may update (to add a reply).
+    match /guestbook/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() < 500
+                    && request.resource.data.uid == request.auth.uid;
+      allow update: if isOwner();
+      allow delete: if isOwner() || (request.auth != null && resource.data.uid == request.auth.uid);
+    }
+
+    // BLOG COMMENTS — public post + read; owner moderates (delete) and replies (update).
+    match /comments/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.blogId is string
+                    && request.resource.data.name is string
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() < 1000;
+      allow update: if isOwner();
+      allow delete: if isOwner();
+    }
+
+    // SITE SETTINGS (e.g. availability badge) — public read, owner write.
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+
+    // Everything else: locked down by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

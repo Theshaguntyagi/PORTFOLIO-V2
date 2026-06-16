@@ -1,0 +1,129 @@
+.guestbook-page { min-height: 80vh; }
+
+.guestbook-compose {
+  max-width: 560px;
+  margin: 0 auto 3rem;
+  display: flex;
+  justify-content: center;
+}
+.guestbook-compose .btn { display: inline-flex; align-items: center; gap: 0.5rem; }
+
+.guestbook-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+}
+.gb-user { display: flex; align-items: center; gap: 0.6rem; }
+.gb-user img { width: 32px; height: 32px; border-radius: 50%; }
+.gb-user span { font-weight: 600; color: var(--foreground); }
+.gb-signout {
+  margin-left: auto;
+  display: inline-flex;
+  padding: 0.4rem;
+  color: var(--muted-foreground);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.gb-signout:hover { color: #f87171; }
+.guestbook-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--foreground);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  resize: vertical;
+  outline: none;
+}
+.guestbook-form textarea:focus { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.2); }
+.guestbook-form .btn { align-self: flex-start; display: inline-flex; align-items: center; gap: 0.4rem; }
+
+.guestbook-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.gb-empty { grid-column: 1/-1; text-align: center; color: var(--muted-foreground); }
+.gb-card {
+  padding: 1.1rem 1.25rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.gb-card:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-3px); }
+.gb-card-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+.gb-card-head img { width: 38px; height: 38px; border-radius: 50%; }
+.gb-avatar {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border-radius: 50%;
+}
+.gb-name { display: block; font-weight: 600; font-size: 0.92rem; color: var(--foreground); }
+.gb-date { display: block; font-size: 0.75rem; color: var(--muted-foreground); }
+.gb-del {
+  margin-left: auto;
+  display: inline-flex;
+  padding: 0.35rem;
+  color: #f87171;
+  background: rgba(248,113,113,0.1);
+  border: 1px solid rgba(248,113,113,0.25);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.gb-message { margin: 0; font-size: 0.95rem; line-height: 1.55; color: var(--muted-foreground); word-break: break-word; }
+
+.light-theme .guestbook-form textarea,
+.light-theme .gb-signout { background: rgba(0,0,0,0.03); }
+
+/* Owner reply on guestbook entries */
+.comment-reply {
+  margin-top: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  background: rgba(124, 58, 237, 0.12);
+  border-left: 3px solid #a855f7;
+  border-radius: 8px;
+}
+.comment-reply-label { display: block; font-size: 0.72rem; font-weight: 700; color: #a855f7; margin-bottom: 0.15rem; }
+.comment-reply p { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--foreground); }
+
+.gb-reply-btn {
+  margin-top: 0.6rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a855f7;
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.gb-reply-btn:hover { background: rgba(124, 58, 237, 0.2); }
+.gb-reply-box { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.gb-reply-box input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.88rem;
+  color: var(--foreground);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+}
+.gb-reply-box input:focus { border-color: #7c3aed; }
+.gb-reply-actions { display: flex; gap: 0.5rem; }

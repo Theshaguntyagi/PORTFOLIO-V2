@@ -1,0 +1,53 @@
+.testimonial-cta {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem auto 0;
+}
+.testimonial-cta .btn { display: inline-flex; align-items: center; gap: 0.5rem; }
+
+.testimonial-form {
+  max-width: 560px;
+  margin: 1.5rem auto 0;
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.testimonial-form h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  text-align: center;
+}
+.tf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.testimonial-form input,
+.testimonial-form textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.92rem;
+  font-family: inherit;
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.testimonial-form input:focus,
+.testimonial-form textarea:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+.testimonial-form textarea { resize: vertical; }
+.tf-actions { display: flex; justify-content: flex-end; gap: 0.6rem; }
+.tf-actions .btn { display: inline-flex; align-items: center; gap: 0.4rem; }
+.tf-note { text-align: center; font-size: 0.8rem; color: var(--muted-foreground); margin: 0; }
+
+@media (max-width: 520px) {
+  .tf-row { grid-template-columns: 1fr; }
+}

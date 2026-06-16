@@ -1,0 +1,62 @@
+.cmdk-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+  animation: cmdk-fade 0.15s ease;
+}
+@keyframes cmdk-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.cmdk-panel {
+  width: min(560px, 92vw);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(124, 58, 237, 0.2);
+  overflow: hidden;
+  animation: cmdk-pop 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes cmdk-pop { from { transform: translateY(-8px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.cmdk-search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted-foreground);
+}
+.cmdk-search input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 1rem;
+  outline: none;
+  padding: 0;
+}
+.cmdk-esc {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--secondary);
+}
+
+.cmdk-list { list-style: none; margin: 0; padding: 0.5rem; max-height: 50vh; overflow-y: auto; }
+.cmdk-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  color: var(--foreground);
+  cursor: pointer;
+}
+.cmdk-item.active { background: rgba(124, 58, 237, 0.14); color: #7c3aed; }
+.cmdk-empty { padding: 1rem; text-align: center; color: var(--muted-foreground); }

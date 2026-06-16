@@ -1,0 +1,46 @@
+.nowuses-page { min-height: 80vh; }
+.nowuses-inner { max-width: 760px; }
+
+.nowuses-updated {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 0.25rem 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.nowuses-block { margin-bottom: 2.5rem; }
+
+.nowuses-block h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.nowuses-block h3 .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7c3aed;
+}
+
+.nowuses-list { list-style: none; padding: 0; margin: 0; }
+.nowuses-list li {
+  position: relative;
+  padding: 0.5rem 0 0.5rem 1.4rem;
+  color: var(--foreground);
+  line-height: 1.6;
+  border-bottom: 1px solid var(--border);
+}
+.nowuses-list li:last-child { border-bottom: none; }
+.nowuses-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #7c3aed;
+}
+.nowuses-list li b { color: var(--foreground); }
+.nowuses-list li span { color: var(--muted-foreground); }
