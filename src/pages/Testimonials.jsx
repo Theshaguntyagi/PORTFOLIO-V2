@@ -15,60 +15,6 @@ const testimonials = [
       "Shagun's work on our IoT project was exceptional. The solution was innovative and perfectly executed.",
     by: 'Rajesh Kumar, CTO at TechVision',
     imgSrc: 'https://i.pravatar.cc/150?img=1'
-  },
-  {
-    id: 1,
-    testimonial:
-      'Outstanding Python developer with deep knowledge of cloud platforms. Highly recommend!',
-    by: 'Priya Sharma, Lead Engineer',
-    imgSrc:
-      'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=150&auto=format&fit=crop'
-  },
-  {
-    id: 2,
-    testimonial:
-      'Working with Shagun was a pleasure. His full-stack expertise made our project a success.',
-    by: 'Amit Patel, Product Manager',
-    imgSrc:
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=150&auto=format&fit=crop'
-  },
-  {
-    id: 3,
-    testimonial:
-      'Excellent problem-solving skills and attention to detail. Delivered beyond expectations.',
-    by: 'Neha Verma, Tech Lead',
-    imgSrc:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop'
-  },
-  {
-    id: 4,
-    testimonial:
-      "Shagun's AWS expertise helped us scale our infrastructure seamlessly. Great work!",
-    by: 'Vikram Singh, DevOps Lead',
-    imgSrc:
-      'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=150&auto=format&fit=crop'
-  },
-  {
-    id: 5,
-    testimonial:
-      'Professional, knowledgeable, and always delivers on time. A true asset to any team.',
-    by: 'Sneha Reddy, Engineering Manager',
-    imgSrc:
-      'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=150&auto=format&fit=crop'
-  },
-  {
-    id: 6,
-    testimonial:
-      'His data analytics skills with PowerBI transformed our business insights.',
-    by: 'Rahul Mehta, Data Analyst',
-    imgSrc: 'https://i.pravatar.cc/150?img=7'
-  },
-  {
-    id: 7,
-    testimonial:
-      'Creative solutions and excellent communication throughout the project lifecycle.',
-    by: 'Kavita Joshi, Project Lead',
-    imgSrc: 'https://i.pravatar.cc/150?img=8'
   }
 ];
 

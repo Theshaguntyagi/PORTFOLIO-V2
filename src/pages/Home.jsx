@@ -7,6 +7,8 @@ import {
   Download,
   Github,
   Linkedin,
+  Instagram,
+  Twitter,
   Mail,
   Phone,
   ExternalLink,
@@ -32,45 +34,57 @@ import AvailabilityBadge from '../components/AvailabilityBadge';
    DATA
 ───────────────────────────────────────────────────────────── */
 const SKILLS = {
-  Languages: [
+  'Languages & DBs': [
     { name: 'Python',     icon: '🐍' },
     { name: 'JavaScript', icon: '⚡' },
-    { name: 'TypeScript', icon: '🔷' },
-    { name: 'Java',       icon: '☕' },
-    { name: 'C++',        icon: '⚙️' },
+    { name: 'C',          icon: '⚙️' },
     { name: 'SQL',        icon: '🗄️' },
+    { name: 'MySQL',      icon: '🐬' },
+    { name: 'MongoDB',    icon: '🍃' },
+    { name: 'SQLite',     icon: '💾' },
   ],
-  Frameworks: [
-    { name: 'React',   icon: '⚛️' },
-    { name: 'Node.js', icon: '🟢' },
-    { name: 'FastAPI', icon: '🚀' },
-    { name: 'Django',  icon: '🎸' },
-    { name: 'Flask',   icon: '🧪' },
+  'AI / ML / GenAI': [
+    { name: 'LangChain',  icon: '🔗' },
+    { name: 'TensorFlow', icon: '🧠' },
+    { name: 'OpenCV',     icon: '👁️' },
+    { name: 'OpenAI API', icon: '🤖' },
+    { name: 'FAISS',      icon: '🔍' },
+    { name: 'DeepFace',   icon: '🫂' },
+    { name: 'Scikit-Learn', icon: '📐' },
   ],
-  Cloud: [
-    { name: 'AWS',        icon: '☁️' },
-    { name: 'Docker',     icon: '🐳' },
-    { name: 'Kubernetes', icon: '⚓' },
-    { name: 'Firebase',   icon: '🔥' },
+  'Frameworks & Tools': [
+    { name: 'FastAPI',        icon: '🚀' },
+    { name: 'Flask',          icon: '🧪' },
+    { name: 'Vite',           icon: '⚡' },
+    { name: 'Playwright',     icon: '🎭' },
+    { name: 'Pandas',         icon: '🐼' },
   ],
-  'IoT / Data': [
+  'Cloud & DevOps': [
+    { name: 'AWS',      icon: '☁️' },
+    { name: 'Azure',    icon: '🌐' },
+    { name: 'Docker',   icon: '🐳' },
+    { name: 'Firebase', icon: '🔥' },
+    { name: 'CI/CD',    icon: '♾️' },
+    { name: 'Linux',    icon: '🐧' },
+  ],
+  'IoT & Data Viz': [
     { name: 'Raspberry Pi', icon: '🫐' },
-    { name: 'Arduino',      icon: '🔌' },
-    { name: 'PowerBI',      icon: '📊' },
-    { name: 'TensorFlow',   icon: '🧠' },
+    { name: 'Power BI',     icon: '📊' },
+    { name: 'Three.js',     icon: '🎲' },
+    { name: 'Twilio',       icon: '📞' },
   ],
 };
 
 const ACHIEVEMENTS = [
-  { icon: <Trophy size={14} />, text: 'Best Innovation Award – College Techfest 2024' },
-  { icon: <Star   size={14} />, text: 'Top 10 – National IoT Hackathon' },
-  { icon: <Trophy size={14} />, text: '1st Place – Cloud Computing Challenge' },
-  { icon: <Star   size={14} />, text: 'Open Source Contributor – 500+ GitHub stars' },
-  { icon: <Trophy size={14} />, text: 'Certified AWS Solutions Architect' },
-  { icon: <Star   size={14} />, text: 'Data Engineering Intern – Fortune 500 firm' },
-  { icon: <Trophy size={14} />, text: 'Winner – University Coding Olympiad' },
-  { icon: <Star   size={14} />, text: 'Technical Lead – University Developer Club' },
-  { icon: <Trophy size={14} />, text: 'Published research on Edge Computing' },
+  { icon: <Trophy size={14} />, text: 'Winner — National Level Hackathon: Waste Management Portal (Django + MySQL)' },
+  { icon: <Star   size={14} />, text: 'Runner-up — Health-A-Thon: AI-powered health solution built in 48 hours' },
+  { icon: <Trophy size={14} />, text: 'Runner-up — CSS Battleground (MIET): Ranked 2nd among 250 candidates' },
+  { icon: <Star   size={14} />, text: 'ML Team Lead — CXI Community: Organized 5+ workshops on ML, AI & Cloud' },
+  { icon: <Trophy size={14} />, text: 'Published Researcher — IJSRA 2024: ECG/PPG Health Monitoring System' },
+  { icon: <Star   size={14} />, text: 'Reduced API latency 30% — FastAPI microservices at Airtel' },
+  { icon: <Trophy size={14} />, text: 'Cut manual data processing 40% — LangChain agents at Envigo' },
+  { icon: <Star   size={14} />, text: 'Built diabetic retinopathy classifier — 92% accuracy with TensorFlow + OpenCV' },
+  { icon: <Trophy size={14} />, text: 'Certifications — AWS, Azure AZ-900 & PL-900, Cisco CyberOps, CCNA' },
 ];
 
 const GITHUB_URL = 'https://github.com/theshaguntyagi?tab=repositories';
@@ -129,12 +143,11 @@ const SectionHeader = ({ title, subtitle }) => (
 const Home = () => {
   const { t } = useTranslation();
   const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
-  const [activeSkillTab,    setActiveSkillTab]    = useState('Languages');
+  const [activeSkillTab,    setActiveSkillTab]    = useState('Languages & DBs');
 
   const displayedSkills = [
     'AI / ML Engineer',
     'Generative AI Developer',
-    'Full Stack Developer',
     'Cloud & Data Engineer',
   ];
 
@@ -149,8 +162,9 @@ const Home = () => {
   const socialLinks = [
     { icon: <Github   className="social-icon-svg" />, url: 'https://github.com/theshaguntyagi',   label: 'GitHub'   },
     { icon: <Linkedin className="social-icon-svg" />, url: 'https://linkedin.com/in/theshaguntyagi', label: 'LinkedIn' },
+    { icon: <Twitter  className="social-icon-svg" />, url: 'https://twitter.com/theshaguntyagi',  label: 'Twitter'  },
+    { icon: <Instagram className="social-icon-svg" />, url: 'https://instagram.com/theshaguntyagi', label: 'Instagram' },
     { icon: <Mail     className="social-icon-svg" />, url: 'mailto:theshaguntyagi@gmail.com',       label: 'Email'    },
-    { icon: <Phone    className="social-icon-svg" />, url: 'tel:+918445692029',                    label: 'Phone'    },
   ];
 
   const featuredProjects = projectsData.slice(0, 3);
@@ -179,7 +193,7 @@ const Home = () => {
             >
               <div className="profile-image-wrapper">
                 <img
-                  src={`${import.meta.env.BASE_URL}profile.jpg`}
+                  src={`${import.meta.env.BASE_URL}profile.png`}
                   alt="Portrait of Shagun Tyagi, AI/ML Engineer"
                   className="profile-image"
                   loading="eager"
@@ -206,7 +220,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                <p className="hero-description">{t('hero.description')}</p>
+                <p className="hero-description" style={{ whiteSpace: "pre-line" }}>{t('hero.description')}</p>
               </Motion.div>
 
               <Motion.div className="hero-actions" variants={fadeUp} custom={1}>
@@ -227,7 +241,7 @@ const Home = () => {
                 </MagneticButton>
                 <a
                   href={`${import.meta.env.BASE_URL}resume.pdf`}
-                  download="Shagun_Tyagi_Resume.pdf"
+                  download="Shagun Tyagi-Resume.pdf"
                   className="btn btn-ghost btn-lg"
                   onClick={() => trackEvent('resume_download', { from: 'hero' })}
                 >
@@ -253,16 +267,16 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <div className="stat-card"><h3 className="stat-value"><CountUp value="6+" /></h3><p className="stat-label">{t('hero.statProjects')}</p></div>
+            <div className="stat-card"><h3 className="stat-value"><CountUp value="10+" /></h3><p className="stat-label">{t('hero.statProjects')}</p></div>
             <div className="stat-divider" />
-            <div className="stat-card"><h3 className="stat-value"><CountUp value="1+" /></h3><p className="stat-label">{t('hero.statExperience')}</p></div>
+            <div className="stat-card"><h3 className="stat-value"><CountUp value="1.5+" /></h3><p className="stat-label">{t('hero.statExperience')}</p></div>
             <div className="stat-divider" />
-            <div className="stat-card"><h3 className="stat-value"><CountUp value="5+" /></h3><p className="stat-label">{t('hero.statCerts')}</p></div>
+            <div className="stat-card"><h3 className="stat-value"><CountUp value="9+" /></h3><p className="stat-label">{t('hero.statCerts')}</p></div>
           </Motion.div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
+{/* ══════════════════════════════════════════
           2. FEATURED PROJECTS
       ══════════════════════════════════════════ */}
       <Section id="featured-projects" className="section-projects">
@@ -272,7 +286,7 @@ const Home = () => {
           <div className="projects-grid home-projects-grid">
             {featuredProjects.map((project, index) => (
               <Motion.div
-                key={index}
+                key={project.id}
                 className="project-card card"
                 variants={fadeUp}
                 custom={index}
@@ -313,11 +327,11 @@ const Home = () => {
                       <span className="badge badge-outline">+{project.technologies.length - 4}</span>
                     )}
                   </div>
-                  {project.achievements?.length > 0 && (
+                  {project.results?.length > 0 && (
                     <ul className="project-achievements">
-                      {project.achievements.slice(0, 2).map((a, i) => (
+                      {project.results.slice(0, 2).map((r, i) => (
                         <li key={i} className="achievement-item">
-                          <ArrowRight className="achievement-icon" /><span>{a}</span>
+                          <ArrowRight className="achievement-icon" /><span>{r}</span>
                         </li>
                       ))}
                     </ul>
@@ -325,10 +339,13 @@ const Home = () => {
                 </div>
 
                 <div className="card-footer">
-                  <button type="button" className="btn btn-primary btn-sm"
-                    onClick={() => window.open(GITHUB_URL, '_blank', 'noopener,noreferrer')}>
+                  <Link
+                    to={`/project/${project.id}`}
+                    className="btn btn-primary btn-sm"
+                    onClick={() => trackEvent('view_project_details', { project: project.id })}
+                  >
                     View Details <ArrowRight className="btn-icon-right" />
-                  </button>
+                  </Link>
                   {project.githubUrl && (
                     <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-icon">
                       <Github className="icon-svg" />

@@ -35,9 +35,45 @@ export default function About() {
           <h2>Who I Am</h2>
           <div className="card">
             <p>
-              I build scalable systems, full-stack apps, and ML pipelines.
+               I'm Shagun Tyagi, an AI/ML Engineer based in Noida, India, specializing in
+               LLM agents, Retrieval-Augmented Generation (RAG) systems, and production-grade
+               ML pipelines. I don't build demos — I build systems that scale.
             </p>
-          </div>
+            <p>Currently at <strong>Envigo (Gurugram)</strong>, I architect end-to-end ML
+            pipelines on AWS and Azure powering an AI-driven SEO intelligence platform —
+            ingesting client data, running LangChain-based LLM agent workflows, and
+            surfacing actionable recommendations at scale. I own the full ML lifecycle:
+            from model training and Docker containerization to cloud deployment and
+            continuous monitoring.
+            </p>
+            <p>
+              Before Envigo, I was a <strong>Software Engineer at Airtel</strong>, where I
+              designed and deployed FastAPI microservices that cut API response latency by
+              ~30%, built Python automation pipelines that eliminated 10+ hours/week of
+              manual ops, and engineered real-time data pipelines feeding dashboards used
+              daily by analytics and ML teams.
+            </p>
+            <p>
+              Beyond my day job, I've shipped projects across computer vision (facial
+              recognition with ArcFace), browser automation and lead generation (Playwright
+              + OpenAI), enterprise RAG chatbots (LangChain + FAISS + ChromaDB), and
+              full-stack AI products (React 19 + Firebase + Gemini AI). My work spans the
+              full stack — from WebGL in the browser to ML models in Docker on AWS.
+            </p>
+            <p>
+              I'm also a <strong>published researcher</strong> — my work on ECG/PPG-based
+              IoT health monitoring was published in the International Journal of Science
+              and Research Archive (IJSRA), Vol. 12, No. 1, 2024
+              (DOI: 10.30574/ijsra.2024.12.1.0781).
+            </p>
+            <p>
+              Academically, I hold a <strong>B.Tech in Computer Science Engineering
+              (IoT)</strong> from MIET with a CGPA of 8.4/10, and I'm currently pursuing
+              an <strong>MBA at Chandigarh University</strong> (expected Dec 2027) — because
+              I believe the best engineers understand business outcomes, not just accuracy
+              benchmarks.
+            </p>
+            </div>
 
           <h2>Education</h2>
 
@@ -87,6 +123,7 @@ export default function About() {
         </div>
 
       </div>
+      <br></br>
 
       {/* ACHIEVEMENTS */}
       <div className="achievements">

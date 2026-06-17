@@ -2,9 +2,6 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Translations for the UI chrome (nav, hero, common buttons).
-// Add more keys/languages as needed — page body content can stay English
-// or be added here under the same keys.
 const resources = {
   en: {
     translation: {
@@ -14,7 +11,7 @@ const resources = {
       },
       hero: {
         greeting: "Hi, I'm Shagun Tyagi",
-        description: 'AI/ML Engineer & Full Stack Developer. I build production-ready intelligent systems — from generative-AI apps and data pipelines to scalable cloud-native web platforms.',
+        description: "AI/ML Engineer based in Noida, India.\nI ship LLM agents, RAG pipelines, and ML-powered APIs to production — then wrap them in fast, modern frontends that actually reach users.",
         hire: 'Hire Me', work: 'View My Work', resume: 'Resume',
         statProjects: 'Projects', statExperience: 'Year Experience', statCerts: 'Certifications',
       },
@@ -35,7 +32,7 @@ const resources = {
       },
       hero: {
         greeting: 'नमस्ते, मैं शगुन त्यागी हूँ',
-        description: 'एआई/एमएल इंजीनियर और फुल स्टैक डेवलपर। मैं जेनरेटिव-एआई ऐप्स, डेटा पाइपलाइन और स्केलेबल क्लाउड-नेटिव वेब प्लेटफॉर्म बनाता हूँ।',
+        description: "एआई/एमएल इंजीनियर — नोएडा, भारत से।\nमैं LLM एजेंट्स, RAG पाइपलाइन और ML APIs को प्रोडक्शन में डिप्लॉय करता हूँ — और उन्हें तेज़, आधुनिक फ्रंटएंड से जोड़ता हूँ जो असली यूज़र्स तक पहुँचे।",
         hire: 'मुझे नियुक्त करें', work: 'मेरा काम देखें', resume: 'रिज़्यूमे',
         statProjects: 'प्रोजेक्ट्स', statExperience: 'वर्ष अनुभव', statCerts: 'प्रमाणपत्र',
       },
@@ -56,7 +53,7 @@ const resources = {
       },
       hero: {
         greeting: 'Hola, soy Shagun Tyagi',
-        description: 'Ingeniero de IA/ML y desarrollador full stack. Construyo sistemas inteligentes listos para producción: apps de IA generativa, pipelines de datos y plataformas web cloud-native escalables.',
+        description: "Ingeniero de IA/ML con base en Noida, India.\nDespliego agentes LLM, pipelines RAG y APIs de ML en producción — y los integro en frontends modernos que llegan a usuarios reales.",
         hire: 'Contrátame', work: 'Ver mi trabajo', resume: 'Currículum',
         statProjects: 'Proyectos', statExperience: 'Año de experiencia', statCerts: 'Certificaciones',
       },
@@ -82,7 +79,6 @@ i18n
     detection: { order: ['localStorage', 'navigator'], caches: ['localStorage'] },
   });
 
-// Keep <html lang> in sync for accessibility/SEO.
 const applyLang = (lng) => { document.documentElement.lang = (lng || 'en').slice(0, 2); };
 applyLang(i18n.resolvedLanguage);
 i18n.on('languageChanged', applyLang);

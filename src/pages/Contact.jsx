@@ -8,7 +8,8 @@ import {
   Linkedin,
   Twitter,
   CheckCircle,
-  Calendar
+  Calendar,
+  Instagram
 } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import toast from 'react-hot-toast';
@@ -61,8 +62,8 @@ const Contact = () => {
   };
 
   const locationCoords = {
-    lat: 28.4799,
-    lng: 77.0886
+    lat: 28.50066,
+    lng: 77.41031,
   };
 
   const contactInfo = [
@@ -93,8 +94,13 @@ const Contact = () => {
     },
     {
       icon: <Twitter className="social-icon-svg" />,
-      url: 'https://twitter.com/shaguntyagi',
+      url: 'https://twitter.com/theshaguntyagi',
       label: 'Twitter'
+    },
+    {
+      icon: <Instagram className="social-icon-svg" />,
+      url: 'https://instagram.com/theshaguntyagi',
+      label: 'Instagram'
     }
   ];
 
@@ -154,7 +160,7 @@ const Contact = () => {
                       </div>
                       <h4 className="contact-title">Location</h4>
                       <p className="contact-value">
-                        Delhi, India
+                        Noida, India
                       </p>
 
                       <a

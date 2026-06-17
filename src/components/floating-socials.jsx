@@ -1,11 +1,13 @@
 import { motion as Motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Instagram, Twitter,} from "lucide-react";
 import "../styles/global.css";
 
 const socials = [
-  { icon: <Github size={18} />, url: "https://github.com" },
-  { icon: <Linkedin size={18} />, url: "https://linkedin.com" },
-  { icon: <Mail size={18} />, url: "mailto:your@email.com" },
+  { icon: <Github size={18} />, url: "https://github.com/theshaguntyagi" },
+  { icon: <Linkedin size={18} />, url: "https://linkedin.com/in/theshaguntyagi" },
+  { icon: <Instagram size={18} />, url: "https://instagram.com/theshaguntyagi" },
+  { icon: <Twitter size={18} />, url: "https://twitter.com/theshaguntyagi" },
+  { icon: <Mail size={18} />, url: "mailto:theshaguntyagi@gmail.com" },
 ];
 
 export function FloatingSocials() {

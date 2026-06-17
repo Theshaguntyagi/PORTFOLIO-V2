@@ -7,53 +7,77 @@ const NAME = "Shagun Tyagi";
 // Static routes -> metadata
 const ROUTE_META = {
   "/": {
-    title: `${NAME} | AI/ML Engineer & Full Stack Developer`,
-    desc: "AI/ML Engineer and Full Stack Developer specializing in Python, IoT, and Cloud. Building scalable data-driven systems and intelligent applications.",
+    title: `${NAME} | AI/ML Engineer — LLM Agents & ML Pipelines`,
+    desc: "Shagun Tyagi is an AI/ML Engineer building LLM agents, RAG pipelines, and ML microservices in production. Currently at Envigo (Gurugram). Open to freelance AI projects.",
   },
   "/about": {
-    title: `About | ${NAME}`,
-    desc: "Background, education, skills, and certifications of Shagun Tyagi — AI/ML Engineer and Full Stack Developer.",
+    title: `About ${NAME} | AI/ML Engineer Based in Noida, India`,
+    desc: "Learn about Shagun Tyagi — AI/ML Engineer at Envigo, ex-Airtel Software Engineer, published researcher (IJSRA 2024), B.Tech CSE + MBA. Specialising in LangChain, FastAPI, AWS, and OpenAI.",
   },
   "/experience": {
     title: `Experience | ${NAME}`,
-    desc: "Professional experience and career timeline of Shagun Tyagi across QA, AI internships, and engineering roles.",
+    desc: "Career timeline of Shagun Tyagi — AI/ML Engineer at Envigo, Software Engineer at Airtel, internships at Trainity, Internship Studio, and Robust Results. 3+ years building production AI systems.",
   },
   "/projects": {
-    title: `Projects | ${NAME}`,
-    desc: "Selected projects by Shagun Tyagi — AI/ML systems, full-stack web apps, IoT, and cloud-native applications.",
+    title: `Projects | ${NAME} — LLM Agents, RAG, Computer Vision & More`,
+    desc: "Production projects by Shagun Tyagi — PitchIQ (AI website auditor), LeadGen AI, Enterprise RAG Chatbot, FaceGuard attendance system, IoT health monitor, and Portfolio V2 with Gemini AI.",
   },
   "/testimonials": {
     title: `Testimonials | ${NAME}`,
-    desc: "What colleagues and collaborators say about working with Shagun Tyagi.",
+    desc: "What colleagues, collaborators, and clients say about working with Shagun Tyagi — AI/ML Engineer and full-stack builder.",
   },
   "/blog": {
-    title: `Blog | ${NAME}`,
-    desc: "Articles and tutorials on development, AI/ML, IoT, and technology by Shagun Tyagi.",
+    title: `Blog | ${NAME} — AI, ML, LangChain & FastAPI Tutorials`,
+    desc: "Articles and tutorials on LLM agents, RAG pipelines, FastAPI, LangChain, AWS, and production ML engineering by Shagun Tyagi.",
   },
   "/contact": {
-    title: `Contact | ${NAME}`,
-    desc: "Get in touch with Shagun Tyagi for collaboration, opportunities, or project work.",
+    title: `Contact ${NAME} | AI/ML Engineer for Hire`,
+    desc: "Get in touch with Shagun Tyagi for AI/ML consulting, freelance projects, or full-time opportunities. Based in Noida, India. Open to remote work.",
   },
   "/now": {
     title: `Now | ${NAME}`,
-    desc: "What Shagun Tyagi is focused on right now — current work, learning, and availability.",
+    desc: "What Shagun Tyagi is focused on right now — current role at Envigo, ongoing MBA, open-source builds, and availability for consulting.",
   },
   "/uses": {
-    title: `Uses | ${NAME}`,
-    desc: "The tools, gear, and software Shagun Tyagi uses day to day.",
+    title: `Uses | ${NAME} — Tools, Stack & Setup`,
+    desc: "The tools, libraries, and setup Shagun Tyagi uses daily — Python, LangChain, FastAPI, AWS, Docker, React 19, and more.",
+  },
+  "/certifications": {
+    title: `Certifications | ${NAME}`,
+    desc: "Verified certifications earned by Shagun Tyagi — AWS Cloud Practitioner, Microsoft AZ-900, PL-900, Cisco CyberOps, CCNA, HackerRank Python & SQL.",
+  },
+  "/achievements": {
+    title: `Achievements | ${NAME}`,
+    desc: "Hackathon wins, research publications, and academic achievements of Shagun Tyagi — National Hackathon Winner, IJSRA published researcher, Health-A-Thon runner-up.",
+  },
+  "/research": {
+    title: `Research | ${NAME} — IJSRA 2024 Published Author`,
+    desc: "Peer-reviewed research by Shagun Tyagi on ECG/PPG-based IoT health monitoring published in IJSRA Vol. 12, No. 1, 2024. DOI: 10.30574/ijsra.2024.12.1.0781.",
   },
 };
 
 // Prefix-based fallbacks for dynamic routes (e.g. /blog/:id)
 const DYNAMIC_META = [
-  { prefix: "/blog/", title: `Article | ${NAME}`, desc: "Read this article by Shagun Tyagi on development, AI/ML, and technology." },
-  { prefix: "/project/", title: `Project | ${NAME}`, desc: "Project case study by Shagun Tyagi — problem, solution, stack, and results." },
-  { prefix: "/certificate/", title: `Certificate | ${NAME}`, desc: "Verified certification earned by Shagun Tyagi." },
+  {
+    prefix: "/blog/",
+    title: `Article | ${NAME}`,
+    desc: "Read this article by Shagun Tyagi on LLM agents, RAG pipelines, FastAPI, LangChain, and production ML engineering.",
+  },
+  {
+    prefix: "/projects/",
+    title: `Project | ${NAME}`,
+    desc: "Project case study by Shagun Tyagi — problem, solution, tech stack, and measurable results.",
+  },
+  {
+    prefix: "/certifications/",
+    title: `Certificate | ${NAME}`,
+    desc: "Verified certification earned by Shagun Tyagi — AWS, Microsoft Azure, Cisco, or HackerRank.",
+  },
 ];
 
 const DEFAULT_META = {
-  title: `${NAME} | AI/ML Engineer & Full Stack Developer`,
-  desc: "Portfolio of Shagun Tyagi — AI/ML Engineer and Full Stack Developer.",
+  title: `${NAME} | AI/ML Engineer — LLM Agents, RAG & ML Pipelines`,
+  desc: "Portfolio of Shagun Tyagi — AI/ML Engineer specialising in LLM agents, RAG systems, FastAPI, LangChain, AWS, and production ML. Based in Noida, India.",
 };
 
 export function getSeoMeta(pathname = "/") {

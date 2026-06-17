@@ -94,12 +94,12 @@ export default function Experience() {
       {/* HEADER */}
       <div className="section-title">
         <h2>Experience</h2>
-        <p>My professional journey</p>
+        <p><b>My professional journey </b></p>
       </div>
 
       {/* TABS */}
       <div className="tabs">
-        {["All", "Work", "Leadership", "Research"].map((tab) => (
+        {["All", "Work","Education", "Leadership", "Research"].map((tab) => (
           <button
             key={tab}
             className={`tab ${activeTab === tab ? "active" : ""}`}

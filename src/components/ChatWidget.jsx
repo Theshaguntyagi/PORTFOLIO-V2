@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Trash2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import api from '../services/api';
 import { getPortfolioContext } from '../data/portfolioKnowledge';
 import '../styles/ChatWidget.css';
@@ -29,7 +30,7 @@ const ChatWidget = () => {
   });
   const [chatInput, setChatInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   
   // ✅ Use local theme detection instead of context
   const [isDark, setIsDark] = useState(() => {
@@ -75,7 +76,14 @@ const ChatWidget = () => {
   }, [chatMessages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      setTimeout(() => {
+        if (messagesContainerRef.current) {
+          messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
+      }, 50);
+    }
   };
 
   const sendChatMessage = async (override) => {
@@ -157,7 +165,7 @@ const ChatWidget = () => {
           </div>
           
           {/* Chat Messages */}
-          <div className="chat-messages">
+          <div className="chat-messages" ref={messagesContainerRef}>
             {chatMessages.map((msg, i) => (
               <div
                 key={i}
@@ -170,7 +178,11 @@ const ChatWidget = () => {
                       : isDark ? 'chat-bubble-assistant-dark' : 'chat-bubble-assistant-light'
                   }`}
                 >
-                  {msg.content}
+                  {msg.role === 'assistant' ? (
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  ) : (
+                    msg.content
+                  )}
                 </div>
               </div>
             ))}
@@ -203,8 +215,6 @@ const ChatWidget = () => {
                 </div>
               </div>
             )}
-            
-            <div ref={messagesEndRef} />
           </div>
           
           {/* Chat Input */}

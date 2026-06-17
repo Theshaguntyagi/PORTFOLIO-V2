@@ -68,3 +68,24 @@
   border-color: #7c3aed;
   color: #7c3aed;
 }
+
+.back-btn {
+  margin-bottom: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 8px 14px;
+  border-radius: 999px;
+
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  border-color: #7c3aed;
+  color: #7c3aed;
+}

@@ -11,18 +11,17 @@ import { getMessaging, isSupported } from "firebase/messaging";
 const env = import.meta.env;
 
 const firebaseConfig = {
-  apiKey: env.VITE_FIREBASE_API_KEY || "AIzaSyC0IiATCY5LacO2hHLKHpJWNkboxbwMmM4",
-  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || "web-app-5da25.firebaseapp.com",
-  projectId: env.VITE_FIREBASE_PROJECT_ID || "web-app-5da25",
-  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || "web-app-5da25.firebasestorage.app",
-  messagingSenderId: env.VITE_FIREBASE_SENDER_ID || "1764747410",
-  appId: env.VITE_FIREBASE_APP_ID || "1:1764747410:web:2437e705c16c81a7e01e4b",
-  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || "G-FWLZR29XHY",
+  apiKey: env.VITE_FIREBASE_API_KEY,
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.VITE_FIREBASE_SENDER_ID,
+  appId: env.VITE_FIREBASE_APP_ID,
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-export const VAPID_KEY =
-  env.VITE_FIREBASE_VAPID_KEY ||
-  "BKwwk4MY3pZ7pj6k3SDCW3xU1Oraaa02T-1e56rMVQXQ8G9JNgicG4sdTn_Q2Hsng7JlwjCMGADWh9_3JnHgpTw";
+export const VAPID_KEY = env.VITE_FIREBASE_VAPID_KEY;
+
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);

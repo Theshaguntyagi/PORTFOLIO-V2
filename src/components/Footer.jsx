@@ -63,6 +63,16 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="https://twitter.com/theshaguntyagi" target="_blank" rel="noopener noreferrer">
+                  Twitter
+                </a>
+              </li>
+              <li>
+                <a href="https://instagram.com/theshaguntyagi" target="_blank" rel="noopener noreferrer">
+                  Instagram
+                </a>
+              </li>
+              <li>
                 <a href="mailto:theshaguntyagi@gmail.com">
                   Email
                 </a>

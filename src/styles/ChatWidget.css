@@ -538,3 +538,25 @@
     font-size: 0.875rem;
   }
 }
+
+/* 📝 Markdown typography inside chat bubbles */
+.chat-bubble p {
+  margin: 0 0 0.5rem 0;
+}
+.chat-bubble p:last-child {
+  margin-bottom: 0;
+}
+.chat-bubble ul,
+.chat-bubble ol {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+.chat-bubble li {
+  margin-bottom: 0.25rem;
+}
+.chat-bubble li:last-child {
+  margin-bottom: 0;
+}
+.chat-bubble strong {
+  font-weight: 700;
+}
