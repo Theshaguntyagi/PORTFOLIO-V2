@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /PORTFOLIO-V2/admin
+
+Sitemap: https://theshaguntyagi.github.io/PORTFOLIO-V2/sitemap.xml

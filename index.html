@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+
+<!-- GitHub Pages SPA redirect decoder (pairs with public/404.html).
+     Restores the clean URL that 404.html encoded into ?/… before the app boots. -->
+<script type="text/javascript">
+  (function (l) {
+    if (l.search[1] === '/') {
+      var decoded = l.search.slice(1).split('&').map(function (s) {
+        return s.replace(/~and~/g, '&');
+      }).join('?');
+      window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+    }
+  })(window.location);
+</script>
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Title (CTR optimized, not keyword spam) -->
+<title>Shagun Tyagi | AI/ML Engineer </title>
+
+<!-- Primary SEO -->
+<meta name="description" content="AI/ML Engineer and Full Stack Developer specializing in Python, IoT, and Cloud. Building scalable data-driven systems and intelligent applications." />
+<meta name="keywords" content="Shagun Tyagi, AI Engineer, ML Engineer, Python Developer, Full Stack Developer, IoT, AWS, Portfolio" />
+<meta name="author" content="Shagun Tyagi" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+
+<!-- Canonical -->
+<link rel="canonical" href="https://theshaguntyagi.github.io/PORTFOLIO-V2/" />
+
+<!-- Sitemap (CRITICAL) -->
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://theshaguntyagi.github.io/PORTFOLIO-V2/sitemap.xml" />
+
+<!-- Theme -->
+<meta name="theme-color" content="#0f1428" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Shagun Tyagi | AI/ML Engineer" />
+<meta property="og:description" content="Building intelligent systems, scalable APIs, and cloud-native applications." />
+<meta property="og:url" content="https://theshaguntyagi.github.io/PORTFOLIO-V2/" />
+<meta property="og:image" content="https://theshaguntyagi.github.io/PORTFOLIO-V2/profile.jpg" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Shagun Tyagi | AI/ML Engineer" />
+<meta name="twitter:description" content="AI/ML Engineer & Full Stack Developer portfolio." />
+<meta name="twitter:image" content="https://theshaguntyagi.github.io/PORTFOLIO-V2/profile.jpg" />
+
+<!-- Performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Favicon (favicon.ico did not exist → use existing profile image.
+     Vite rebases this to the configured base path automatically.) -->
+<link rel="icon" type="image/jpeg" href="/profile.jpg" />
+
+<!-- PWA / installable -->
+<link rel="manifest" href="/PORTFOLIO-V2/site.webmanifest" />
+<link rel="apple-touch-icon" href="/profile.jpg" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Shagun Tyagi" />
+
+<!-- ================= SCHEMA (FIXED & EXPANDED) ================= -->
+
+<!-- Person Schema -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Person",
+ "name": "Shagun Tyagi",
+ "url": "https://theshaguntyagi.github.io/PORTFOLIO-V2",
+ "image": "https://theshaguntyagi.github.io/PORTFOLIO-V2/profile.jpg",
+ "jobTitle": "AI/ML Engineer",
+ "worksFor": {
+   "@type": "Organization",
+   "name": "Envigo"
+ },
+ "sameAs": [
+   "https://github.com/theshaguntyagi",
+   "https://linkedin.com/in/theshaguntyagi"
+ ],
+ "knowsAbout": [
+   "Machine Learning",
+   "Python",
+   "Full Stack Development",
+   "Cloud Computing",
+   "IoT"
+ ]
+}
+</script>
+
+<!-- WebSite Schema -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Shagun Tyagi Portfolio",
+ "url": "https://theshaguntyagi.github.io/PORTFOLIO-V2",
+ "potentialAction": {
+   "@type": "SearchAction",
+   "target": "https://theshaguntyagi.github.io/PORTFOLIO-V2/?q={search_term_string}",
+   "query-input": "required name=search_term_string"
+ }
+}
+</script>
+
+<!-- WebPage Schema -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "name": "Shagun Tyagi Portfolio",
+ "url": "https://theshaguntyagi.github.io/PORTFOLIO-V2",
+ "description": "Portfolio of Shagun Tyagi showcasing AI, ML, and full stack projects.",
+ "inLanguage": "en"
+}
+</script>
+
+  <script type="module" crossorigin src="/PORTFOLIO-V2/assets/index-D2wZKDMW.js"></script>
+  <link rel="modulepreload" crossorigin href="/PORTFOLIO-V2/assets/rolldown-runtime-Cn8xt2Gj.js">
+  <link rel="modulepreload" crossorigin href="/PORTFOLIO-V2/assets/vendor-motion-ZN3_BsN1.js">
+  <link rel="modulepreload" crossorigin href="/PORTFOLIO-V2/assets/vendor-react-Dbau3pDC.js">
+  <link rel="modulepreload" crossorigin href="/PORTFOLIO-V2/assets/vendor-firebase-daJfLK0A.js">
+  <link rel="stylesheet" crossorigin href="/PORTFOLIO-V2/assets/index-CG3Z7qXN.css">
+</head>
+
+<body>
+<div id="root"></div>
+
+<!-- Crawler / no-JS fallback: real, indexable content for bots that don't
+     execute JavaScript and for link previews. Hidden the moment the app
+     boots (JS-enabled crawlers like Googlebot render the full SPA above). -->
+<noscript>
+  <div style="max-width:760px;margin:0 auto;padding:48px 20px;font-family:system-ui,Arial,sans-serif;color:#e6e6f0;background:#0f1428;">
+    <h1>Shagun Tyagi — AI/ML Engineer &amp; Full Stack Developer</h1>
+    <p>AI/ML Engineer and Full Stack Developer specializing in Python, IoT, and Cloud.
+       Building scalable data-driven systems and intelligent applications.</p>
+    <nav>
+      <h2>Explore</h2>
+      <ul>
+        <li><a href="/PORTFOLIO-V2/about" style="color:#a855f7;">About</a></li>
+        <li><a href="/PORTFOLIO-V2/experience" style="color:#a855f7;">Experience</a></li>
+        <li><a href="/PORTFOLIO-V2/projects" style="color:#a855f7;">Projects</a></li>
+        <li><a href="/PORTFOLIO-V2/blog" style="color:#a855f7;">Blog</a></li>
+        <li><a href="/PORTFOLIO-V2/contact" style="color:#a855f7;">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>Connect</h2>
+    <ul>
+      <li><a href="https://github.com/theshaguntyagi" style="color:#a855f7;">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/theshaguntyagi" style="color:#a855f7;">LinkedIn</a></li>
+      <li><a href="mailto:theshaguntyagi@gmail.com" style="color:#a855f7;">Email</a></li>
+    </ul>
+    <p>This portfolio is an interactive app. Please enable JavaScript for the full experience.</p>
+  </div>
+</noscript>
+
+</body>
+</html>
