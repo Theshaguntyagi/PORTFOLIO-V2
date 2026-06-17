@@ -3,7 +3,7 @@ import AWS from '../assets/certificates/AWS.png';
 import AZ900 from '../assets/certificates/AZURE.png';
 import PL900 from '../assets/certificates/PL 900.png';
 import CISCO from '../assets/certificates/Cybersecurity Essentials.png';
-import python from '../assets/certificates/HACKERRANKPYTHON.png';
+import python from '../assets/certificates/HACKERRANK PYTHON.png';
 import sql from '../assets/certificates/HACKERANK SQL.png';
 import networks from '../assets/certificates/int to networks.png';
 import cisco from '../assets/certificates/cyberops associate.png';

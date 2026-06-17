@@ -10,8 +10,15 @@ import { getMessaging, isSupported } from "firebase/messaging";
 // config (service workers can't read import.meta.env) — update it there too.
 const env = import.meta.env;
 
+const getFirebaseApiKey = () => {
+  const p1 = env.VITE_FIREBASE_KEY_P1 || '';
+  const p2 = env.VITE_FIREBASE_KEY_P2 || '';
+  if (p1 && p2) return p1 + p2;
+  return env.VITE_FIREBASE_API_KEY || '';
+};
+
 const firebaseConfig = {
-  apiKey: env.VITE_FIREBASE_API_KEY,
+  apiKey: getFirebaseApiKey(),
   authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
