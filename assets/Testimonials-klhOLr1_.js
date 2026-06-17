@@ -1,1 +1,0 @@
-import"./vendor-motion-ZN3_BsN1.js";import{t as e}from"./Testimonials-DBErvc_H.js";import"./vendor-firebase-daJfLK0A.js";export{e as default};
