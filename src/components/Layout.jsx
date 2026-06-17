@@ -35,7 +35,14 @@ const Layout = () => {
         ]);
         const messaging = await getMessagingIfSupported();
         if (!messaging) return;
-        const token = await getToken(messaging, { vapidKey: VAPID_KEY });
+        
+        let token;
+        if (import.meta.env.PROD) {
+          const registration = await navigator.serviceWorker.ready;
+          token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: registration });
+        } else {
+          token = await getToken(messaging, { vapidKey: VAPID_KEY });
+        }
         if (!token) return;
 
         const subscribersRef = fs.collection(db, 'notificationSubscribers');

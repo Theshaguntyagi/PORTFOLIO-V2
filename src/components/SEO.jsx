@@ -12,7 +12,7 @@ export default function SEO({
   title = DEFAULT_TITLE,
   desc = DEFAULT_DESC,
   path = "/",
-  image = "/profile.jpg", // existing asset (was /images/og-image.jpg → 404)
+  image = "/profile.png", // existing asset (was /images/og-image.jpg → 404)
   type = "website",
 }) {
   const url = BASE + path;
