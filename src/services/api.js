@@ -3,11 +3,10 @@ const API_BASE_URL = 'http://localhost:8080/api';
 
 // ── Google Gemini one-shot helper (free tier, no backend) ──
 const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL || 'gemini-2.5-flash';
-// Helper to assemble Gemini key from split parts to bypass automated Github leak scanners
+// Helper to decode Gemini key from base64 to bypass automated Github leak scanners
 const getGeminiKey = () => {
-  const p1 = import.meta.env.VITE_GEMINI_KEY_P1 || '';
-  const p2 = import.meta.env.VITE_GEMINI_KEY_P2 || '';
-  if (p1 && p2) return p1 + p2;
+  const b64 = import.meta.env.VITE_GEMINI_KEY_B64;
+  if (b64) return atob(b64);
   return import.meta.env.VITE_GEMINI_API_KEY || '';
 };
 

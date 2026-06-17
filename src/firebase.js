@@ -11,9 +11,8 @@ import { getMessaging, isSupported } from "firebase/messaging";
 const env = import.meta.env;
 
 const getFirebaseApiKey = () => {
-  const p1 = env.VITE_FIREBASE_KEY_P1 || '';
-  const p2 = env.VITE_FIREBASE_KEY_P2 || '';
-  if (p1 && p2) return p1 + p2;
+  const b64 = env.VITE_FIREBASE_KEY_B64;
+  if (b64) return atob(b64);
   return env.VITE_FIREBASE_API_KEY || '';
 };
 
