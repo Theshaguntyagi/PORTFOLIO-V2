@@ -1,1 +1,0 @@
-import"./vendor-firebase-daJfLK0A.js";import{a as e,c as t,i as n,o as r,r as i,s as a}from"./index-DaCaDmoc.js";export{i as OWNER_EMAIL,n as VAPID_KEY,e as auth,r as db,a as getMessagingIfSupported,t as googleProvider};
