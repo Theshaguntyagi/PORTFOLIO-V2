@@ -1,0 +1,1 @@
+import"./vendor-motion-DHpA7YRm.js";import{t as e}from"./Testimonials-CFN0FfP2.js";import"./vendor-firebase-tJ2MfJ8D.js";import"./image-BQtIl5TO.js";export{e as default};

@@ -1,27 +1,162 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Shagun Tyagi</title>
-    <!--
-      GitHub Pages SPA redirect (rafgraph/spa-github-pages).
-      GitHub Pages has no server-side rewrites, so a refresh/deep-link to
-      /PORTFOLIO-V2/about would 404. This page captures that, encodes the
-      path into a query string, and bounces to index.html, which decodes it
-      back into a clean URL (see the inline script in index.html).
-      pathSegmentsToKeep = 1 keeps the "/PORTFOLIO-V2" project-page prefix.
-    -->
-    <script type="text/javascript">
-      var pathSegmentsToKeep = 0;
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
-    </script>
-  </head>
-  <body></body>
+<head>
+<meta charset="UTF-8" />
+
+<!-- GitHub Pages SPA redirect decoder (pairs with public/404.html).
+     Restores the clean URL that 404.html encoded into ?/… before the app boots. -->
+<script type="text/javascript">
+  (function (l) {
+    if (l.search[1] === '/') {
+      var decoded = l.search.slice(1).split('&').map(function (s) {
+        return s.replace(/~and~/g, '&');
+      }).join('?');
+      window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+    }
+  })(window.location);
+</script>
+
+<!-- Viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Title (CTR optimized, not keyword spam) -->
+<title>Shagun Tyagi | AI/ML Engineer </title>
+
+<!-- Primary SEO -->
+<meta name="description" content="AI/ML Engineer and Full Stack Developer specializing in Python, IoT, and Cloud. Building scalable data-driven systems and intelligent applications." />
+<meta name="keywords" content="Shagun Tyagi, AI Engineer, ML Engineer, Python Developer, Full Stack Developer, IoT, AWS, Portfolio" />
+<meta name="author" content="Shagun Tyagi" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+
+<!-- Canonical -->
+<link rel="canonical" href="https://shaguntyagi.tech/" />
+
+<!-- Sitemap (CRITICAL) -->
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://shaguntyagi.tech/sitemap.xml" />
+
+<!-- Theme -->
+<meta name="theme-color" content="#0f1428" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Shagun Tyagi | AI/ML Engineer" />
+<meta property="og:description" content="Building intelligent systems, scalable APIs, and cloud-native applications." />
+<meta property="og:url" content="https://shaguntyagi.tech/" />
+<meta property="og:image" content="https://shaguntyagi.tech/profile.png" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Shagun Tyagi | AI/ML Engineer" />
+<meta name="twitter:description" content="AI/ML Engineer & Full Stack Developer portfolio." />
+<meta name="twitter:image" content="https://shaguntyagi.tech/profile.png" />
+
+<!-- Performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+<!-- PWA / installable -->
+<link rel="manifest" href="site.webmanifest" />
+<link rel="apple-touch-icon" href="profile.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Shagun Tyagi" />
+
+<!-- ================= SCHEMA (FIXED & EXPANDED) ================= -->
+
+<!-- Person Schema -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Person",
+ "name": "Shagun Tyagi",
+ "url": "https://shaguntyagi.tech",
+ "image": "https://shaguntyagi.tech/profile.png",
+ "jobTitle": "AI/ML Engineer",
+ "worksFor": {
+   "@type": "Organization",
+   "name": "Envigo"
+ },
+ "sameAs": [
+   "https://github.com/theshaguntyagi",
+   "https://linkedin.com/in/theshaguntyagi"
+ ],
+ "knowsAbout": [
+   "Machine Learning",
+   "Python",
+   "Full Stack Development",
+   "Cloud Computing",
+   "IoT"
+ ]
+}
+</script>
+
+<!-- WebSite Schema -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Shagun Tyagi Portfolio",
+ "url": "https://shaguntyagi.tech",
+ "potentialAction": {
+   "@type": "SearchAction",
+   "target": "https://shaguntyagi.tech/?q={search_term_string}",
+   "query-input": "required name=search_term_string"
+ }
+}
+</script>
+
+<!-- WebPage Schema -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "name": "Shagun Tyagi Portfolio",
+ "url": "https://shaguntyagi.tech",
+ "description": "Portfolio of Shagun Tyagi showcasing AI, ML, and full stack projects.",
+ "inLanguage": "en"
+}
+</script>
+
+  <script type="module" crossorigin src="/assets/index-DqNz4KHA.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-XE_PPbSL.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-motion-DHpA7YRm.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-react-BI5ByEiH.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-firebase-tJ2MfJ8D.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-CXEZozwx.css">
+</head>
+
+<body>
+<div id="root"></div>
+
+<!-- Crawler / no-JS fallback: real, indexable content for bots that don't
+     execute JavaScript and for link previews. Hidden the moment the app
+     boots (JS-enabled crawlers like Googlebot render the full SPA above). -->
+<noscript>
+  <div style="max-width:760px;margin:0 auto;padding:48px 20px;font-family:system-ui,Arial,sans-serif;color:#e6e6f0;background:#0f1428;">
+    <h1>Shagun Tyagi — AI/ML Engineer &amp; Full Stack Developer</h1>
+    <p>AI/ML Engineer and Full Stack Developer specializing in Python, IoT, and Cloud.
+       Building scalable data-driven systems and intelligent applications.</p>
+    <nav>
+      <h2>Explore</h2>
+      <ul>
+        <li><a href="/about" style="color:#a855f7;">About</a></li>
+        <li><a href="/experience" style="color:#a855f7;">Experience</a></li>
+        <li><a href="/projects" style="color:#a855f7;">Projects</a></li>
+        <li><a href="/blog" style="color:#a855f7;">Blog</a></li>
+        <li><a href="/contact" style="color:#a855f7;">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>Connect</h2>
+    <ul>
+      <li><a href="https://github.com/theshaguntyagi" style="color:#a855f7;">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/theshaguntyagi" style="color:#a855f7;">LinkedIn</a></li>
+      <li><a href="mailto:theshaguntyagi@gmail.com" style="color:#a855f7;">Email</a></li>
+    </ul>
+    <p>This portfolio is an interactive app. Please enable JavaScript for the full experience.</p>
+  </div>
+</noscript>
+
+</body>
 </html>

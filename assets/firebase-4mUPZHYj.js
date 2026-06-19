@@ -1,0 +1,1 @@
+import"./vendor-firebase-tJ2MfJ8D.js";import{c as e,d as t,l as n,o as r,s as i,u as a}from"./index-DqNz4KHA.js";export{r as OWNER_EMAIL,i as VAPID_KEY,e as auth,n as db,a as getMessagingIfSupported,t as googleProvider};
