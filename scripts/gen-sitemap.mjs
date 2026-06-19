@@ -5,8 +5,8 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-const ORIGIN = 'https://theshaguntyagi.github.io';
-const BASE = '/PORTFOLIO-V2';
+const ORIGIN = 'https://shaguntyagi.tech';
+const BASE = '';
 
 const ROUTES = [
   { path: '/', priority: '1.0' },

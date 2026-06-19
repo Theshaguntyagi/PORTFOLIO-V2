@@ -171,7 +171,7 @@ export const projectsData = [
     category: "web",
     technologies: ["React 19", "Three.js", "Vite", "Firebase", "Gemini AI", "Framer Motion"],
     image: Portfolio,
-    liveUrl: "https://theshaguntyagi.github.io/PORTFOLIO-V2/",
+    liveUrl: "https://shaguntyagi.tech/",
     githubUrl: "https://github.com/theshaguntyagi/PORTFOLIO-V2",
     problem: "Most developer portfolios look identical. Recruiters skim and bounce — no way to explore deeper without navigating away.",
     solution: "Interactive Three.js 3D hero differentiates on first load; Gemini AI assistant lets visitors ask about experience and projects and get real answers.",

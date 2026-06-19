@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 // Production URL (GitHub Pages project site). If you later move to a
 // custom domain, change this AND vite.config.js `base` to "/".
-const BASE = "https://theshaguntyagi.github.io/PORTFOLIO-V2";
+const BASE = "https://shaguntyagi.tech";
 
 const DEFAULT_TITLE = "Shagun Tyagi | AI/ML Engineer & Full Stack Developer";
 const DEFAULT_DESC =

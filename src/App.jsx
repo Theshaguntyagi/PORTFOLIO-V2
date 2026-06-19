@@ -45,6 +45,29 @@ function App() {
     trackPageView(location.pathname);
   }, [location.pathname]);
 
+  // Active/Inactive tab title dynamic effect
+  useEffect(() => {
+    let timeoutId = null;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        document.title = "come back 😩";
+      } else {
+        document.title = "welcome back 😊";
+        timeoutId = setTimeout(() => {
+          document.title = seo.title;
+        }, 2000);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [seo.title]);
+
   return (
     <HelmetProvider>
       <Toaster

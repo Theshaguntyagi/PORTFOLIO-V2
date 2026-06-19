@@ -85,6 +85,7 @@ exports.sendNotificationToAll = onRequest(async (req, res) => {
 // Add your custom domain here if you move off github.io.
 const ALLOWED_ORIGINS = [
   "https://theshaguntyagi.github.io",
+  "https://shaguntyagi.tech",
   /localhost:\d+$/,
 ];
 
