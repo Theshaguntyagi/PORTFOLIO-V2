@@ -1,8 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Trash2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import { getPortfolioContext } from '../data/portfolioKnowledge';
+import { trackChatbotQuery } from '../services/telemetry';
 import '../styles/ChatWidget.css';
 
 const WELCOME = {
@@ -17,6 +20,8 @@ const SUGGESTIONS = [
 ];
 
 const ChatWidget = () => {
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
   const [chatOpen, setChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState(() => {
     try {
@@ -54,8 +59,8 @@ const ChatWidget = () => {
       }
     };
 
-    // Listen for storage changes (when theme is changed in another tab/component)
     window.addEventListener('storage', handleThemeChange);
+    window.addEventListener('theme-change', handleThemeChange);
     
     // Optional: Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -63,6 +68,7 @@ const ChatWidget = () => {
 
     return () => {
       window.removeEventListener('storage', handleThemeChange);
+      window.removeEventListener('theme-change', handleThemeChange);
       mediaQuery.removeEventListener('change', handleThemeChange);
     };
   }, []);
@@ -86,6 +92,28 @@ const ChatWidget = () => {
     }
   };
 
+  const executeCommand = (action, param) => {
+    try {
+      const cleanParam = param.trim();
+      if (action === 'NAVIGATE') {
+        navigate(cleanParam);
+      } else if (action === 'SET_THEME') {
+        const t = cleanParam.toLowerCase();
+        if (t === 'dark' || t === 'light') {
+          localStorage.setItem('theme', t);
+          window.dispatchEvent(new Event('theme-change'));
+        }
+      } else if (action === 'SET_LANG') {
+        const lang = cleanParam.toLowerCase();
+        if (['en', 'hi', 'es'].includes(lang)) {
+          i18n.changeLanguage(lang);
+        }
+      }
+    } catch (e) {
+      console.warn('ChatWidget execute command failed:', action, param, e);
+    }
+  };
+
   const sendChatMessage = async (override) => {
     const text = (typeof override === 'string' ? override : chatInput).trim();
     if (!text || isTyping) return;
@@ -96,35 +124,75 @@ const ChatWidget = () => {
     setChatInput('');
     setIsTyping(true);
 
+    trackChatbotQuery();
+
+    // Filter welcome line out of history
+    const history = nextMessages.filter(
+      (m) => !(m.role === 'assistant' && m.content === WELCOME.content)
+    );
+
+    let first = true;
+    let accumulatedText = '';
+
     try {
       if (!api.chat.isConfigured()) {
         throw new Error('not-configured');
       }
-      // Send the recent conversation (exclude the static welcome line).
-      const history = nextMessages.filter(
-        (m) => !(m.role === 'assistant' && m.content === WELCOME.content)
-      );
-      const response = await api.chat.complete(history, getPortfolioContext());
-      setChatMessages((prev) => [...prev, { role: 'assistant', content: response.message }]);
+
+      await api.chat.completeStream(history, getPortfolioContext(), (chunk) => {
+        if (first) {
+          setIsTyping(false);
+          first = false;
+        }
+        accumulatedText += chunk;
+        setChatMessages((prev) => {
+          const next = [...prev];
+          const last = next[next.length - 1];
+          const cleanText = accumulatedText.replace(/\[CMD:[^\]]+\]/g, '');
+          if (last && last.role === 'assistant') {
+            next[next.length - 1] = { ...last, content: cleanText };
+          } else {
+            next.push({ role: 'assistant', content: cleanText });
+          }
+          return next;
+        });
+      });
+
+      // Parse and execute commands
+      const commandRegex = /\[CMD:([A-Z_]+):([^\]]+)\]/g;
+      let match;
+      while ((match = commandRegex.exec(accumulatedText)) !== null) {
+        const [_, action, param] = match;
+        executeCommand(action, param);
+      }
     } catch (error) {
       console.error('Error sending message:', error);
+      setIsTyping(false);
       const msg =
         error.message === 'not-configured'
           ? "The AI assistant isn't connected yet. Meanwhile, reach Shagun at theshaguntyagi@gmail.com."
           : "Sorry, I'm having trouble connecting right now. Please try again in a moment.";
-      setChatMessages((prev) => [...prev, { role: 'assistant', content: msg }]);
+
+      setChatMessages((prev) => {
+        const next = [...prev];
+        const last = next[next.length - 1];
+        if (last && last.role === 'assistant' && !last.content) {
+          next[next.length - 1] = { role: 'assistant', content: msg };
+        } else if (!last || last.role !== 'assistant') {
+          next.push({ role: 'assistant', content: msg });
+        }
+        return next;
+      });
     } finally {
       setIsTyping(false);
     }
   };
 
   const clearChat = () => {
-    if (window.confirm('Are you sure you want to clear the chat history?')) {
-      setChatMessages([WELCOME]);
-      try {
-        localStorage.removeItem('chat-messages');
-      } catch { /* ignore */ }
-    }
+    setChatMessages([WELCOME]);
+    try {
+      localStorage.removeItem('chat-messages');
+    } catch { /* ignore */ }
   };
 
   const handleKeyPress = (e) => {

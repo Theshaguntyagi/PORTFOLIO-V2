@@ -312,7 +312,7 @@
 /* ============================================
    RESPONSIVE — activate mobile layout
    ============================================ */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .navbar-header { padding: 0.625rem 1rem; }
   .navbar-container { gap: 0.75rem; }
   .navbar-brand { font-size: 1.15rem; }
@@ -376,31 +376,30 @@
 }
 
 /* ===============================
-   NAVBAR FIX PATCH
+   NAVBAR RESPONSIVE & LAYOUT STABILITY
 =============================== */
-
-/* Force desktop layout */
-@media (min-width: 769px) {
-  .navbar-menu-desktop {
-    display: flex !important;
-    flex: none;
-  }
-
-  .mobile-menu-toggle {
-    display: none !important;
-  }
-}
 
 /* Improve layout stability */
 .navbar-container {
   flex-wrap: nowrap;
-  overflow: hidden;
 }
 
-/* Prevent menu collapse */
-.navbar-menu-desktop {
-  flex: none;
+/* Make desktop menu responsive and prevent overflow on intermediate screens */
+@media (min-width: 1025px) and (max-width: 1220px) {
+  .navbar-container {
+    gap: 1rem;
+  }
+  
+  .navbar-link {
+    padding: 0.5rem 0.65rem;
+    font-size: 0.875rem;
+  }
+
+  .navbar-logo-text {
+    font-size: 1.3rem;
+  }
 }
+
 /* ================= LANGUAGE SWITCHER ================= */
 .lang-switch {
   display: inline-flex;

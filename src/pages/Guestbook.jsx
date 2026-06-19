@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import {
   collection, addDoc, getDocs, deleteDoc, updateDoc, doc, serverTimestamp,
@@ -11,6 +12,7 @@ import SEO from '../components/SEO';
 import '../styles/Guestbook.css';
 
 export default function Guestbook() {
+  const { t, i18n } = useTranslation();
   const [user, setUser] = useState(null);
   const [entries, setEntries] = useState([]);
   const [message, setMessage] = useState('');
@@ -36,7 +38,7 @@ export default function Guestbook() {
   useEffect(() => { load(); }, [load]);
 
   const signIn = () =>
-    signInWithPopup(auth, googleProvider).catch(() => toast.error('Sign-in failed.'));
+    signInWithPopup(auth, googleProvider).catch(() => toast.error(t('guestbook.signInFailed', 'Sign-in failed.')));
 
   const submit = async (e) => {
     e.preventDefault();
@@ -50,12 +52,12 @@ export default function Guestbook() {
         message: message.trim().slice(0, 500),
         createdAt: serverTimestamp(),
       });
-      toast.success('Signed the guestbook! 🎉');
+      toast.success(t('guestbook.signedSuccess', 'Signed the guestbook! 🎉'));
       setMessage('');
       load();
     } catch (err) {
       console.error('Guestbook submit failed:', err);
-      toast.error("Couldn't post. Please try again.");
+      toast.error(t('guestbook.postFailed', "Couldn't post. Please try again."));
     } finally {
       setBusy(false);
     }
@@ -66,7 +68,7 @@ export default function Guestbook() {
       await deleteDoc(doc(db, 'guestbook', id));
       load();
     } catch {
-      toast.error('Delete failed.');
+      toast.error(t('guestbook.deleteFailed', 'Delete failed.'));
     }
   };
 
@@ -74,33 +76,33 @@ export default function Guestbook() {
     if (!replyText.trim()) return;
     try {
       await updateDoc(doc(db, 'guestbook', id), { reply: replyText.trim().slice(0, 500) });
-      toast.success('Reply posted.');
+      toast.success(t('guestbook.replyPosted', 'Reply posted.'));
       setReplyTo(null);
       setReplyText('');
       load();
     } catch {
-      toast.error('Reply failed.');
+      toast.error(t('guestbook.replyFailed', 'Reply failed.'));
     }
   };
 
   const fmt = (ts) =>
     ts?.seconds
-      ? new Date(ts.seconds * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      ? new Date(ts.seconds * 1000).toLocaleDateString(i18n.language, { month: 'short', day: 'numeric', year: 'numeric' })
       : '';
 
   return (
     <section className="guestbook-page section section-lg">
-      <SEO title="Guestbook | Shagun Tyagi" desc="Sign Shagun Tyagi's guestbook and leave a note." path="/guestbook" />
+      <SEO title={`${t("guestbook.title")} | Shagun Tyagi`} desc={t("guestbook.subtitle")} path="/guestbook" />
       <div className="container">
         <div className="section-title">
-          <h2><BookHeart size={26} style={{ verticalAlign: '-4px' }} /> Guestbook</h2>
-          <p>Drop a note, say hi, or share some love. 💜</p>
+          <h2><BookHeart size={26} style={{ verticalAlign: '-4px' }} /> {t("guestbook.title")}</h2>
+          <p>{t("guestbook.subtitle")}</p>
         </div>
 
         <div className="guestbook-compose">
           {!user ? (
             <button className="btn btn-primary btn-lg" onClick={signIn}>
-              <LogIn size={16} /> Sign in with Google to sign
+              <LogIn size={16} /> {t("guestbook.signIn")}
             </button>
           ) : (
             <form className="guestbook-form" onSubmit={submit}>
@@ -112,7 +114,7 @@ export default function Guestbook() {
                 </button>
               </div>
               <textarea
-                placeholder="Leave a message…"
+                placeholder={t("guestbook.placeholder")}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={3}
@@ -120,14 +122,14 @@ export default function Guestbook() {
                 required
               />
               <button type="submit" className="btn btn-primary" disabled={busy}>
-                {busy ? 'Signing…' : <>Sign guestbook <Send size={15} /></>}
+                {busy ? t("guestbook.submitting") : <>{t("guestbook.submit")} <Send size={15} /></>}
               </button>
             </form>
           )}
         </div>
 
         <div className="guestbook-wall">
-          {entries.length === 0 && <p className="gb-empty">No entries yet — be the first to sign! ✍️</p>}
+          {entries.length === 0 && <p className="gb-empty">{t("guestbook.empty")}</p>}
           {entries.map((e, i) => (
             <Motion.div
               key={e.id}
@@ -157,7 +159,7 @@ export default function Guestbook() {
 
               {e.reply && (
                 <div className="comment-reply">
-                  <span className="comment-reply-label">↳ Shagun replied</span>
+                  <span className="comment-reply-label">↳ Shagun {t("guestbook.replied")}</span>
                   <p>{e.reply}</p>
                 </div>
               )}
@@ -168,17 +170,17 @@ export default function Guestbook() {
                     <input
                       value={replyText}
                       onChange={(ev) => setReplyText(ev.target.value)}
-                      placeholder="Write a reply…"
+                      placeholder={t("guestbook.replyPlaceholder")}
                       maxLength={500}
                     />
                     <div className="gb-reply-actions">
-                      <button className="btn btn-primary btn-sm" onClick={() => sendReply(e.id)}>Reply</button>
-                      <button className="btn btn-ghost btn-sm" onClick={() => { setReplyTo(null); setReplyText(''); }}>Cancel</button>
+                      <button className="btn btn-primary btn-sm" onClick={() => sendReply(e.id)}>{t("guestbook.replyBtn")}</button>
+                      <button className="btn btn-ghost btn-sm" onClick={() => { setReplyTo(null); setReplyText(''); }}>{t("guestbook.cancel")}</button>
                     </div>
                   </div>
                 ) : (
                   <button className="gb-reply-btn" onClick={() => { setReplyTo(e.id); setReplyText(''); }}>
-                    Reply
+                    {t("guestbook.replyBtn")}
                   </button>
                 )
               )}

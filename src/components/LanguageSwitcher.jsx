@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Globe } from 'lucide-react';
+import { trackLanguageChange } from '../services/telemetry';
 
 const LANGS = [
   { code: 'en', label: 'EN' },
@@ -15,6 +16,7 @@ export default function LanguageSwitcher() {
     const idx = LANGS.findIndex((l) => l.code === current);
     const next = LANGS[(idx + 1) % LANGS.length];
     i18n.changeLanguage(next.code);
+    trackLanguageChange(next.code);
   };
 
   return (

@@ -41,7 +41,6 @@ export default function CertificateDetail() {
               <div className="meta">
                 <span>Issued By: {cert.issuedBy}</span><br/>
                 <span>Date: {cert.date}</span><br/>
-                <span>Certificate ID: {cert.id}</span>
               </div>
             </div>
 

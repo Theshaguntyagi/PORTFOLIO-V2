@@ -51,3 +51,97 @@
 @media (max-width: 520px) {
   .tf-row { grid-template-columns: 1fr; }
 }
+
+/* File upload inside testimonial form */
+.tf-file-upload-block {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.tf-file-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.tf-file-label:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #7c3aed;
+  color: var(--foreground);
+}
+
+.tf-file-label input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.tf-avatar-preview-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(124, 58, 237, 0.4);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+  flex-shrink: 0;
+}
+
+.tf-avatar-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Light Theme Overrides */
+.light-theme .testimonial-form input,
+.light-theme .testimonial-form textarea {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #1d1d1f;
+}
+
+.light-theme .testimonial-form input::placeholder,
+.light-theme .testimonial-form textarea::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.light-theme .testimonial-form input:focus,
+.light-theme .testimonial-form textarea:focus {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.light-theme .tf-file-label {
+  background: rgba(124, 58, 237, 0.07);
+  border-color: rgba(124, 58, 237, 0.35);
+  color: #7c3aed;
+}
+
+.light-theme .tf-file-label:hover {
+  background: rgba(124, 58, 237, 0.12);
+  border-color: #6d28d9;
+  color: #5b21b6;
+}
+
+.light-theme .tf-note {
+  color: rgba(0, 0, 0, 0.55);
+}

@@ -6,10 +6,12 @@ import {
 } from 'firebase/firestore';
 import {
   LogOut, Trash2, Plus, ShieldAlert, Mail, Newspaper, MessageSquareQuote,
-  FileText, Check, CircleDot, MessageSquare, CornerDownRight, BookHeart,
+  FileText, Check, CircleDot, MessageSquare, CornerDownRight, BookHeart, BarChart2,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { auth, googleProvider, db, OWNER_EMAIL } from '../firebase';
+import Analytics from './Analytics';
+import { resizeAndCompressImage } from '../utils/image';
 import '../styles/Admin.css';
 
 const EMPTY = { title: '', excerpt: '', readMoreContent: '', imageUrl: '', tags: '', readTime: '' };
@@ -78,6 +80,23 @@ export default function Admin() {
 
   const signIn = () => signInWithPopup(auth, googleProvider).catch(() => toast.error('Sign-in failed.'));
   const change = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleBlogImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const base64 = await resizeAndCompressImage(file, 800, 600, 0.7);
+      setForm((prev) => ({ ...prev, imageUrl: base64 }));
+      toast.success('Image processed successfully');
+    } catch (err) {
+      console.error(err);
+      toast.error('Image processing failed');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   // ── Blog ──
   const submitPost = async (e) => {
@@ -149,6 +168,7 @@ export default function Admin() {
     { id: 'comments', label: 'Comments', icon: MessageSquare, count: comments.length },
     { id: 'guestbook', label: 'Guestbook', icon: BookHeart, count: guestbook.length },
     { id: 'status', label: 'Status', icon: CircleDot },
+    { id: 'analytics', label: 'Analytics', icon: BarChart2 },
   ];
 
   return (
@@ -198,14 +218,24 @@ export default function Admin() {
               <>
                 <form className="admin-form" onSubmit={submitPost}>
                   <input name="title" value={form.title} onChange={change} placeholder="Title *" required />
-                  <input name="excerpt" value={form.excerpt} onChange={change} placeholder="Excerpt" />
-                  <input name="imageUrl" value={form.imageUrl} onChange={change} placeholder="Image URL" />
+                  <input name="excerpt" value={form.excerpt} onChange={change} placeholder="Excerpt (Short summary shown on listing page) *" required />
+                  <div className="admin-file-upload-block">
+                    <label className="admin-file-label">
+                      <span>{uploadingImage ? 'Processing Cover Image…' : 'Upload Cover Image *'}</span>
+                      <input type="file" accept="image/*" onChange={handleBlogImageChange} required={!form.imageUrl} />
+                    </label>
+                    {form.imageUrl && (
+                      <div className="admin-image-preview-wrapper">
+                        <img src={form.imageUrl} alt="Blog preview" className="admin-image-preview" />
+                      </div>
+                    )}
+                  </div>
                   <div className="admin-row">
                     <input name="tags" value={form.tags} onChange={change} placeholder="Tags (comma separated)" />
                     <input name="readTime" value={form.readTime} onChange={change} placeholder="Read time (min)" type="number" />
                   </div>
                   <textarea name="readMoreContent" value={form.readMoreContent} onChange={change} rows={8} placeholder="Full content (Markdown supported)" />
-                  <button className="btn btn-primary btn-lg" disabled={saving}>
+                   <button className="btn btn-primary btn-lg" disabled={saving || uploadingImage}>
                     <Plus size={16} /> {saving ? 'Publishing…' : 'Publish Post'}
                   </button>
                 </form>
@@ -381,6 +411,11 @@ export default function Admin() {
                 </label>
                 <button className="btn btn-primary" onClick={saveStatus}>Save status</button>
               </div>
+            )}
+
+            {/* ANALYTICS */}
+            {tab === 'analytics' && (
+              <Analytics isNested={true} />
             )}
           </>
         )}

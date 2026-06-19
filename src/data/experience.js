@@ -2,150 +2,300 @@ export const experienceData = [
   // ─── 2026 ───────────────────────────────────────────────
   {
     role: "Master of Business Administration (MBA)",
+    role_hi: "मास्टर ऑफ बिजनेस एडमिनिस्ट्रेशन (एमबीए)",
+    role_es: "Maestría en Administración de Empresas (MBA)",
     company: "Chandigarh University",
+    company_hi: "चंडीगढ़ यूनिवर्सिटी",
+    company_es: "Universidad de Chandigarh",
     duration: "Jan 2026 – Dec 2028",
     type: "Education",
     location: "Chandigarh, India",
     description:
       "Pursuing MBA to combine engineering depth with business outcomes thinking — strategy, product, and operations.",
+    description_hi: "इंजीनियरिंग की गहराई को व्यावसायिक परिणामों की सोच के साथ जोड़ने के लिए एमबीए कर रहा हूँ — रणनीति, उत्पाद और संचालन।",
+    description_es: "Cursando MBA para combinar la profundidad de la ingeniería con el pensamiento de resultados de negocio: estrategia, producto y operaciones.",
     technologies: [],
     achievements: [
       "Bridging AI/ML engineering with business strategy \n and product management",
       "Focusing on how ML outputs translate into \nmeasurable business KPIs"
+    ],
+    achievements_hi: [
+      "एआई/एमएल इंजीनियरिंग को व्यावसायिक रणनीति और उत्पाद प्रबंधन के साथ जोड़ना",
+      "इस बात पर ध्यान केंद्रित करना कि एमएल आउटपुट मापने योग्य व्यावसायिक KPI में कैसे तब्दील होते हैं"
+    ],
+    achievements_es: [
+      "Vinculando la ingeniería de IA/ML con la estrategia empresarial y la gestión de productos",
+      "Centrándose en cómo los resultados de ML se traducen en KPIs comerciales medibles"
     ]
   },
 
   // ─── 2025 ───────────────────────────────────────────────
   {
     role: "AI/ML Engineer",
+    role_hi: "एआई/एमएल इंजीनियर",
+    role_es: "Ingeniero de IA/ML",
     company: "Envigo",
+    company_hi: "एनविगो",
+    company_es: "Envigo",
     duration: "Aug 2025 – Present",
     type: "Work",
     location: "Gurugram, India",
     description:
       "Architecting end-to-end ML pipelines on AWS and Azure powering Envigo's AI-driven SEO intelligence platform. Own the full ML lifecycle from training to deployment.",
+    description_hi: "एनविगो के एआई-संचालित एसईओ इंटेलिजेंस प्लेटफॉर्म को शक्ति प्रदान करने वाली एडब्ल्यूएस और एज़्योर पर एंड-टू-एंड एमएल पाइपलाइनों को डिजाइन करना। प्रशिक्षण से लेकर तैनाती तक पूरे एमएल जीवनचक्र का स्वामित्व।",
+    description_es: "Diseño de pipelines de ML de extremo a extremo en AWS y Azure que potencian la plataforma de inteligencia SEO impulsada por IA de Envigo. Responsable de todo el ciclo de vida de ML, desde el entrenamiento hasta el despliegue.",
     technologies: ["Python", "LangChain", "FastAPI", "AWS", "Azure", "Docker"],
     achievements: [
       "Reduced manual data processing by ~40% via LangChain-based LLM agents integrated into backend APIs",
       "Architecting ML pipelines ingesting client data and surfacing actionable SEO recommendations at scale",
       "Own full ML lifecycle: training → Docker containerisation → cloud deployment → monitoring & optimisation",
       "Translate ML output into measurable business KPIs in collaboration with product and data teams"
+    ],
+    achievements_hi: [
+      "बैकएंड एपीआई में एकीकृत लँगचेन-आधारित एलएलएम एजेंटों के माध्यम से मैन्युअल डेटा प्रोसेसिंग को ~40% कम किया",
+      "क्लाइंट डेटा को इनजेस्ट करने और बड़े पैमाने पर कार्रवाई योग्य एसईओ सिफारिशें प्रस्तुत करने वाली एमएल पाइपलाइनों को डिजाइन किया",
+      "संपूर्ण एमएल जीवनचक्र का स्वामित्व: प्रशिक्षण → डॉकर कंटेनराइजेशन → क्लाउड परिनियोजन → निगरानी और अनुकूलन",
+      "उत्पाद और डेटा टीमों के सहयोग से एमएल आउटपुट को मापने योग्य व्यावसायिक KPI में तब्दील किया"
+    ],
+    achievements_es: [
+      "Reducción del procesamiento manual de datos en un ~40% a través de agentes LLM basados en LangChain integrados en las APIs del backend",
+      "Diseño de pipelines de ML que ingieren datos de clientes y presentan recomendaciones de SEO accionables a escala",
+      "Propietario del ciclo de vida completo de ML: entrenamiento → contenedorización con Docker → despliegue en la nube → monitoreo y optimización",
+      "Traducción de los resultados de ML en KPIs comerciales medibles en colaboración con los equipos de producto y datos"
     ]
   },
 
   // ─── 2024 ───────────────────────────────────────────────
   {
     role: "Published Researcher",
+    role_hi: "प्रकाशित शोधकर्ता",
+    role_es: "Investigador Publicado",
     company: "International Journal of Science and Research Archive (IJSRA)",
+    company_hi: "इंटरनेशनल जर्नल ऑफ विज्ञान और अनुसंधान पुरालेख (IJSRA)",
+    company_es: "International Journal of Science and Research Archive (IJSRA)",
     duration: "2024",
     type: "Research",
     location: "India",
     description:
       "Peer-reviewed research on a wearable-grade IoT health monitoring system using ECG and PPG techniques, built on Raspberry Pi with real-time Firebase alerts and a React Native mobile app.",
+    description_hi: "ईसीजी और पीपीजी तकनीकों का उपयोग करके पहनने योग्य-ग्रेड आईओटी स्वास्थ्य निगरानी प्रणाली पर सहकर्मी-समीक्षित शोध, वास्तविक समय फायरबेस अलर्ट और रिएक्ट नेटिव मोबाइल ऐप के साथ रास्पबेरी पाई पर निर्मित।",
+    description_es: "Investigación revisada por pares sobre un sistema de monitoreo de salud IoT de grado ponible utilizando técnicas de ECG y PPG, construido sobre Raspberry Pi con alertas en tiempo real de Firebase y una aplicación móvil React Native.",
     technologies: ["Python", "Raspberry Pi", "Scikit-Learn", "Firebase", "React Native"],
     achievements: [
       "Published in IJSRA Vol. 12, No. 1, 2024 — DOI: 10.30574/ijsra.2024.12.1.0781",
       "Designed PPG-based heart rate and SpO2 monitoring with real-time signal processing",
       "Trained Scikit-Learn classifiers to detect early indicators of cardiac stress and oxygen desaturation",
       "Built Firebase-backed real-time alert system integrated with React Native caregiver app"
+    ],
+    achievements_hi: [
+      "IJSRA वॉल्यूम 12, नंबर 1, 2024 में प्रकाशित — DOI: 10.30574/ijsra.2024.12.1.0781",
+      "वास्तविक समय सिग्नल प्रोसेसिंग के साथ पीपीजी-आधारित हृदय गति और SpO2 निगरानी तैयार की",
+      "हृदय तनाव और ऑक्सीजन की कमी के शुरुआती संकेतकों का पता लगाने के लिए स्किट्स-लर्न क्लासिफायर प्रशिक्षित किए",
+      "केयरगिवर ऐप के साथ एकीकृत फायरबेस-संचालित वास्तविक समय अलर्ट प्रणाली बनाई"
+    ],
+    achievements_es: [
+      "Publicado en IJSRA Vol. 12, No. 1, 2024 — DOI: 10.30574/ijsra.2024.12.1.0781",
+      "Diseño de monitoreo de frecuencia cardíaca y SpO2 basado en PPG con procesamiento de señales en tiempo real",
+      "Entrenamiento de clasificadores de Scikit-Learn para detectar indicadores tempranos de estrés cardíaco y desaturación de oxígeno",
+      "Construcción de un sistema de alerta en tiempo real respaldado por Firebase e integrado con la aplicación para cuidadores en React Native"
     ]
   },
   {
     role: "Software Engineer",
+    role_hi: "सॉफ्टवेयर इंजीनियर",
+    role_es: "Ingeniero de Software",
     company: "Airtel",
+    company_hi: "एयरटेल",
+    company_es: "Airtel",
     duration: "Apr 2024 – Aug 2025",
     type: "Work",
     location: "Gurugram, India",
     description:
       "Designed and deployed FastAPI microservices powering Airtel's internal ops workflows. Built automation pipelines and real-time data infrastructure used daily by analytics and ML teams.",
+    description_hi: "एयरटेल के आंतरिक संचालन वर्कफ़्लो को शक्ति प्रदान करने वाली फास्टएपीआई माइक्रोसर्विसेज को डिज़ाइन और तैनात किया। एनालिटिक्स और एमएल टीमों द्वारा दैनिक रूप से उपयोग की जाने वाली स्वचालन पाइपलाइन और वास्तविक समय डेटा बुनियादी ढांचा तैयार किया।",
+    description_es: "Diseño y despliegue de microservicios con FastAPI que potencian los flujos de trabajo de operaciones internas de Airtel. Construcción de pipelines de automatización e infraestructura de datos en tiempo real utilizada diariamente por los equipos de análisis y ML.",
     technologies: ["FastAPI", "Python", "SQL", "Pandas", "REST APIs", "CI/CD"],
     achievements: [
       "Cut API response latency by ~30% via optimised FastAPI microservices",
       "Eliminated ~10 hours/week of manual tasks with Python automation pipelines",
       "Improved backend throughput by ~25% within 3 months via query and architecture optimisation",
       "Engineered real-time data pipelines feeding dashboards for analytics and ML teams"
+    ],
+    achievements_hi: [
+      "अनुकूलित फास्टएपीआई माइक्रोसर्विसेज के माध्यम से एपीआई प्रतिक्रिया विलंबता को ~30% कम किया",
+      "पायथन स्वचालन पाइपलाइनों के साथ मैन्युअल कार्यों के ~10 घंटे/सप्ताह को समाप्त किया",
+      "क्वेरी और आर्किटेक्चर अनुकूलन के माध्यम से 3 महीनों के भीतर बैकएंड थ्रूपुट को ~25% सुधारा",
+      "एनालिटिक्स और एमएल टीमों के डैशबोर्ड फीड करने वाली वास्तविक समय डेटा पाइपलाइनों को इंजीनियर किया"
+    ],
+    achievements_es: [
+      "Reducción de la latencia de respuesta de las APIs en un ~30% a través de microservicios FastAPI optimizados",
+      "Eliminación de ~10 horas/semana de tareas manuales con pipelines de automatización en Python",
+      "Mejora del rendimiento del backend en un ~25% en 3 meses a través de la optimización de consultas y arquitectura",
+      "Ingeniería de pipelines de datos en tiempo real que alimentan paneles de control para los equipos de análisis y ML"
     ]
   },
 
   // ─── 2023 ───────────────────────────────────────────────
   {
     role: "Data Analyst Intern",
+    role_hi: "डेटा एनालिस्ट इंटर्न",
+    role_es: "Pasante de Analista de Datos",
     company: "Trainity",
+    company_hi: "ट्रेनिटी",
+    company_es: "Trainity",
     duration: "Apr 2023 – Jun 2023",
     type: "Work",
     location: "Remote",
     description:
       "Worked with SQL and Power BI to build business dashboards, automated data cleaning workflows, and analysed business data to identify trends and performance metrics.",
+    description_hi: "व्यावसायिक डैशबोर्ड बनाने, स्वचालित डेटा सफाई वर्कफ़्लो और प्रदर्शन मीट्रिक की पहचान करने के लिए व्यावसायिक डेटा का विश्लेषण करने के लिए एसक्यूएल और पावर बीआई के साथ काम किया।",
+    description_es: "Trabajo con SQL y Power BI para construir paneles comerciales, automatizar flujos de trabajo de limpieza de datos y analizar datos comerciales para identificar tendencias y métricas de rendimiento.",
     technologies: ["SQL", "Power BI", "Python"],
     achievements: [
       "Built business dashboards using SQL and Power BI",
       "Automated data cleaning workflows using Python",
       "Analysed business data to surface trends and performance metrics"
+    ],
+    achievements_hi: [
+      "एसक्यूएल और पावर बीआई का उपयोग करके व्यावसायिक डैशबोर्ड बनाए",
+      "पायथन का उपयोग करके डेटा सफाई वर्कफ़्लो को स्वचालित किया",
+      "रुझान और प्रदर्शन मीट्रिक दिखाने के लिए व्यावसायिक डेटा का विश्लेषण किया"
+    ],
+    achievements_es: [
+      "Construcción de paneles de control comerciales utilizando SQL y Power BI",
+      "Automatización de flujos de trabajo de limpieza de datos utilizando Python",
+      "Análisis de datos comerciales para revelar tendencias y métricas de rendimiento"
     ]
   },
 
   // ─── 2022 ───────────────────────────────────────────────
   {
     role: "Software Developer Intern",
+    role_hi: "सॉफ्टवेयर डेवलपर इंटर्न",
+    role_es: "Pasante de Desarrollador de Software",
     company: "Internship Studio",
+    company_hi: "इंटरनशिप स्टूडियो",
+    company_es: "Internship Studio",
     duration: "Nov 2022 – Jan 2023",
     type: "Work",
     location: "Remote",
     description:
       "Built backend components using Python and supported development of automation scripts for client projects.",
+    description_hi: "पायथन का उपयोग करके बैकएंड घटकों का निर्माण किया और क्लाइंट प्रोजेक्ट्स के लिए स्वचालन स्क्रिप्ट के विकास का समर्थन किया।",
+    description_es: "Construcción de componentes de backend utilizando Python y soporte en el desarrollo de scripts de automatización para proyectos de clientes.",
     technologies: ["Python"],
     achievements: [
       "Built backend components using Python",
       "Developed automation scripts for client projects",
       "Delivered project modules in collaboration with the engineering team"
+    ],
+    achievements_hi: [
+      "पायथन का उपयोग करके बैकएंड घटक बनाए",
+      "क्लाइंट प्रोजेक्ट्स के लिए स्वचालन स्क्रिप्ट विकसित की",
+      "इंजीनियरिंग टीम के सहयोग से प्रोजेक्ट मॉड्यूल वितरित किए"
+    ],
+    achievements_es: [
+      "Construcción de componentes de backend utilizando Python",
+      "Desarrollo de scripts de automatización para proyectos de clientes",
+      "Entrega de módulos de proyecto en colaboración con el equipo de ingeniería"
     ]
   },
   {
     role: "ML Team Lead",
+    role_hi: "एमएल टीम लीड",
+    role_es: "Líder del Equipo de ML",
     company: "CXI Community",
+    company_hi: "सीएक्सआई कम्युनिटी",
+    company_es: "Comunidad CXI",
     duration: "2022 – 2024",
     type: "Leadership",
     location: "Meerut, India",
     description:
       "Led the Machine Learning team at CXI Community, organising technical workshops and mentoring peers in AI, ML, and cloud computing.",
+    description_hi: "सीएक्सआई कम्युनिटी में मशीन लर्निंग टीम का नेतृत्व किया, तकनीकी कार्यशालाओं का आयोजन किया और साथियों को एआई, एमएल और क्लाउड कंप्यूटिंग में सलाह दी।",
+    description_es: "Dirección del equipo de Machine Learning en la Comunidad CXI, organizando talleres técnicos y asesorando a compañeros en IA, ML y computación en la nube.",
     technologies: ["Python", "TensorFlow", "AWS"],
     achievements: [
       "Organised 5+ technical workshops on ML, AI, and cloud computing",
       "Mentored students on building and deploying ML models",
       "Grew community engagement through hands-on project-based sessions"
+    ],
+    achievements_hi: [
+      "एमएल, एआई और क्लाउड कंप्यूटिंग पर 5+ तकनीकी कार्यशालाओं का आयोजन किया",
+      "एमएल मॉडल बनाने और तैनात करने पर छात्रों को सलाह दी",
+      "व्यावहारिक प्रोजेक्ट-आधारित सत्रों के माध्यम से सामुदायिक जुड़ाव बढ़ाया"
+    ],
+    achievements_es: [
+      "Organización de más de 5 talleres técnicos sobre ML, IA y computación en la nube",
+      "Asesoramiento a estudiantes en la construcción y despliegue de modelos de ML",
+      "Aumento del compromiso de la comunidad a través de sesiones prácticas basadas en proyectos"
     ]
   },
   {
     role: "Python Developer Intern",
+    role_hi: "पायथन डेवलपर इंटर्न",
+    role_es: "Pasante de Desarrollador Python",
     company: "Robust Results Private Limited",
+    company_hi: "रोबस्ट रिजल्ट्स प्राइवेट लिमिटेड",
+    company_es: "Robust Results Private Limited",
     duration: "Aug 2022 – Oct 2022",
     type: "Work",
     location: "India",
     description:
       "Developed backend features using Python and Flask, worked on API integrations, data processing scripts, and prototype development for internal tools.",
+    description_hi: "पायथन और फ्लास्क का उपयोग करके बैकएंड सुविधाओं का विकास किया, एपीआई एकीकरण, डेटा प्रोसेसिंग स्क्रिप्ट और आंतरिक उपकरणों के लिए प्रोटोटाइप विकास पर काम किया।",
+    description_es: "Desarrollo de funciones de backend utilizando Python y Flask, trabajando en integraciones de API, scripts de procesamiento de datos y desarrollo de prototipos para herramientas internas.",
     technologies: ["Python", "Flask", "REST APIs"],
     achievements: [
       "Developed backend features using Python and Flask",
       "Built API integrations and data processing scripts",
       "Assisted in prototype development for internal tools"
+    ],
+    achievements_hi: [
+      "पायथन और फ्लास्क का उपयोग करके बैकएंड सुविधाएं विकसित कीं",
+      "एपीआई एकीकरण और डेटा प्रोसेसिंग स्क्रिप्ट बनाईं",
+      "आंतरिक उपकरणों के लिए प्रोटोटाइप विकास में सहायता की"
+    ],
+    achievements_es: [
+      "Desarrollo de características de backend utilizando Python y Flask",
+      "Construcción de integraciones de API y scripts de procesamiento de datos",
+      "Asistencia en el desarrollo de prototipos para herramientas internas"
     ]
   },
 
   // ─── 2020 ───────────────────────────────────────────────
   {
     role: "B.Tech, Computer Science Engineering (IoT)",
+    role_hi: "बी.टेक, कंप्यूटर साइंस इंजीनियरिंग (आईओटी)",
+    role_es: "B.Tech, Ingeniería en Ciencias de la Computación (IoT)",
     company: "Meerut Institute of Engineering and Technology (MIET)",
+    company_hi: "मेरठ इंस्टीट्यूट ऑफ इंजीनियरिंग एंड टेक्नोलॉजी (एमआईईटी)",
+    company_es: "Meerut Institute of Engineering and Technology (MIET)",
     duration: "Jul 2020 – Dec 2024",
     type: "Education",
     location: "Meerut, India",
     description:
       "Specialised in IoT systems, embedded tech, ML, and full-stack development. Graduated with CGPA 8.4/10.",
+    description_hi: "आईओटी सिस्टम, एम्बेडेड टेक, एमएल और फुल-स्टैक विकास में विशेषज्ञता। सीजीपीए 8.4/10 के साथ स्नातक किया।",
+    description_es: "Especialización en sistemas de IoT, tecnología embebida, ML y desarrollo full-stack. Graduado con promedio (CGPA) de 8.4/10.",
     technologies: ["Python", "C", "Raspberry Pi", "TensorFlow", "React", "Firebase"],
     achievements: [
       "CGPA: 8.4 / 10",
       "Winner — National Level Hackathon: Waste Management Portal (Django + MySQL)",
       "Runner-up — Health-A-Thon: AI-powered health solution built in 48 hours",
       "Runner-up — CSS Battleground MIET: Ranked 2nd among 250 candidates"
+    ],
+    achievements_hi: [
+      "सीजीपीए: 8.4 / 10",
+      "विजेता — राष्ट्रीय स्तर का हैकाथॉन: अपशिष्ट प्रबंधन पोर्टल (Django + MySQL)",
+      "उपविजेता — हेल्थ-ए-थॉन: 48 घंटों में निर्मित एआई-संचालित स्वास्थ्य समाधान",
+      "उपविजेता — सीएसएस बैटलग्राउंड एमआईईटी: 250 उम्मीदवारों में दूसरा स्थान"
+    ],
+    achievements_es: [
+      "Promedio (CGPA): 8.4 / 10",
+      "Ganador — Hackathon a Nivel Nacional: Portal de Gestión de Residuos (Django + MySQL)",
+      "Finalista — Health-A-Thon: Solución de salud impulsada por IA construida en 48 horas",
+      "Finalista — CSS Battleground MIET: Clasificado 2º entre 250 candidatos"
     ]
   }
 ];

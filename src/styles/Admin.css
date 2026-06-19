@@ -157,8 +157,74 @@
 
 /* Light theme tweaks */
 .light-theme .admin-form input,
-.light-theme .admin-form textarea {
-  background: rgba(0, 0, 0, 0.03);
+.light-theme .admin-form textarea,
+.light-theme .admin-field select,
+.light-theme .admin-field input,
+.light-theme .admin-reply-box input {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #1d1d1f;
+}
+
+.light-theme .admin-form input::placeholder,
+.light-theme .admin-form textarea::placeholder,
+.light-theme .admin-field input::placeholder,
+.light-theme .admin-reply-box input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.light-theme .admin-form input:focus,
+.light-theme .admin-form textarea:focus,
+.light-theme .admin-field select:focus,
+.light-theme .admin-field input:focus,
+.light-theme .admin-reply-box input:focus {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.light-theme .admin-field select option {
+  background: #ffffff;
+  color: #1d1d1f;
+}
+
+/* File Upload Light Theme */
+.light-theme .admin-file-label {
+  background: rgba(124, 58, 237, 0.07);
+  border-color: rgba(124, 58, 237, 0.35);
+  color: #7c3aed;
+}
+
+.light-theme .admin-file-label:hover {
+  background: rgba(124, 58, 237, 0.12);
+  border-color: #6d28d9;
+  color: #5b21b6;
+}
+
+/* Secondary Texts & Elements Light Theme */
+.light-theme .admin-card-role,
+.light-theme .admin-card-date,
+.light-theme .admin-empty {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.light-theme .admin-card-msg {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.light-theme .admin-gate p {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.light-theme .admin-del {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.05);
+  border-color: rgba(220, 38, 38, 0.18);
+}
+
+.light-theme .admin-del:hover {
+  background: rgba(220, 38, 38, 0.12);
+  color: #991b1b;
 }
 
 @media (max-width: 600px) {
@@ -182,15 +248,36 @@
   padding: 0.5rem 0.95rem;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--muted-foreground);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.admin-tab:hover { color: var(--foreground); border-color: rgba(124,58,237,0.5); }
+.admin-tab:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(124, 58, 237, 0.6);
+}
 .admin-tab.active {
+  color: #fff;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border-color: transparent;
+}
+
+/* Light Theme Tabs Overrides */
+.light-theme .admin-tab {
+  color: rgba(0, 0, 0, 0.65);
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+.light-theme .admin-tab:hover {
+  color: rgba(0, 0, 0, 0.9);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(124, 58, 237, 0.5);
+}
+.light-theme .admin-tab.active {
   color: #fff;
   background: linear-gradient(135deg, #7c3aed, #a855f7);
   border-color: transparent;
@@ -277,3 +364,61 @@
 }
 .admin-reply-box input:focus { border-color: #7c3aed; }
 .admin-reply-box .btn { display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap; }
+
+/* File upload inputs and preview */
+.admin-file-upload-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-file-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.5rem;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px dashed rgba(124, 58, 237, 0.4);
+  border-radius: 12px;
+  color: #c4b5fd;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-file-label:hover {
+  background: rgba(124, 58, 237, 0.2);
+  border-color: #a855f7;
+  color: #fff;
+}
+
+.admin-file-label input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.admin-image-preview-wrapper {
+  max-width: 200px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2);
+}
+
+.admin-image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

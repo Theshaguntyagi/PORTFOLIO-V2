@@ -4,9 +4,9 @@ import { Helmet } from "react-helmet-async";
 // custom domain, change this AND vite.config.js `base` to "/".
 const BASE = "https://shaguntyagi.tech";
 
-const DEFAULT_TITLE = "Shagun Tyagi | AI/ML Engineer & Full Stack Developer";
+const DEFAULT_TITLE = "Shagun Tyagi | AI/ML Engineer — Production AI Systems & Agent Orchestration";
 const DEFAULT_DESC =
-  "Portfolio of Shagun Tyagi — AI/ML Engineer and Full Stack Developer.";
+  "AI/ML Engineer building production AI systems (Envigo), autonomous agent architectures, and full-stack AI products. B.Tech CSE, published IoT/health-tech researcher. Based in Gurugram, India.";
 
 export default function SEO({
   title = DEFAULT_TITLE,
@@ -36,6 +36,32 @@ export default function SEO({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={desc} />
       <meta name="twitter:image" content={BASE + image} />
+
+      {/* Person JSON-LD Schema (Homepage Only) */}
+      {path === "/" && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Shagun Tyagi",
+            "url": "https://shaguntyagi.tech",
+            "image": "https://shaguntyagi.tech/profile.png",
+            "jobTitle": "AI/ML Engineer",
+            "worksFor": {
+              "@type": "Organization",
+              "name": "Envigo"
+            },
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "Meerut Institute of Engineering and Technology"
+            },
+            "sameAs": [
+              "https://github.com/theshaguntyagi",
+              "https://linkedin.com/in/theshaguntyagi"
+            ]
+          })}
+        </script>
+      )}
     </Helmet>
   );
 }

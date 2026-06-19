@@ -15,7 +15,7 @@ const Layout = () => {
   const reduceMotion = useReducedMotion();
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
-    return savedTheme || 'dark';
+    return savedTheme || 'light';
   });
 
   // 🔔 NOTIFICATION PERMISSION — deferred to idle + Firebase loaded lazily
@@ -64,8 +64,23 @@ const Layout = () => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    const handleThemeChange = () => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme && savedTheme !== theme) {
+        setTheme(savedTheme);
+      }
+    };
+    window.addEventListener('theme-change', handleThemeChange);
+    return () => window.removeEventListener('theme-change', handleThemeChange);
+  }, [theme]);
+
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    setTheme((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      setTimeout(() => window.dispatchEvent(new Event('theme-change')), 0);
+      return next;
+    });
   };
 
   return (

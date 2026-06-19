@@ -1,50 +1,52 @@
+import { useTranslation } from 'react-i18next';
 import '../styles/NowUses.css';
 
-// ⚠️ Edit with your real gear/tools.
-const BLOCKS = [
-  {
-    title: 'Editor & Dev',
-    items: [
-      ['VS Code', 'with the GitHub theme + Inter font'],
-      ['Terminal', 'with a custom shell setup'],
-      ['Git + GitHub', 'for version control'],
-    ],
-  },
-  {
-    title: 'Languages & Frameworks',
-    items: [
-      ['Python', 'for AI/ML and backends'],
-      ['React + Vite', 'for fast front-ends'],
-      ['Node.js / FastAPI', 'for APIs'],
-    ],
-  },
-  {
-    title: 'Cloud & Tools',
-    items: [
-      ['AWS + Firebase', 'hosting & infra'],
-      ['Docker', 'containers'],
-      ['OpenAI API', 'powering the AI features on this site'],
-    ],
-  },
-  {
-    title: 'Hardware',
-    items: [
-      ['Laptop', 'your daily driver — edit me'],
-      ['Monitor / peripherals', 'edit me'],
-    ],
-  },
-];
-
 export default function Uses() {
+  const { t } = useTranslation();
+
+  const blocks = [
+    {
+      title: t('uses.devTitle', 'Editor & Dev'),
+      items: [
+        ['VS Code', t('uses.vscodeDesc', 'with the GitHub theme + Inter font')],
+        ['Terminal', t('uses.terminalDesc', 'with a custom shell setup')],
+        ['Git + GitHub', t('uses.gitDesc', 'for version control')],
+      ],
+    },
+    {
+      title: t('uses.langTitle', 'Languages & Frameworks'),
+      items: [
+        ['Python', t('uses.pythonDesc', 'for AI/ML and backends')],
+        ['React + Vite', t('uses.reactDesc', 'for fast front-ends')],
+        ['Node.js / FastAPI', t('uses.nodeDesc', 'for APIs')],
+      ],
+    },
+    {
+      title: t('uses.cloudTitle', 'Cloud & Tools'),
+      items: [
+        ['AWS + Firebase', t('uses.awsDesc', 'hosting & infra')],
+        ['Docker', t('uses.dockerDesc', 'containers')],
+        ['OpenAI API', t('uses.openaiDesc', 'powering the AI features on this site')],
+      ],
+    },
+    {
+      title: t('uses.hardwareTitle', 'Hardware'),
+      items: [
+        ['Laptop', t('uses.laptopDesc', 'daily work machine')],
+        ['Monitor / peripherals', t('uses.monitorDesc', 'external screen & inputs')],
+      ],
+    },
+  ];
+
   return (
     <section className="nowuses-page section section-lg">
       <div className="container nowuses-inner">
         <div className="section-title" style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
-          <h2>Uses</h2>
-          <p style={{ margin: 0 }}>The tools, gear, and software I use day to day.</p>
+          <h2>{t("uses.title", "Uses")}</h2>
+          <p style={{ margin: 0 }}>{t("uses.subtitle", "The tools, gear, and software I use day to day.")}</p>
         </div>
 
-        {BLOCKS.map((b) => (
+        {blocks.map((b) => (
           <div className="nowuses-block" key={b.title}>
             <h3><span className="dot" /> {b.title}</h3>
             <ul className="nowuses-list">
@@ -56,7 +58,7 @@ export default function Uses() {
         ))}
 
         <p style={{ color: 'var(--muted-foreground)', fontSize: '0.85rem' }}>
-          Inspired by <a href="https://uses.tech" target="_blank" rel="noopener noreferrer">uses.tech</a>.
+          {t("uses.inspiredBy", "Inspired by")} <a href="https://uses.tech" target="_blank" rel="noopener noreferrer">uses.tech</a>.
         </p>
       </div>
     </section>

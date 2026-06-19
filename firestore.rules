@@ -83,6 +83,12 @@ service cloud.firestore {
       allow write: if isOwner();
     }
 
+    // TELEMETRY STATS — anyone can record metrics; only the owner can read/manage.
+    match /stats/{id} {
+      allow create, update: if true;
+      allow read, delete: if isOwner();
+    }
+
     // Everything else: locked down by default.
     match /{document=**} {
       allow read, write: if false;

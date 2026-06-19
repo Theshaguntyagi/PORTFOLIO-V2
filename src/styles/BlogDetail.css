@@ -889,3 +889,70 @@
   margin-bottom: 0.2rem;
 }
 .comment-reply p { margin: 0; font-size: 0.92rem; line-height: 1.5; color: var(--foreground, #fff); }
+
+/* ==============================================
+   SHARE BUTTON GROUP STYLING
+   ============================================== */
+.share-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.share-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none !important;
+  border: none !important;
+  padding: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.share-icon-btn.x-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.light-theme .share-icon-btn.x-btn {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.share-icon-btn.x-btn:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.share-icon-btn.linkedin-btn {
+  background: rgba(10, 102, 194, 0.15);
+  color: #0a66c2;
+  border: 1px solid rgba(10, 102, 194, 0.25) !important;
+}
+
+.share-icon-btn.linkedin-btn:hover {
+  background: #0a66c2 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(10, 102, 194, 0.4);
+}
+
+.share-icon-btn.copy-btn {
+  background: rgba(124, 58, 237, 0.15);
+  color: #7c3aed;
+  border: 1px solid rgba(124, 58, 237, 0.25) !important;
+}
+
+.share-icon-btn.copy-btn:hover {
+  background: #7c3aed !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}

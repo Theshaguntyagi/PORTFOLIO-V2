@@ -34,6 +34,10 @@ const ROUTE_META = {
     title: `Contact ${NAME} | AI/ML Engineer for Hire`,
     desc: "Get in touch with Shagun Tyagi for AI/ML consulting, freelance projects, or full-time opportunities. Based in Noida, India. Open to remote work.",
   },
+  "/analytics": {
+    title: `Live Portfolio Analytics | ${NAME}`,
+    desc: "Real-time observation and observability metrics dashboard for Shagun Tyagi's portfolio site. Live database counters and SVG telemetry charts.",
+  },
   "/now": {
     title: `Now | ${NAME}`,
     desc: "What Shagun Tyagi is focused on right now — current role at Envigo, ongoing MBA, open-source builds, and availability for consulting.",

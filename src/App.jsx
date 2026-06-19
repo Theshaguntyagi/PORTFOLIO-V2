@@ -33,6 +33,7 @@ const CommandPalette = lazy(() => import("./components/CommandPalette"));
 import SEO from "./components/SEO";
 import { getSeoMeta } from "./data/seoMeta";
 import { trackPageView } from "./analytics";
+import { trackVisitor } from "./services/telemetry";
 
 import "./index.css";
 
@@ -43,6 +44,7 @@ function App() {
   // GA4 SPA page view on every route change (no-op until VITE_GA_ID set).
   useEffect(() => {
     trackPageView(location.pathname);
+    trackVisitor(); // Custom Firestore session telemetry tracker
   }, [location.pathname]);
 
   // Active/Inactive tab title dynamic effect
@@ -51,6 +53,7 @@ function App() {
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
+        if (timeoutId) clearTimeout(timeoutId);
         document.title = "come back 😩";
       } else {
         document.title = "welcome back 😊";
@@ -59,6 +62,12 @@ function App() {
         }, 2000);
       }
     };
+
+    if (document.hidden) {
+      document.title = "come back 😩";
+    } else {
+      document.title = seo.title;
+    }
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
 

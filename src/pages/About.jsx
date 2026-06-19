@@ -1,15 +1,18 @@
 import React from "react";
 import { GraduationCap, Calendar, MapPin, Trophy, Award } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { education } from "../data/education";
 import { skills } from "../data/skills";
 import { achievements } from "../data/achievements";
 import { certifications } from "../data/certifications";
 import { Link } from "react-router-dom";
+import { getLocal } from "../utils/translate";
 
 import "../styles/About.css";
 
 export default function About() {
+  const { t, i18n } = useTranslation();
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -17,13 +20,27 @@ export default function About() {
     e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
   };
 
+  const getLocalizedSkillCategory = (key) => {
+    const mappings = {
+      "Languages & Core": t("about.languagesAndCore", "Languages & Core"),
+      "AI / GenAI": t("about.aiGenAi", "AI / GenAI"),
+      "Machine Learning & Computer Vision": t("about.mlCv", "Machine Learning & Computer Vision"),
+      "Backend Development": t("about.backend", "Backend Development"),
+      "Automation & Data Extraction": t("about.automation", "Automation & Data Extraction"),
+      "Databases": t("about.databases", "Databases"),
+      "Cloud & DevOps": t("about.devops", "Cloud & DevOps"),
+      "IoT & Embedded Systems": t("about.iot", "IoT & Embedded Systems"),
+    };
+    return mappings[key] || key;
+  };
+
   return (
     <section className="about">
 
       {/* HEADER */}
       <div className="about-header"><br></br>
-        <h1>About Me</h1>
-        <p>Get to know more about my background and skills</p>
+        <h1>{t("about.title")}</h1>
+        <p>{t("about.subtitle")}</p>
       </div>
 
       {/* GRID */}
@@ -32,50 +49,17 @@ export default function About() {
         {/* LEFT */}
         <div className="left">
 
-          <h2>Who I Am</h2>
+          <h2>{t("about.whoIAm")}</h2>
           <div className="card">
-            <p>
-               I'm Shagun Tyagi, an AI/ML Engineer based in Noida, India, specializing in
-               LLM agents, Retrieval-Augmented Generation (RAG) systems, and production-grade
-               ML pipelines. I don't build demos — I build systems that scale.
-            </p>
-            <p>Currently at <strong>Envigo (Gurugram)</strong>, I architect end-to-end ML
-            pipelines on AWS and Azure powering an AI-driven SEO intelligence platform —
-            ingesting client data, running LangChain-based LLM agent workflows, and
-            surfacing actionable recommendations at scale. I own the full ML lifecycle:
-            from model training and Docker containerization to cloud deployment and
-            continuous monitoring.
-            </p>
-            <p>
-              Before Envigo, I was a <strong>Software Engineer at Airtel</strong>, where I
-              designed and deployed FastAPI microservices that cut API response latency by
-              ~30%, built Python automation pipelines that eliminated 10+ hours/week of
-              manual ops, and engineered real-time data pipelines feeding dashboards used
-              daily by analytics and ML teams.
-            </p>
-            <p>
-              Beyond my day job, I've shipped projects across computer vision (facial
-              recognition with ArcFace), browser automation and lead generation (Playwright
-              + OpenAI), enterprise RAG chatbots (LangChain + FAISS + ChromaDB), and
-              full-stack AI products (React 19 + Firebase + Gemini AI). My work spans the
-              full stack — from WebGL in the browser to ML models in Docker on AWS.
-            </p>
-            <p>
-              I'm also a <strong>published researcher</strong> — my work on ECG/PPG-based
-              IoT health monitoring was published in the International Journal of Science
-              and Research Archive (IJSRA), Vol. 12, No. 1, 2024
-              (DOI: 10.30574/ijsra.2024.12.1.0781).
-            </p>
-            <p>
-              Academically, I hold a <strong>B.Tech in Computer Science Engineering
-              (IoT)</strong> from MIET with a CGPA of 8.4/10, and I'm currently pursuing
-              an <strong>MBA at Chandigarh University</strong> (expected Dec 2027) — because
-              I believe the best engineers understand business outcomes, not just accuracy
-              benchmarks.
-            </p>
-            </div>
+            <p>{t("about.bio_p1")}</p>
+            <p>{t("about.bio_p2")}</p>
+            <p>{t("about.bio_p3")}</p>
+            <p>{t("about.bio_p4")}</p>
+            <p>{t("about.bio_p5")}</p>
+            <p>{t("about.bio_p6")}</p>
+          </div>
 
-          <h2>Education</h2>
+          <h2>{t("about.education")}</h2>
 
           {education.map((edu, i) => (
             <div key={i} className="card edu-card" onMouseMove={handleMouseMove}>
@@ -86,15 +70,15 @@ export default function About() {
                 </div>
 
                 <div>
-                  <h3>{edu.title}</h3>
-                  <p>{edu.institute}</p>
+                  <h3>{getLocal(edu, 'title', i18n.language)}</h3>
+                  <p>{getLocal(edu, 'institute', i18n.language)}</p>
 
                   <div className="edu-meta">
                     <span><Calendar size={12}/> {edu.duration}</span>
                     {edu.location && (
-                      <span><MapPin size={12}/> {edu.location}</span>
+                      <span><MapPin size={12}/> {getLocal(edu, 'location', i18n.language)}</span>
                     )}
-                    {edu.extra && <span>{edu.extra}</span>}
+                    {edu.extra && <span>{getLocal(edu, 'extra', i18n.language)}</span>}
                   </div>
                 </div>
 
@@ -107,11 +91,11 @@ export default function About() {
         {/* RIGHT */}
         <div className="right">
 
-          <h2>Skills</h2>
+          <h2>{t("about.skills")}</h2>
 
           {Object.entries(skills).map(([key, items], i) => (
             <div key={i} className="card skill-box" onMouseMove={handleMouseMove}>
-              <h4>{key}</h4>
+              <h4>{getLocalizedSkillCategory(key)}</h4>
               <div className="tags">
                 {items.map((item, idx) => (
                   <span key={idx}>{item}</span>
@@ -127,14 +111,14 @@ export default function About() {
 
       {/* ACHIEVEMENTS */}
       <div className="achievements">
-        <h2><Trophy size={18}/> Achievements</h2>
+        <h2><Trophy size={18}/> {t("about.achievements")}</h2>
 
         <div className="ach-grid">
           {achievements.map((a, i) => (
             <div key={i} className="card ach-card">
               <Trophy size={16}/>
               <h3>{a.title}</h3>
-              <p>{a.subtitle}</p>
+              <p>{getLocal(a, 'subtitle', i18n.language)}</p>
             </div>
           ))}
         </div>
@@ -142,16 +126,16 @@ export default function About() {
 
       {/* CERTIFICATIONS */}
       <div className="certifications">
-        <h2><Award size={18}/> Certifications</h2>
+        <h2><Award size={18}/> {t("about.certifications")}</h2>
 
         <div className="cert-grid">
           {certifications.map((c, i) => (
             <div key={i} className="card cert-card">
               <Award size={16}/>
               <h3>{c.title}</h3>
-              <p>{c.subtitle}</p>
+              <p>{getLocal(c, 'description', i18n.language)}</p>
               <Link to={`/certificate/${c.id}`} className="btn">
-                View Details
+                {t("about.viewDetails")}
               </Link>
             </div>
           ))}

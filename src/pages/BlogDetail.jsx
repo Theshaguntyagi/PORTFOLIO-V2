@@ -3,12 +3,21 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc, updateDoc, increment } from 'firebase/firestore';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Clock, Share2, Eye, Heart, Sparkles, List } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Share2, Eye, Heart, Sparkles, List, Linkedin, Link } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import ReactMarkdown from 'react-markdown';
 import { db } from '../firebase';
 import { geminiGenerate, geminiConfigured } from '../services/api';
 import BlogComments from '../components/BlogComments';
 import '../styles/BlogDetail.css';
+
+const XIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ verticalAlign: 'middle' }}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 const slugify = (s) =>
   String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -318,22 +327,47 @@ const BlogDetail = () => {
               >
                 <Heart size={16} fill={liked ? 'currentColor' : 'none'} /> {likes}
               </motion.button>
-              <motion.button
-                className="share-btn"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label="Share this post"
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: blog.title,
-                      url: window.location.href
-                    });
-                  }
-                }}
-              >
-                <Share2 size={16} />
-              </motion.button>
+              <div className="share-group">
+                <motion.a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(blog.title)}&url=${encodeURIComponent(window.location.href)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="share-icon-btn x-btn"
+                  whileHover={{ scale: 1.15, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label="Share on X"
+                >
+                  <XIcon />
+                </motion.a>
+                <motion.a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="share-icon-btn linkedin-btn"
+                  whileHover={{ scale: 1.15, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label="Share on LinkedIn"
+                >
+                  <Linkedin size={14} />
+                </motion.a>
+                <motion.button
+                  className="share-icon-btn copy-btn"
+                  whileHover={{ scale: 1.15, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(window.location.href);
+                      toast.success("Link copied to clipboard! 📋");
+                    } catch {
+                      toast.error("Failed to copy link.");
+                    }
+                  }}
+                  aria-label="Copy post link"
+                  type="button"
+                >
+                  <Link size={14} />
+                </motion.button>
+              </div>
             </motion.div>
           </motion.header>
 
@@ -394,6 +428,23 @@ const BlogDetail = () => {
               components={{
                 h2: ({ children }) => <h2 id={slugify(childText(children))}>{children}</h2>,
                 h3: ({ children }) => <h3 id={slugify(childText(children))}>{children}</h3>,
+                code(props) {
+                  const { children, className, node, ...rest } = props;
+                  const match = /language-(\w+)/.exec(className || '');
+                  return match ? (
+                    <SyntaxHighlighter
+                      {...rest}
+                      PreTag="div"
+                      children={String(children).replace(/\n$/, '')}
+                      language={match[1]}
+                      style={oneDark}
+                    />
+                  ) : (
+                    <code {...rest} className={className}>
+                      {children}
+                    </code>
+                  );
+                }
               }}
             >
               {blog.readMoreContent || ''}

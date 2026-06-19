@@ -218,6 +218,102 @@ const api = {
       if (!res.ok) throw new Error(`Chat request failed (${res.status})`);
       return res.json(); // { message }
     },
+    // completeStream: streams response token by token
+    completeStream: async (messages, context, onChunk) => {
+      const geminiKey = getGeminiKey();
+
+      if (geminiKey) {
+        const model = import.meta.env.VITE_GEMINI_MODEL || 'gemini-2.5-flash';
+        const system =
+          "You are the AI assistant on Shagun Tyagi's portfolio website. " +
+          'Answer ONLY using the CONTEXT below as your single source of truth. ' +
+          "If the answer isn't in it, say you don't have that information and suggest " +
+          'emailing Shagun at theshaguntyagi@gmail.com. If the question is not about ' +
+          'Shagun or his work, politely decline in one sentence and steer the visitor ' +
+          'back to his portfolio. Be concise, friendly, and professional.\n\nCONTEXT:\n' +
+          (context || '(no portfolio data provided)');
+
+        const contents = messages
+          .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+          .slice(-12)
+          .map((m) => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: m.content.slice(0, 2000) }],
+          }));
+
+        const res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              systemInstruction: { parts: [{ text: system }] },
+              contents,
+              generationConfig: { temperature: 0.4, maxOutputTokens: 600 },
+            }),
+          }
+        );
+        if (!res.ok) throw new Error(`Gemini streaming request failed (${res.status})`);
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+
+          const lines = buffer.split('\n');
+          buffer = lines.pop(); // Keep the last incomplete line
+
+          for (const line of lines) {
+            const cleanLine = line.trim();
+            if (cleanLine.startsWith('data:')) {
+              try {
+                const jsonStr = cleanLine.substring(5).trim();
+                if (jsonStr) {
+                  const parsed = JSON.parse(jsonStr);
+                  const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+                  if (text) {
+                    onChunk(text);
+                  }
+                }
+              } catch (e) {
+                // Ignore parse errors on incomplete chunks
+              }
+            }
+          }
+        }
+
+        // Parse remaining buffer
+        if (buffer.trim().startsWith('data:')) {
+          try {
+            const jsonStr = buffer.trim().substring(5).trim();
+            if (jsonStr) {
+              const parsed = JSON.parse(jsonStr);
+              const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (text) {
+                onChunk(text);
+              }
+            }
+          } catch (e) {}
+        }
+        return;
+      }
+
+      // Fallback: if Cloud Function proxy, fetch the complete text and return in a single chunk
+      const url = import.meta.env.VITE_CHAT_API_URL;
+      if (!url) throw new Error('Chat API not configured');
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages, context }),
+      });
+      if (!response.ok) throw new Error(`Chat request failed (${response.status})`);
+      const data = await response.json();
+      onChunk(data.message);
+    },
     // Resume Analyzer — uses the same base URL with the /analyze function.
     // Set VITE_ANALYZE_API_URL (the deployed analyzeResume function URL).
     analyzerConfigured: () => Boolean(import.meta.env.VITE_ANALYZE_API_URL),

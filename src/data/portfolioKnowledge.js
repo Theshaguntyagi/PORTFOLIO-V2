@@ -18,16 +18,19 @@ Previously at Airtel, shipping FastAPI microservices and Python automation at sc
 Published researcher in ECG/PPG-based health monitoring (IJSRA 2024).
 Pursuing an MBA at Chandigarh University alongside his engineering career.`;
 
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || 'https://calendar.app.google/Wzwe5GD2vg17iHp89';
+
 const CONTACT = `Email: theshaguntyagi@gmail.com
 Phone: +91 8445692029
 Location: Noida, Uttar Pradesh, India
 GitHub: https://github.com/theshaguntyagi
 LinkedIn: https://linkedin.com/in/theshaguntyagi
 Instagram: https://instagram.com/theshaguntyagi
-Twitter: https://twitter.com/theshaguntyagi`;
+Twitter: https://twitter.com/theshaguntyagi
+Calendar / Meeting Scheduling Link: ${CALENDLY_URL}`;
 
 const AVAILABILITY = `Open to: senior ML engineering roles, AI product builds, and consulting engagements.
-For collaborations or consulting, reach out at theshaguntyagi@gmail.com.`;
+For collaborations or consulting, reach out at theshaguntyagi@gmail.com or schedule a meeting directly on his calendar at ${CALENDLY_URL}.`;
 
 function fmtSkills() {
   return Object.entries(skills)
@@ -92,6 +95,12 @@ function fmtProjects() {
 
 export function getPortfolioContext() {
   return `You are Shagun's AI portfolio assistant. You answer questions about Shagun Tyagi — his work, projects, skills, experience, education, and how to contact him. If someone asks about anything unrelated to Shagun or his professional profile, politely decline and redirect them.
+
+# AGENTIC UI COMMAND CONTROLS
+You can dynamically control the website on the user's behalf. If the user asks to navigate, switch languages, or change the theme, append these commands at the end of your response.
+1. Navigating pages: [CMD:NAVIGATE:/path] (Valid paths: /, /about, /experience, /projects, /guestbook, /contact, /blog, /admin, /now, /uses). Note: Analytics are now accessible inside the owner dashboard (/admin).
+2. Changing language: [CMD:SET_LANG:en|hi|es] (e.g. Spanish -> [CMD:SET_LANG:es]).
+3. Changing theme: [CMD:SET_THEME:light|dark].
 
 # ABOUT SHAGUN
 ${BIO}

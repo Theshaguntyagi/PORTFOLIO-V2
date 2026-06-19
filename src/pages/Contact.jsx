@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Mail,
   Phone,
@@ -17,6 +18,7 @@ import { db } from '../firebase';
 import '../styles/Contact.css';
 
 const Contact = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -48,12 +50,12 @@ const Contact = () => {
 
       // Only show success AFTER the write actually succeeds.
       setIsSubmitted(true);
-      toast.success('Message sent! I’ll get back to you soon.');
+      toast.success(t("contact.toastSuccess", "Message sent! I’ll get back to you soon."));
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (err) {
       console.error('Contact form submit failed:', err);
-      const msg = "Couldn't send your message. Please try again or email theshaguntyagi@gmail.com.";
+      const msg = t("contact.toastError", "Couldn't send your message. Please try again or email theshaguntyagi@gmail.com.");
       setSubmitError(msg);
       toast.error(msg);
     } finally {
@@ -69,13 +71,13 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: <Mail className="contact-info-icon" />,
-      title: 'Email',
+      title: t('contact.email', 'Email'),
       value: 'theshaguntyagi@gmail.com',
       link: 'mailto:theshaguntyagi@gmail.com'
     },
     {
       icon: <Phone className="contact-info-icon" />,
-      title: 'Phone',
+      title: t('contact.phone', 'Phone'),
       value: '+91 8445692029',
       link: 'tel:+918445692029'
     }
@@ -109,8 +111,8 @@ const Contact = () => {
       <div className="container">
 
         <div className="section-title">
-          <h2>Get In Touch</h2>
-          <p>Have a project in mind or want to collaborate? Feel free to reach out!</p>
+          <h2>{t("contact.title")}</h2>
+          <p>{t("contact.subtitle")}</p>
         </div>
 
         <div className="contact-grid">
@@ -158,9 +160,9 @@ const Contact = () => {
                       <div className="contact-icon-wrapper">
                         <MapPin className="contact-info-icon" />
                       </div>
-                      <h4 className="contact-title">Location</h4>
+                      <h4 className="contact-title">{t("contact.location", "Location")}</h4>
                       <p className="contact-value">
-                        Noida, India
+                        {t("contact.locationValue", "Noida, India")}
                       </p>
 
                       <a
@@ -169,7 +171,7 @@ const Contact = () => {
                         rel="noopener noreferrer"
                         className="map-link"
                       >
-                        Open in Google Maps →
+                        {t("contact.openInMaps", "Open in Google Maps →")}
                       </a>
                     </div>
                   </div>
@@ -180,7 +182,7 @@ const Contact = () => {
 
             <div className="social-links-card card">
               <div className="card-content">
-                <h4 className="social-title">Connect With Me</h4>
+                <h4 className="social-title">{t("contact.connectWithMe", "Connect With Me")}</h4>
 
                 <a
                   href={import.meta.env.VITE_CALENDLY_URL || 'mailto:theshaguntyagi@gmail.com'}
@@ -190,7 +192,7 @@ const Contact = () => {
                   style={{ width: '100%', marginBottom: '1.25rem' }}
                 >
                   <Calendar className="btn-icon-left" />
-                  <span>Book a Call</span>
+                  <span>{t("contact.bookCall", "Book a Call")}</span>
                 </a>
 
                 <div className="social-links-grid">
@@ -219,20 +221,20 @@ const Contact = () => {
                 {isSubmitted && (
                   <div className="success-message">
                     <CheckCircle className="success-icon" />
-                    <h3 className="success-title">Message Sent!</h3>
-                    <p>Thank you for reaching out. I’ll get back to you soon.</p>
+                    <h3 className="success-title">{t("contact.successTitle")}</h3>
+                    <p>{t("contact.successDesc")}</p>
                     <button
                       className="btn btn-outline"
                       onClick={() => setIsSubmitted(false)}
                     >
-                      Send Another Message
+                      {t("contact.sendAnother")}
                     </button>
                   </div>
                 )}
 
                 {!isSubmitted && (
                   <>
-                    <h3 className="form-title">Send Message</h3>
+                    <h3 className="form-title">{t("contact.sendMessage")}</h3>
 
                     {submitError && (
                       <p className="form-error" role="alert" style={{ color: '#ef4444', marginBottom: '1rem' }}>
@@ -247,7 +249,7 @@ const Contact = () => {
                       <input
                         type="text"
                         name="name"
-                        placeholder="Your Name"
+                        placeholder={t("contact.namePlaceholder", "Your Name")}
                         value={formData.name}
                         onChange={handleChange}
                         required
@@ -256,7 +258,7 @@ const Contact = () => {
                       <input
                         type="email"
                         name="email"
-                        placeholder="Your Email"
+                        placeholder={t("contact.emailPlaceholder", "Your Email")}
                         value={formData.email}
                         onChange={handleChange}
                         required
@@ -265,7 +267,7 @@ const Contact = () => {
                       <input
                         type="text"
                         name="subject"
-                        placeholder="Subject"
+                        placeholder={t("contact.subjectPlaceholder", "Subject")}
                         value={formData.subject}
                         onChange={handleChange}
                         required
@@ -274,7 +276,7 @@ const Contact = () => {
                       <textarea
                         name="message"
                         rows="5"
-                        placeholder="Your Message"
+                        placeholder={t("contact.messagePlaceholder", "Your Message")}
                         value={formData.message}
                         onChange={handleChange}
                         required
@@ -286,10 +288,10 @@ const Contact = () => {
                         className="btn btn-primary"
                       >
                         {isSubmitting ? (
-                          'Sending...'
+                          t("contact.sending")
                         ) : (
                           <>
-                            Send Message <Send className="btn-icon-right" />
+                            {t("contact.sendMessage")} <Send className="btn-icon-right" />
                           </>
                         )}
                       </button>

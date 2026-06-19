@@ -315,7 +315,7 @@
   max-width: 280px;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-radius: 50%;
+  border-radius: 24px;
   border: 3px solid rgba(168, 85, 247, 0.45);
   box-shadow:
     0 20px 55px rgba(124, 58, 237, 0.38),
@@ -452,7 +452,7 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden !important;
-    border-radius: 50%;
+    border-radius: 24px;
     box-shadow: 0 12px 40px rgba(124, 58, 237, 0.35);
     border: 3px solid rgba(168, 85, 247, 0.4);
     isolation: isolate;
@@ -783,7 +783,7 @@
   padding-bottom: 0;
 }
 .section-testimonials .testimonials-stage {
-  height: 430px;
+  height: 480px;
 }
 .section-testimonials .testimonials-nav {
   margin-top: 1rem;

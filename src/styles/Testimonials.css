@@ -17,7 +17,7 @@
 .testimonials-stage {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 540px;
 }
 
 /* Card (dynamic width/height + animated transform stay inline in JSX) */
@@ -28,12 +28,14 @@
   cursor: pointer;
   background: transparent;
   border: 2px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0.625rem;
-  padding: 2rem;
-  clip-path: polygon(50px 0%, calc(100% - 50px) 0%, 100% 50px, 100% 100%, calc(100% - 50px) 100%, 50px 100%, 0 100%, 0 0);
+  border-radius: 1.25rem;
+  padding: 2.25rem;
   backdrop-filter: blur(10px);
   color: rgb(20, 20, 30);
   z-index: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .dark-theme .testimonial-card {
@@ -75,13 +77,12 @@
 }
 
 .testimonial-author {
-  position: absolute;
-  bottom: 2rem;
-  left: 2rem;
-  right: 2rem;
+  position: static;
   font-size: 0.875rem;
   font-style: italic;
   color: #4c1d95;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .dark-theme .testimonial-author {
@@ -112,4 +113,41 @@
   border-color: #7c3aed;
   color: #7c3aed;
   background: rgba(124, 58, 237, 0.08);
+}
+
+@media (max-width: 640px) {
+  .testimonial-card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+  .testimonial-img {
+    height: 3rem;
+    width: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .testimonial-quote {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    margin-bottom: 1rem;
+  }
+  .testimonial-author {
+    font-size: 0.78rem;
+  }
+}
+
+.testimonials-empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  border-radius: 0.625rem;
+  border: 1px dashed rgba(124, 58, 237, 0.3);
+  background: rgba(124, 58, 237, 0.03);
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.light-theme .testimonials-empty-state {
+  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.02);
+  color: rgba(20, 20, 30, 0.75);
 }

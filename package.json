@@ -8,7 +8,7 @@
     "dev": "vite",
     "gen:sitemap": "node scripts/gen-sitemap.mjs",
     "prebuild": "node scripts/gen-sitemap.mjs",
-    "build": "vite build",
+    "build": "vite build && node scripts/postbuild.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
@@ -30,6 +30,7 @@
     "react-i18next": "^17.0.8",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.9.6",
+    "react-syntax-highlighter": "^16.1.1",
     "three": "^0.182.0",
     "vite-plugin-sitemap": "^0.8.2"
   },

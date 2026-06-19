@@ -21,6 +21,7 @@ import { projectsData } from '../data/projects';
 import { trackEvent } from '../analytics';
 import CountUp from '../components/CountUp';
 import MagneticButton from '../components/MagneticButton';
+import { trackProjectClick } from '../services/telemetry';
 import '../styles/Home.css';
 // The Home page reuses .project-card and .filter-btn, whose styles live in
 // Projects.css. Without this import that CSS only loads on the /projects route,
@@ -342,7 +343,10 @@ const Home = () => {
                   <Link
                     to={`/project/${project.id}`}
                     className="btn btn-primary btn-sm"
-                    onClick={() => trackEvent('view_project_details', { project: project.id })}
+                    onClick={() => {
+                      trackEvent('view_project_details', { project: project.id });
+                      trackProjectClick(project.id);
+                    }}
                   >
                     View Details <ArrowRight className="btn-icon-right" />
                   </Link>

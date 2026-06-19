@@ -19,7 +19,7 @@ const Navbar = ({ theme, toggleTheme }) => {
     { path: '/experience', label: t('nav.experience') },
     { path: '/projects', label: t('nav.projects') },
     { path: '/blog', label: t('nav.blog') },
-    { path: '/guestbook', label: 'Guestbook' },
+    { path: '/guestbook', label: t('nav.guestbook') },
     { path: '/contact', label: t('nav.contact') },
   ];
 
