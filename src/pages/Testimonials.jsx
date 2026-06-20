@@ -35,6 +35,9 @@ const TestimonialCard = ({ position, testimonial, handleMove, cardSize }) => {
         src={testimonial.imgSrc}
         alt={`Photo of ${testimonial.by.split(',')[0]}`}
         className="testimonial-img"
+        onError={(e) => {
+          e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.by || '?')}&background=7c3aed&color=fff`;
+        }}
       />
       <h3 className="testimonial-quote">"{testimonial.testimonial}"</h3>
       <p className="testimonial-author">- {testimonial.by}</p>

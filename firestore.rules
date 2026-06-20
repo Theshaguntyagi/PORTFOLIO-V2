@@ -85,8 +85,7 @@ service cloud.firestore {
 
     // TELEMETRY STATS — anyone can record metrics; only the owner can read/manage.
     match /stats/{id} {
-      allow create, update: if true;
-      allow read, delete: if isOwner();
+      allow read, write: if true;
     }
 
     // Everything else: locked down by default.

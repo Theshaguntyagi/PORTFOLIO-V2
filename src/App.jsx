@@ -22,13 +22,13 @@ const Uses = lazy(() => import("./pages/Uses"));
 const Admin = lazy(() => import("./pages/Admin"));
 const Guestbook = lazy(() => import("./pages/Guestbook"));
 
-import { ScrollProgress } from "./components/scroll-progress";
-import { ScrollToTop } from "./components/scroll-to-top";
-import { FloatingSocials } from "./components/floating-socials";
 import { SmoothScrollProvider } from "./components/smooth-scroll-provider";
 import Deferred from "./components/Deferred";
 const CursorGlow = lazy(() => import("./components/CursorGlow"));
 const CommandPalette = lazy(() => import("./components/CommandPalette"));
+const ScrollProgress = lazy(() => import("./components/scroll-progress").then(m => ({ default: m.ScrollProgress })));
+const ScrollToTop = lazy(() => import("./components/scroll-to-top").then(m => ({ default: m.ScrollToTop })));
+const FloatingSocials = lazy(() => import("./components/floating-socials").then(m => ({ default: m.FloatingSocials })));
 
 import SEO from "./components/SEO";
 import { getSeoMeta } from "./data/seoMeta";
@@ -91,9 +91,9 @@ function App() {
           link previews can crawl every route. The old 3D pre-landing splash
           hid all content behind an "Enter" interaction crawlers never make. */}
       <div style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}>
-        <ScrollProgress />
-        <FloatingSocials />
         <Suspense fallback={null}>
+          <ScrollProgress />
+          <FloatingSocials />
           <Deferred>
             <CursorGlow />
             <CommandPalette />
@@ -127,7 +127,9 @@ function App() {
           </Suspense>
         </SmoothScrollProvider>
 
-        <ScrollToTop />
+        <Suspense fallback={null}>
+          <ScrollToTop />
+        </Suspense>
       </div>
     </HelmetProvider>
   );
