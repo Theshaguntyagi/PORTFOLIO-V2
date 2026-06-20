@@ -108,6 +108,7 @@ const Projects = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="project-link-btn"
+                            aria-label={`View live site for ${getLocal(project, 'title', i18n.language)}`}
                           >
                             <ExternalLink className="link-icon" />
                           </a>
@@ -119,6 +120,7 @@ const Projects = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="project-link-btn"
+                            aria-label={`View GitHub repository for ${getLocal(project, 'title', i18n.language)}`}
                           >
                             <Github className="link-icon" />
                           </a>
@@ -195,6 +197,7 @@ const Projects = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn btn-ghost btn-icon"
+                      aria-label={`GitHub repository for ${getLocal(project, 'title', i18n.language)}`}
                     >
                       <Github className="icon-svg" />
                     </a>
@@ -206,6 +209,7 @@ const Projects = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn btn-ghost btn-icon"
+                      aria-label={`Live site for ${getLocal(project, 'title', i18n.language)}`}
                     >
                       <ExternalLink className="icon-svg" />
                     </a>

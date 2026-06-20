@@ -3,11 +3,11 @@ import { Github, Linkedin, Mail, Instagram, Twitter,} from "lucide-react";
 import "../styles/global.css";
 
 const socials = [
-  { icon: <Github size={18} />, url: "https://github.com/theshaguntyagi" },
-  { icon: <Linkedin size={18} />, url: "https://linkedin.com/in/theshaguntyagi" },
-  { icon: <Instagram size={18} />, url: "https://instagram.com/theshaguntyagi" },
-  { icon: <Twitter size={18} />, url: "https://twitter.com/theshaguntyagi" },
-  { icon: <Mail size={18} />, url: "mailto:theshaguntyagi@gmail.com" },
+  { icon: <Github size={18} />, url: "https://github.com/theshaguntyagi", label: "GitHub Profile" },
+  { icon: <Linkedin size={18} />, url: "https://linkedin.com/in/theshaguntyagi", label: "LinkedIn Profile" },
+  { icon: <Instagram size={18} />, url: "https://instagram.com/theshaguntyagi", label: "Instagram Profile" },
+  { icon: <Twitter size={18} />, url: "https://twitter.com/theshaguntyagi", label: "Twitter Profile" },
+  { icon: <Mail size={18} />, url: "mailto:theshaguntyagi@gmail.com", label: "Send Email" },
 ];
 
 export function FloatingSocials() {
@@ -20,6 +20,7 @@ export function FloatingSocials() {
           target="_blank"
           whileHover={{ scale: 1.1 }}
           className="floating-social-btn"
+          aria-label={s.label}
         >
           {s.icon}
         </Motion.a>

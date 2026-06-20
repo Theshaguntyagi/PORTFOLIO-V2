@@ -1,14 +1,14 @@
-import leadgenAi from '../assets/projects/LEADGEN.png';
-import codebook from '../assets/projects/CODEBOOK.png';
-import icd10 from '../assets/projects/ICD-10.png';
-import catchmaster from '../assets/projects/CATCHMASTER.png';
-import chatbot from '../assets/projects/CHATBOT.png';
-import faceguard from '../assets/projects/FACEGUARD.png';
-import health from '../assets/projects/HEALTH.png';
-import mario from '../assets/projects/MARIO.png';
-import PITCHIQ from '../assets/projects/PITCHIQ.png';
-import Snake from '../assets/projects/SNAKE.png';
-import Portfolio from '../assets/projects/PORTFOLIO.png';
+import leadgenAi from '../assets/projects/LEADGEN.webp';
+import codebook from '../assets/projects/CODEBOOK.webp';
+import icd10 from '../assets/projects/ICD-10.webp';
+import catchmaster from '../assets/projects/CATCHMASTER.webp';
+import chatbot from '../assets/projects/CHATBOT.webp';
+import faceguard from '../assets/projects/FACEGUARD.webp';
+import health from '../assets/projects/HEALTH.webp';
+import mario from '../assets/projects/MARIO.webp';
+import PITCHIQ from '../assets/projects/PITCHIQ.webp';
+import Snake from '../assets/projects/SNAKE.webp';
+import Portfolio from '../assets/projects/PORTFOLIO.webp';
 
 export const projectsData = [
   {

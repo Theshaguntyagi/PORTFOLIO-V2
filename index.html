@@ -16,8 +16,10 @@
   })(window.location);
 </script>
 
-<!-- Viewport -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Security Headers (CSP Client-Side Protection) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https://*.firebaseapp.com;" />
 
 <!-- Title (CTR optimized, not keyword spam) -->
 <title>Shagun Tyagi | AI/ML Engineer </title>
@@ -42,24 +44,29 @@
 <meta property="og:title" content="Shagun Tyagi | AI/ML Engineer" />
 <meta property="og:description" content="Building intelligent systems, scalable APIs, and cloud-native applications." />
 <meta property="og:url" content="https://shaguntyagi.tech/" />
-<meta property="og:image" content="https://shaguntyagi.tech/profile.png" />
+<meta property="og:image" content="https://shaguntyagi.tech/profile.webp" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Shagun Tyagi | AI/ML Engineer" />
 <meta name="twitter:description" content="AI/ML Engineer & Full Stack Developer portfolio." />
-<meta name="twitter:image" content="https://shaguntyagi.tech/profile.png" />
+<meta name="twitter:image" content="https://shaguntyagi.tech/profile.webp" />
 
 <!-- Performance -->
+<link rel="preload" as="image" href="profile.webp" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'" />
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" />
+</noscript>
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
 <!-- PWA / installable -->
 <link rel="manifest" href="site.webmanifest" />
-<link rel="apple-touch-icon" href="profile.png" />
+<link rel="apple-touch-icon" href="profile.webp" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-title" content="Shagun Tyagi" />
 
@@ -72,7 +79,7 @@
  "@type": "Person",
  "name": "Shagun Tyagi",
  "url": "https://shaguntyagi.tech",
- "image": "https://shaguntyagi.tech/profile.png",
+ "image": "https://shaguntyagi.tech/profile.webp",
  "jobTitle": "AI/ML Engineer",
  "worksFor": {
    "@type": "Organization",

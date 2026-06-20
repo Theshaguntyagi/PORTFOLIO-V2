@@ -12,7 +12,7 @@ export default function SEO({
   title = DEFAULT_TITLE,
   desc = DEFAULT_DESC,
   path = "/",
-  image = "/profile.png", // existing asset (was /images/og-image.jpg → 404)
+  image = "/profile.webp", // existing asset (was /images/og-image.jpg → 404)
   type = "website",
 }) {
   const url = BASE + path;
@@ -45,7 +45,7 @@ export default function SEO({
             "@type": "Person",
             "name": "Shagun Tyagi",
             "url": "https://shaguntyagi.tech",
-            "image": "https://shaguntyagi.tech/profile.png",
+            "image": "https://shaguntyagi.tech/profile.webp",
             "jobTitle": "AI/ML Engineer",
             "worksFor": {
               "@type": "Organization",

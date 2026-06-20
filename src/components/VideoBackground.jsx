@@ -19,6 +19,7 @@ const VideoBackground = ({ theme }) => {
         className="video-bg"
       >
         <source src={videoSrc} type="video/mp4" />
+        <track kind="captions" src={`${import.meta.env.BASE_URL}captions.vtt`} srclang="en" label="English" default />
       </video>
 
       {/* 🎨 COLOR GRADE */}

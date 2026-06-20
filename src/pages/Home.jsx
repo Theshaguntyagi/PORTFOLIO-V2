@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion as Motion, useInView } from 'framer-motion';
@@ -16,7 +16,6 @@ import {
   Star
 } from 'lucide-react';
 
-import Testimonials from './Testimonials';       // ← your existing stacked-card component
 import { projectsData } from '../data/projects';
 import { trackEvent } from '../analytics';
 import CountUp from '../components/CountUp';
@@ -29,6 +28,8 @@ import '../styles/Home.css';
 // ("loads then fixes itself"). Importing it here loads the styles with Home.
 import '../styles/Projects.css';
 import AvailabilityBadge from '../components/AvailabilityBadge';
+
+const Testimonials = lazy(() => import('./Testimonials'));
 
 
 /* ─────────────────────────────────────────────────────────────
@@ -194,10 +195,14 @@ const Home = () => {
             >
               <div className="profile-image-wrapper">
                 <img
-                  src={`${import.meta.env.BASE_URL}profile.png`}
+                  src={`${import.meta.env.BASE_URL}profile.webp`}
                   alt="Portrait of Shagun Tyagi, AI/ML Engineer"
                   className="profile-image"
+                  width="500"
+                  height="500"
                   loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
               </div>
             </Motion.div>
@@ -299,12 +304,24 @@ const Home = () => {
                     <div className="project-overlay">
                       <div className="project-links">
                         {project.liveUrl && (
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-link-btn">
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-link-btn"
+                            aria-label={`View live site for ${project.title}`}
+                          >
                             <ExternalLink className="link-icon" />
                           </a>
                         )}
                         {project.githubUrl && (
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-link-btn">
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-link-btn"
+                            aria-label={`View GitHub repository for ${project.title}`}
+                          >
                             <Github className="link-icon" />
                           </a>
                         )}
@@ -351,7 +368,13 @@ const Home = () => {
                     View Details <ArrowRight className="btn-icon-right" />
                   </Link>
                   {project.githubUrl && (
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-icon">
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-ghost btn-icon"
+                      aria-label={`GitHub repository for ${project.title}`}
+                    >
                       <Github className="icon-svg" />
                     </a>
                   )}
@@ -444,7 +467,9 @@ const Home = () => {
         </div>
 
         {/* Your existing stacked-card carousel drops in here untouched */}
-        <Testimonials />
+        <Suspense fallback={<div className="testimonials-loading" style={{ minHeight: '300px' }} />}>
+          <Testimonials />
+        </Suspense>
       </section>
     </div>
   );
