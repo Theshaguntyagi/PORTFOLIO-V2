@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Mail, Send } from 'lucide-react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import toast from 'react-hot-toast';
-import { db } from '../firebase';
 import '../styles/Newsletter.css';
 
 export default function Newsletter() {
@@ -16,6 +14,8 @@ export default function Newsletter() {
     if (!valid || busy) return;
     setBusy(true);
     try {
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+      const { db } = await import('../firebase');
       await addDoc(collection(db, 'newsletter'), {
         email: email.trim().toLowerCase(),
         createdAt: serverTimestamp(),

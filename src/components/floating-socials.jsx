@@ -1,4 +1,3 @@
-import { motion as Motion } from "framer-motion";
 import { Github, Linkedin, Mail, Instagram, Twitter,} from "lucide-react";
 import "../styles/global.css";
 
@@ -14,16 +13,16 @@ export function FloatingSocials() {
   return (
     <div className="floating-socials">
       {socials.map((s, i) => (
-        <Motion.a
+        <a
           key={i}
           href={s.url}
           target="_blank"
-          whileHover={{ scale: 1.1 }}
+          rel="noopener noreferrer"
           className="floating-social-btn"
           aria-label={s.label}
         >
           {s.icon}
-        </Motion.a>
+        </a>
       ))}
 
       <div className="floating-social-line" />

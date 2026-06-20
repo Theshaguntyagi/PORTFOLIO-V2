@@ -292,9 +292,24 @@ export default function Admin() {
                 {pendingT.length === 0 && <p className="admin-empty">No pending recommendations.</p>}
                 {pendingT.map((t) => (
                   <div key={t.id} className="admin-card">
-                    <div className="admin-card-head">
-                      <strong>{t.name}</strong>
-                      {t.role && <span className="admin-card-role">{t.role}</span>}
+                    <div className="admin-card-head" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      {t.avatar && (
+                        <img
+                          src={t.avatar}
+                          alt={`${t.name}'s Avatar`}
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                            border: '1px solid rgba(124, 58, 237, 0.3)'
+                          }}
+                        />
+                      )}
+                      <div style={{ flexGrow: 1 }}>
+                        <strong>{t.name}</strong>
+                        {t.role && <span className="admin-card-role">{t.role}</span>}
+                      </div>
                       <span className="admin-card-date">{fmtDate(t.createdAt)}</span>
                     </div>
                     <p className="admin-card-msg">"{t.message}"</p>
@@ -309,8 +324,23 @@ export default function Admin() {
                 </h3>
                 <ul className="admin-list">
                   {testimonials.filter((t) => t.approved).map((t) => (
-                    <li key={t.id}>
-                      <span>{t.name} — "{(t.message || '').slice(0, 50)}…"</span>
+                    <li key={t.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        {t.avatar && (
+                          <img
+                            src={t.avatar}
+                            alt={`${t.name}'s Avatar`}
+                            style={{
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '50%',
+                              objectFit: 'cover',
+                              border: '1px solid rgba(124, 58, 237, 0.3)'
+                            }}
+                          />
+                        )}
+                        <span>{t.name} — "{(t.message || '').slice(0, 50)}…"</span>
+                      </div>
                       <button className="admin-del" onClick={() => del('testimonials', t.id, 'recommendation')}><Trash2 size={15} /></button>
                     </li>
                   ))}

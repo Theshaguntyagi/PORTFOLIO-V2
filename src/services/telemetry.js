@@ -1,6 +1,3 @@
-import { doc, setDoc, getDoc, collection, getCountFromServer, increment } from 'firebase/firestore';
-import { db } from '../firebase';
-
 function getTodayString() {
   const d = new Date();
   const year = d.getFullYear();
@@ -12,6 +9,8 @@ function getTodayString() {
 export const trackChatbotQuery = async () => {
   try {
     const today = getTodayString();
+    const { doc, setDoc, increment } = await import('firebase/firestore');
+    const { db } = await import('../firebase');
     await setDoc(
       doc(db, 'stats', 'global'),
       {
@@ -29,6 +28,8 @@ export const trackProjectClick = async (projectId) => {
   if (!projectId) return;
   try {
     const safeId = projectId.replace(/\./g, '_');
+    const { doc, setDoc, increment } = await import('firebase/firestore');
+    const { db } = await import('../firebase');
     await setDoc(
       doc(db, 'stats', 'global'),
       {
@@ -44,6 +45,8 @@ export const trackProjectClick = async (projectId) => {
 export const trackLanguageChange = async (lang) => {
   if (!lang) return;
   try {
+    const { doc, setDoc, increment } = await import('firebase/firestore');
+    const { db } = await import('../firebase');
     await setDoc(
       doc(db, 'stats', 'global'),
       {
@@ -57,27 +60,37 @@ export const trackLanguageChange = async (lang) => {
 };
 
 export const trackVisitor = async () => {
-  try {
-    const isNewSession = !sessionStorage.getItem('portfolio_session_tracked');
-    const updateData = {
-      pageViews: increment(1),
-    };
-    if (isNewSession) {
-      sessionStorage.setItem('portfolio_session_tracked', 'true');
-      updateData.visitorCount = increment(1);
+  const run = async () => {
+    try {
+      const isNewSession = !sessionStorage.getItem('portfolio_session_tracked');
+      const { doc, setDoc, increment } = await import('firebase/firestore');
+      const { db } = await import('../firebase');
+      const updateData = {
+        pageViews: increment(1),
+      };
+      if (isNewSession) {
+        sessionStorage.setItem('portfolio_session_tracked', 'true');
+        updateData.visitorCount = increment(1);
+      }
+      await setDoc(
+        doc(db, 'stats', 'global'),
+        updateData,
+        { merge: true }
+      );
+    } catch (e) {
+      console.warn('Telemetry: trackVisitor failed:', e);
     }
-    await setDoc(
-      doc(db, 'stats', 'global'),
-      updateData,
-      { merge: true }
-    );
-  } catch (e) {
-    console.warn('Telemetry: trackVisitor failed:', e);
-  }
+  };
+
+  const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 3000));
+  ric(run, { timeout: 6000 });
 };
 
 export const fetchTelemetryData = async () => {
   try {
+    const { doc, getDoc, collection, getCountFromServer } = await import('firebase/firestore');
+    const { db } = await import('../firebase');
+
     const docSnap = await getDoc(doc(db, 'stats', 'global'));
     const globalData = docSnap.exists() ? docSnap.data() : {};
 
@@ -114,3 +127,4 @@ export const fetchTelemetryData = async () => {
     throw e;
   }
 };
+

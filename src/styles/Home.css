@@ -703,12 +703,13 @@
   font-weight: 500;
   color: var(--color-text, #374151);
   cursor: default;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s ease;
 }
 
 .skill-pill:hover {
   border-color: var(--color-primary, #6c63ff);
   box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.08);
+  transform: scale(1.06);
 }
 
 .skill-icon { font-size: 1.1rem; line-height: 1; }
@@ -741,6 +742,7 @@
 .achievement-badge:hover {
   border-color: var(--color-primary, #6c63ff);
   box-shadow: 0 4px 16px rgba(108, 99, 255, 0.1);
+  transform: scale(1.03);
 }
 
 .achievement-badge-icon {

@@ -296,7 +296,6 @@ const Home = () => {
                 className="project-card card"
                 variants={fadeUp}
                 custom={index}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
               >
                 {project.image && (
                   <div className="project-image-wrapper">
@@ -417,7 +416,6 @@ const Home = () => {
                 className="skill-pill"
                 variants={fadeUp}
                 custom={i}
-                whileHover={{ scale: 1.06, transition: { duration: 0.15 } }}
               >
                 <span className="skill-icon">{skill.icon}</span>
                 <span className="skill-name">{skill.name}</span>
@@ -441,7 +439,6 @@ const Home = () => {
                 className="achievement-badge"
                 variants={fadeUp}
                 custom={i}
-                whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
               >
                 <span className="achievement-badge-icon">{item.icon}</span>
                 <span className="achievement-badge-text">{item.text}</span>

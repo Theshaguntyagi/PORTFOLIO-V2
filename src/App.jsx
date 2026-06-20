@@ -92,9 +92,9 @@ function App() {
           hid all content behind an "Enter" interaction crawlers never make. */}
       <div style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}>
         <Suspense fallback={null}>
-          <ScrollProgress />
-          <FloatingSocials />
           <Deferred>
+            <ScrollProgress />
+            <FloatingSocials />
             <CursorGlow />
             <CommandPalette />
           </Deferred>

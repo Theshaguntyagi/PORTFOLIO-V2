@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase';
 import '../styles/AvailabilityBadge.css';
 
 // Live status pill. Reads settings/site { status, text } from Firestore,
@@ -16,9 +14,22 @@ export default function AvailabilityBadge() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    getDoc(doc(db, 'settings', 'site'))
-      .then((s) => s.exists() && setData(s.data()))
-      .catch(() => {});
+    const run = async () => {
+      try {
+        const [{ doc, getDoc }, { db }] = await Promise.all([
+          import('firebase/firestore'),
+          import('../firebase'),
+        ]);
+        const s = await getDoc(doc(db, 'settings', 'site'));
+        if (s.exists()) setData(s.data());
+      } catch (e) {
+        console.warn('AvailabilityBadge: fetch settings failed:', e);
+      }
+    };
+
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 2000));
+    const id = ric(run, { timeout: 4000 });
+    return () => (window.cancelIdleCallback || clearTimeout)(id);
   }, []);
 
   const status = data?.status || 'available';
