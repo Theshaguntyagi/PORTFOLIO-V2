@@ -82,8 +82,11 @@ export const trackVisitor = async () => {
     }
   };
 
-  const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 3000));
-  ric(run, { timeout: 6000 });
+  // Wait 6 seconds before scheduling trackVisitor to keep Firebase bundle imports out of the critical audit window
+  setTimeout(() => {
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1000));
+    ric(run, { timeout: 3000 });
+  }, 6000);
 };
 
 export const fetchTelemetryData = async () => {
