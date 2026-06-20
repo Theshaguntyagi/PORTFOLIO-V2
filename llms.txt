@@ -1,10 +1,15 @@
 # Shagun Tyagi
 
-AI/ML Engineer Portfolio
+> AI/ML Engineer and Full Stack Developer portfolio. Specialized in Python, IoT, and Cloud architectures, building data-driven systems and generative AI tools.
 
-Projects:
-- FaceGuard Attendance
-- Jarvis Assistant
+## Website
+- [Shagun Tyagi Portfolio](https://shaguntyagi.tech): Main website, showcasing full experience, projects, blog posts, and visitor guestbook.
 
-Website:
-https://shaguntyagi.tech
+## Key Projects
+- [FaceGuard Attendance](https://shaguntyagi.tech/project/faceguard): AI-powered face recognition classroom attendance tracking application built with Python and OpenCV.
+- [Jarvis Assistant](https://shaguntyagi.tech/project/jarvis): Voice-controlled intelligent virtual assistant integrated with API integrations and custom automation scripts.
+
+## Navigation
+- [About Me](https://shaguntyagi.tech/about): Professional background, technical competencies, and certification details.
+- [Projects Gallery](https://shaguntyagi.tech/projects): List of AI, machine learning, web dev, and IoT projects.
+- [Experience Timeline](https://shaguntyagi.tech/experience): Professional career history and research roles.
