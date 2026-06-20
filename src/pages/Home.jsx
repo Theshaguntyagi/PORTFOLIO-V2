@@ -28,6 +28,7 @@ import '../styles/Home.css';
 // ("loads then fixes itself"). Importing it here loads the styles with Home.
 import '../styles/Projects.css';
 import AvailabilityBadge from '../components/AvailabilityBadge';
+import Deferred from '../components/Deferred';
 
 const Testimonials = lazy(() => import('./Testimonials'));
 
@@ -464,9 +465,11 @@ const Home = () => {
         </div>
 
         {/* Your existing stacked-card carousel drops in here untouched */}
-        <Suspense fallback={<div className="testimonials-loading" style={{ minHeight: '300px' }} />}>
-          <Testimonials />
-        </Suspense>
+        <Deferred>
+          <Suspense fallback={<div className="testimonials-loading" style={{ minHeight: '300px' }} />}>
+            <Testimonials />
+          </Suspense>
+        </Deferred>
       </section>
     </div>
   );
