@@ -1,0 +1,10 @@
+# Shagun Tyagi
+
+AI/ML Engineer Portfolio
+
+Projects:
+- FaceGuard Attendance
+- Jarvis Assistant
+
+Website:
+https://shaguntyagi.tech
