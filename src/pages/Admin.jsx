@@ -19,6 +19,7 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import '../styles/Admin.css';
+import '../styles/BlogDetail.css';
 
 const STATUS_OPTIONS = [
   { value: 'available', label: '🟢 Available for opportunities' },
@@ -57,6 +58,7 @@ const EMPTY_BLOG = {
   author: 'Shagun Tyagi',
   publishedDate: new Date().toISOString().split('T')[0],
   updatedDate: '',
+  faq: '',
 };
 
 const slugify = (s) =>
@@ -157,6 +159,55 @@ export default function Admin() {
     });
   };
 
+  const insertMarkdown = (syntax) => {
+    const textarea = document.querySelector('.cms-markdown-textarea');
+    if (!textarea) return;
+    
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const selected = text.substring(start, end);
+    
+    let replacement = '';
+    switch(syntax) {
+      case 'bold':
+        replacement = `**${selected || 'bold text'}**`;
+        break;
+      case 'italic':
+        replacement = `*${selected || 'italic text'}*`;
+        break;
+      case 'h2':
+        replacement = `\n## ${selected || 'Heading 2'}\n`;
+        break;
+      case 'h3':
+        replacement = `\n### ${selected || 'Heading 3'}\n`;
+        break;
+      case 'link':
+        replacement = `[${selected || 'link text'}](https://example.com)`;
+        break;
+      case 'code':
+        replacement = `\`${selected || 'code snippet'}\``;
+        break;
+      case 'quote':
+        replacement = `\n> ${selected || 'quote text'}\n`;
+        break;
+      case 'list':
+        replacement = `\n- ${selected || 'list item'}\n`;
+        break;
+      default:
+        return;
+    }
+    
+    const updatedValue = text.substring(0, start) + replacement + text.substring(end);
+    setForm(prev => ({ ...prev, readMoreContent: updatedValue }));
+    
+    // Put focus back to textarea
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + replacement.length, start + replacement.length);
+    }, 50);
+  };
+
   // Image Upload Handling (resizing/compressing via Canvas)
   const handleImageChange = async (e, fieldName) => {
     const file = e.target.files[0];
@@ -192,6 +243,7 @@ export default function Admin() {
       imageAlt: post.imageAlt || '',
       imageCaption: post.imageCaption || '',
       readMoreContent: post.readMoreContent || '',
+      faq: post.faq || '',
       metaTitle: post.seo?.metaTitle || '',
       metaDescription: post.seo?.metaDescription || '',
       canonicalUrl: post.seo?.canonicalUrl || '',
@@ -498,7 +550,50 @@ export default function Admin() {
           { "@type": "ListItem", "position": 3, "name": form.title, "item": `https://shaguntyagi.tech/blog/${finalSlug}` }
         ]
       };
-      updateLogStatus('Compiling JSON-LD structured schemas', 'success', 'Generated BlogPosting, Article, and Breadcrumbs Schemas');
+
+      // Compile FAQ Schema dynamically if faq exists
+      let faqSchema = null;
+      if (form.faq && form.faq.trim()) {
+        const qaPairs = [];
+        const faqLines = form.faq.split('\n');
+        let currentQ = '';
+        let currentA = '';
+        faqLines.forEach(line => {
+          const clean = line.trim();
+          if (clean.toLowerCase().startsWith('q:') || clean.toLowerCase().startsWith('q.')) {
+            if (currentQ && currentA) {
+              qaPairs.push({ q: currentQ, a: currentA });
+            }
+            currentQ = clean.replace(/^q:?\s*/i, '').replace(/^q\.\s*/i, '');
+            currentA = '';
+          } else if (clean.toLowerCase().startsWith('a:') || clean.toLowerCase().startsWith('a.')) {
+            currentA = clean.replace(/^a:?\s*/i, '').replace(/^a\.\s*/i, '');
+          } else if (clean) {
+            if (currentA) currentA += ' ' + clean;
+            else if (currentQ) currentQ += ' ' + clean;
+          }
+        });
+        if (currentQ && currentA) {
+          qaPairs.push({ q: currentQ, a: currentA });
+        }
+
+        if (qaPairs.length > 0) {
+          faqSchema = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": qaPairs.map(pair => ({
+              "@type": "Question",
+              "name": pair.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": pair.a
+              }
+            }))
+          };
+        }
+      }
+
+      updateLogStatus('Compiling JSON-LD structured schemas', 'success', faqSchema ? 'Generated BlogPosting, Article, Breadcrumbs, and FAQ schemas' : 'Generated BlogPosting, Article, and Breadcrumbs Schemas');
 
       // Step 6: Open Graph & Twitter Social Tags
       log('Compiling Open Graph and Twitter Card tags...', 'running');
@@ -553,6 +648,7 @@ export default function Admin() {
         imageAlt: form.imageAlt.trim(),
         imageCaption: form.imageCaption.trim(),
         readMoreContent: rawMd,
+        faq: form.faq ? form.faq.trim() : '',
         seo: {
           metaTitle: form.metaTitle.trim() || form.title.trim(),
           metaDescription: form.metaDescription.trim() || form.excerpt.trim(),
@@ -583,6 +679,7 @@ export default function Admin() {
           blogPosting: blogPostingSchema,
           article: articleSchema,
           breadcrumbs: breadcrumbSchema,
+          ...(faqSchema ? { faq: faqSchema } : {})
         },
         toc: tocItems,
       };
@@ -849,6 +946,19 @@ export default function Admin() {
                                   <span>Read Time: {readTimeEst} min</span>
                                 </div>
                               </div>
+                              
+                              {/* Visual Markdown Toolbar */}
+                              <div className="cms-editor-toolbar">
+                                <button type="button" className="btn-toolbar" onClick={() => insertMarkdown('bold')} title="Bold"><b>B</b></button>
+                                <button type="button" className="btn-toolbar" onClick={() => insertMarkdown('italic')} title="Italic"><i>I</i></button>
+                                <button type="button" className="btn-toolbar" onClick={() => insertMarkdown('h2')} title="Heading 2">H2</button>
+                                <button type="button" className="btn-toolbar" onClick={() => insertMarkdown('h3')} title="Heading 3">H3</button>
+                                <button type="button" className="btn-toolbar" onClick={() => insertMarkdown('link')} title="Link">Link</button>
+                                <button type="button" className="btn-toolbar" onClick={() => insertMarkdown('code')} title="Code">Code</button>
+                                <button type="button" className="btn-toolbar" onClick={() => insertMarkdown('quote')} title="Quote">Quote</button>
+                                <button type="button" className="btn-toolbar" onClick={() => insertMarkdown('list')} title="Bullet List">List</button>
+                              </div>
+
                               <textarea
                                 name="readMoreContent"
                                 value={form.readMoreContent}
@@ -858,6 +968,23 @@ export default function Admin() {
 Use markdown syntax for headers, code snippets, lists, and images."
                                 required
                               />
+
+                              {/* FAQ Section input */}
+                              <label className="admin-field" style={{ marginTop: '0.75rem' }}>
+                                <span>FAQ List (Markdown - Q: and A: format)</span>
+                                <textarea
+                                  name="faq"
+                                  value={form.faq}
+                                  onChange={change}
+                                  className="cms-faq-textarea"
+                                  placeholder="Q: What is React?
+A: React is a JavaScript library for building user interfaces.
+
+Q: How do you handle state?
+A: You can use the useState hook."
+                                  rows={5}
+                                />
+                              </label>
                             </div>
                           )}
 
@@ -1117,7 +1244,7 @@ Use markdown syntax for headers, code snippets, lists, and images."
                                       <p className="cms-ai-empty">Select an action on the left to trigger AI assistance.</p>
                                     )}
                                   </div>
-                                  {aiOutput && !aiLoading && ['excerpt', 'metaDescription', 'tags'].includes(selectedAiFeature) && (
+                                  {aiOutput && !aiLoading && ['excerpt', 'metaDescription', 'tags', 'faq'].includes(selectedAiFeature) && (
                                     <div className="cms-ai-output-footer">
                                       <button className="btn btn-primary btn-sm" onClick={() => applyAIOutput(selectedAiFeature)}>
                                         <Check size={12} /> Apply suggestion to {selectedAiFeature}
@@ -1247,7 +1374,7 @@ Use markdown syntax for headers, code snippets, lists, and images."
                                 </div>
                               )}
 
-                              <div className="cms-preview-markdown-body">
+                              <div className="cms-preview-markdown-body blog-detail-content">
                                 <ReactMarkdown
                                   components={{
                                     h2: ({ children }) => <h2 id={slugify(childText(children))}>{children}</h2>,

@@ -12,7 +12,7 @@ const getGeminiKey = () => {
 
 export const geminiConfigured = () => Boolean(getGeminiKey());
 
-export async function geminiGenerate(prompt, system = '') {
+export async function geminiGenerate(prompt, system = '', maxTokens = 2048) {
   const key = getGeminiKey();
   if (!key) throw new Error('Gemini not configured');
   const res = await fetch(
@@ -23,7 +23,7 @@ export async function geminiGenerate(prompt, system = '') {
       body: JSON.stringify({
         ...(system ? { systemInstruction: { parts: [{ text: system }] } } : {}),
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 400 },
+        generationConfig: { temperature: 0.3, maxOutputTokens: maxTokens },
       }),
     }
   );

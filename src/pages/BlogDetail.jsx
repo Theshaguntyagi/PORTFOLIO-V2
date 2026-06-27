@@ -128,6 +128,7 @@ const BlogDetail = () => {
         if (blog.schemas.blogPosting) schemasToInject.push(blog.schemas.blogPosting);
         if (blog.schemas.article) schemasToInject.push(blog.schemas.article);
         if (blog.schemas.breadcrumbs) schemasToInject.push(blog.schemas.breadcrumbs);
+        if (blog.schemas.faq) schemasToInject.push(blog.schemas.faq);
       }
 
       if (schemasToInject.length > 0) {
@@ -597,6 +598,16 @@ const BlogDetail = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* FAQ Section */}
+          {blog.faq && (
+            <div className="blog-faq-section">
+              <h4>Frequently Asked Questions</h4>
+              <div className="blog-faq-list">
+                <ReactMarkdown>{blog.faq}</ReactMarkdown>
               </div>
             </div>
           )}

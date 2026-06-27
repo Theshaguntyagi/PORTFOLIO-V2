@@ -1404,3 +1404,65 @@
   background: rgba(0,0,0,0.02);
   border-color: rgba(0,0,0,0.08);
 }
+
+/* Markdown Editor Toolbar Styles */
+.cms-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+.light-theme .cms-editor-toolbar {
+  background: rgba(0, 0, 0, 0.05);
+}
+.btn-toolbar {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-toolbar:hover {
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border);
+}
+.light-theme .btn-toolbar:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* FAQ textarea styles */
+.cms-faq-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.cms-faq-textarea:focus {
+  border-color: #a855f7;
+}
+.light-theme .cms-faq-textarea {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.cms-markdown-textarea {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+

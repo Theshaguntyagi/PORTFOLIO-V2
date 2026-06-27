@@ -1189,3 +1189,58 @@
 .light-theme .blog-related-card h5 {
   color: #1e293b;
 }
+
+/* FAQ Section visual block */
+.blog-faq-section {
+  margin: 4rem 0 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 2.5rem;
+}
+.light-theme .blog-faq-section {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+.blog-faq-section h4 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+.light-theme .blog-faq-section h4 {
+  color: #1e293b;
+}
+
+.blog-faq-list {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.light-theme .blog-faq-list {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.blog-faq-list p {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin: 0;
+}
+.light-theme .blog-faq-list p {
+  color: #334155;
+}
+
+.blog-faq-list strong {
+  color: #a855f7;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+.blog-faq-list p:first-child strong {
+  margin-top: 0;
+}
+.light-theme .blog-faq-list strong {
+  color: #7c3aed;
+}
+
