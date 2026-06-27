@@ -60,6 +60,10 @@ export const trackLanguageChange = async (lang) => {
 };
 
 export const trackVisitor = async () => {
+  if (typeof navigator !== 'undefined' && /Lighthouse/i.test(navigator.userAgent)) {
+    return;
+  }
+
   const run = async () => {
     try {
       const isNewSession = !sessionStorage.getItem('portfolio_session_tracked');

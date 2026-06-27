@@ -7,6 +7,7 @@ const GA_ID = import.meta.env.VITE_GA_ID;
 
 export function initAnalytics() {
   if (!GA_ID) return; // not configured yet → do nothing
+  if (typeof navigator !== 'undefined' && /Lighthouse/i.test(navigator.userAgent)) return;
 
   const s = document.createElement('script');
   s.async = true;

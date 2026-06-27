@@ -36,6 +36,11 @@ const BlogDetail = () => {
   const [summary, setSummary] = useState('');
   const [summarizing, setSummarizing] = useState(false);
 
+  // New CMS states
+  const [relatedPosts, setRelatedPosts] = useState([]);
+  const [prevPost, setPrevPost] = useState(null);
+  const [nextPost, setNextPost] = useState(null);
+
   // Table of contents from the markdown's ## / ### headings.
   const toc = useMemo(() => {
     const md = blog?.readMoreContent || '';
@@ -110,6 +115,99 @@ const BlogDetail = () => {
 
     fetchBlog();
   }, [id]);
+
+  // Dynamic Metadata and JSON-LD Schema Injection
+  useEffect(() => {
+    if (blog) {
+      // Clean up previous schemas
+      const existing = document.querySelectorAll('script[data-schema="blog"]');
+      existing.forEach(el => el.remove());
+
+      const schemasToInject = [];
+      if (blog.schemas) {
+        if (blog.schemas.blogPosting) schemasToInject.push(blog.schemas.blogPosting);
+        if (blog.schemas.article) schemasToInject.push(blog.schemas.article);
+        if (blog.schemas.breadcrumbs) schemasToInject.push(blog.schemas.breadcrumbs);
+      }
+
+      if (schemasToInject.length > 0) {
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.setAttribute('data-schema', 'blog');
+        script.text = JSON.stringify(schemasToInject.length === 1 ? schemasToInject[0] : {
+          "@context": "https://schema.org",
+          "@graph": schemasToInject
+        });
+        document.head.appendChild(script);
+      }
+
+      // Update Meta Tags
+      document.title = blog.seo?.metaTitle || blog.title;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', blog.seo?.metaDescription || blog.excerpt || '');
+      
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', blog.seo?.metaTitle || blog.title);
+      
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', blog.seo?.metaDescription || blog.excerpt || '');
+      
+      const ogImg = document.querySelector('meta[property="og:image"]');
+      if (ogImg) ogImg.setAttribute('content', blog.social?.ogImage || blog.imageUrl || '');
+      
+      const twImg = document.querySelector('meta[name="twitter:image"]');
+      if (twImg) twImg.setAttribute('content', blog.social?.twitterImage || blog.imageUrl || '');
+    }
+    return () => {
+      const existing = document.querySelectorAll('script[data-schema="blog"]');
+      existing.forEach(el => el.remove());
+    };
+  }, [blog]);
+
+  // Fetch Related, Previous, and Next Articles
+  useEffect(() => {
+    const fetchRelatedAndNav = async () => {
+      if (!blog) return;
+
+      // 1. Related Posts
+      if (blog.links?.relatedArticles?.length > 0) {
+        try {
+          const fetched = await Promise.all(
+            blog.links.relatedArticles.slice(0, 3).map(async (relatedId) => {
+              const snap = await getDoc(doc(db, 'blogs', relatedId));
+              return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+            })
+          );
+          setRelatedPosts(fetched.filter(Boolean));
+        } catch (e) {
+          console.error("Failed fetching related posts:", e);
+        }
+      } else {
+        setRelatedPosts([]);
+      }
+
+      // 2. Nav Posts
+      try {
+        if (blog.links?.previousArticle) {
+          const snap = await getDoc(doc(db, 'blogs', blog.links.previousArticle));
+          if (snap.exists()) setPrevPost({ id: snap.id, ...snap.data() });
+        } else {
+          setPrevPost(null);
+        }
+
+        if (blog.links?.nextArticle) {
+          const snap = await getDoc(doc(db, 'blogs', blog.links.nextArticle));
+          if (snap.exists()) setNextPost({ id: snap.id, ...snap.data() });
+        } else {
+          setNextPost(null);
+        }
+      } catch (e) {
+        console.error("Failed fetching navigation posts:", e);
+      }
+    };
+
+    fetchRelatedAndNav();
+  }, [blog]);
 
   const handleLike = async () => {
     if (liked) return;
@@ -294,6 +392,16 @@ const BlogDetail = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
+              {blog.category && (
+                <span className="meta-badge-cat">
+                  🏷️ {blog.category}
+                </span>
+              )}
+              {blog.difficulty && (
+                <span className={`meta-badge-diff ${blog.difficulty.toLowerCase()}`}>
+                  📚 {blog.difficulty}
+                </span>
+              )}
               {blog.createdAt && (
                 <motion.span 
                   className="meta-item"
@@ -424,6 +532,11 @@ const BlogDetail = () => {
             className="blog-detail-content"
             variants={itemVariants}
           >
+            {blog.links?.seriesName && (
+              <div className="blog-series-badge">
+                📖 Part of the <b>{blog.links.seriesName}</b> series
+              </div>
+            )}
             <ReactMarkdown
               components={{
                 h2: ({ children }) => <h2 id={slugify(childText(children))}>{children}</h2>,
@@ -450,6 +563,43 @@ const BlogDetail = () => {
               {blog.readMoreContent || ''}
             </ReactMarkdown>
           </motion.div>
+
+          {/* Previous / Next Navigation */}
+          {(prevPost || nextPost) && (
+            <div className="blog-navigation-wrapper">
+              {prevPost ? (
+                <div className="blog-nav-card prev" onClick={() => navigate(`/blog/${prevPost.id}`)}>
+                  <span className="blog-nav-label">← Previous Post</span>
+                  <span className="blog-nav-title">{prevPost.title}</span>
+                </div>
+              ) : <div className="blog-nav-spacer" />}
+              
+              {nextPost ? (
+                <div className="blog-nav-card next" onClick={() => navigate(`/blog/${nextPost.id}`)}>
+                  <span className="blog-nav-label">Next Post →</span>
+                  <span className="blog-nav-title">{nextPost.title}</span>
+                </div>
+              ) : <div className="blog-nav-spacer" />}
+            </div>
+          )}
+
+          {/* Related Articles list */}
+          {relatedPosts.length > 0 && (
+            <div className="blog-related-section">
+              <h4>Related Articles</h4>
+              <div className="blog-related-grid">
+                {relatedPosts.map(post => (
+                  <div key={post.id} className="blog-related-card" onClick={() => navigate(`/blog/${post.id}`)}>
+                    {post.imageUrl && <img src={post.imageUrl} alt={post.title} />}
+                    <div className="related-card-content">
+                      <h5>{post.title}</h5>
+                      <span className="related-category">{post.category || 'Development'}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Comments */}
           <BlogComments blogId={id} />
