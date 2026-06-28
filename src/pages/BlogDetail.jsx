@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, getDoc, updateDoc, increment } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, increment, query, collection, where, limit, getDocs } from 'firebase/firestore';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, Share2, Eye, Heart, Sparkles, List, Linkedin, Link } from 'lucide-react';
@@ -87,20 +87,37 @@ const BlogDetail = () => {
         setLoading(true);
         setError(null);
 
+        let blogData = null;
+        let docRef = null;
+
+        // 1. Try fetching by Document ID
         const ref = doc(db, 'blogs', id);
         const snap = await getDoc(ref);
 
         if (snap.exists()) {
-          const blogData = { id: snap.id, ...snap.data() };
+          blogData = { id: snap.id, ...snap.data() };
+          docRef = ref;
+        } else {
+          // 2. Fallback: Try fetching by Slug
+          const q = query(collection(db, 'blogs'), where('slug', '==', id), limit(1));
+          const qSnap = await getDocs(q);
+          if (!qSnap.empty) {
+            const docSnap = qSnap.docs[0];
+            blogData = { id: docSnap.id, ...docSnap.data() };
+            docRef = docSnap.ref;
+          }
+        }
+
+        if (blogData) {
           setBlog(blogData);
           setLikes(blogData.likes || 0);
-          setLiked(localStorage.getItem(`liked-${id}`) === '1');
+          setLiked(localStorage.getItem(`liked-${blogData.id}`) === '1');
 
           // Count a view once per browser session per post.
-          const viewKey = `viewed-${id}`;
+          const viewKey = `viewed-${blogData.id}`;
           if (!sessionStorage.getItem(viewKey)) {
             sessionStorage.setItem(viewKey, '1');
-            updateDoc(ref, { views: increment(1) }).catch(() => {});
+            updateDoc(docRef, { views: increment(1) }).catch(() => {});
           }
         } else {
           setError('Blog post not found');
@@ -211,17 +228,17 @@ const BlogDetail = () => {
   }, [blog]);
 
   const handleLike = async () => {
-    if (liked) return;
+    if (liked || !blog) return;
     setLiked(true);
     setLikes((n) => n + 1);
-    localStorage.setItem(`liked-${id}`, '1');
+    localStorage.setItem(`liked-${blog.id}`, '1');
     try {
-      await updateDoc(doc(db, 'blogs', id), { likes: increment(1) });
+      await updateDoc(doc(db, 'blogs', blog.id), { likes: increment(1) });
     } catch {
       // Roll back optimistic UI if the write fails.
       setLiked(false);
       setLikes((n) => Math.max(0, n - 1));
-      localStorage.removeItem(`liked-${id}`);
+      localStorage.removeItem(`liked-${blog.id}`);
     }
   };
 
@@ -569,14 +586,14 @@ const BlogDetail = () => {
           {(prevPost || nextPost) && (
             <div className="blog-navigation-wrapper">
               {prevPost ? (
-                <div className="blog-nav-card prev" onClick={() => navigate(`/blog/${prevPost.id}`)}>
+                <div className="blog-nav-card prev" onClick={() => navigate(`/blog/${prevPost.slug || prevPost.id}`)}>
                   <span className="blog-nav-label">← Previous Post</span>
                   <span className="blog-nav-title">{prevPost.title}</span>
                 </div>
               ) : <div className="blog-nav-spacer" />}
               
               {nextPost ? (
-                <div className="blog-nav-card next" onClick={() => navigate(`/blog/${nextPost.id}`)}>
+                <div className="blog-nav-card next" onClick={() => navigate(`/blog/${nextPost.slug || nextPost.id}`)}>
                   <span className="blog-nav-label">Next Post →</span>
                   <span className="blog-nav-title">{nextPost.title}</span>
                 </div>
@@ -590,7 +607,7 @@ const BlogDetail = () => {
               <h4>Related Articles</h4>
               <div className="blog-related-grid">
                 {relatedPosts.map(post => (
-                  <div key={post.id} className="blog-related-card" onClick={() => navigate(`/blog/${post.id}`)}>
+                  <div key={post.id} className="blog-related-card" onClick={() => navigate(`/blog/${post.slug || post.id}`)}>
                     {post.imageUrl && <img src={post.imageUrl} alt={post.title} />}
                     <div className="related-card-content">
                       <h5>{post.title}</h5>
@@ -613,7 +630,7 @@ const BlogDetail = () => {
           )}
 
           {/* Comments */}
-          <BlogComments blogId={id} />
+          <BlogComments blogId={blog.id} />
 
           <motion.div 
             className="blog-detail-footer"

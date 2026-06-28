@@ -181,7 +181,7 @@ const Blog = () => {
 
                 <button
                   className="blog-read-more"
-                  onClick={() => handleReadMore(blog.id)}
+                  onClick={() => handleReadMore(blog.slug || blog.id)}
                 >
                   Read More
                   <ArrowRight size={16} />
