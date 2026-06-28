@@ -8,7 +8,8 @@ import {
   LogOut, Trash2, Plus, ShieldAlert, Mail, Newspaper, MessageSquareQuote,
   FileText, Check, CircleDot, MessageSquare, CornerDownRight, BookHeart, BarChart2,
   Edit, Eye, Settings, Globe, Sparkles, Image as ImageIcon, Calendar, ChevronRight,
-  RefreshCw, AlertCircle, CheckCircle, ArrowLeft, Loader2, Info, Share2, TrendingUp, HelpCircle
+  RefreshCw, AlertCircle, CheckCircle, ArrowLeft, Loader2, Info, Share2, TrendingUp, HelpCircle,
+  Heart
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { auth, googleProvider, db, OWNER_EMAIL } from '../firebase';
