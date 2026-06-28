@@ -116,13 +116,20 @@ export default function Admin() {
 
   const loadAll = useCallback(async () => {
     try {
-      const sortByDate = (a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+      const getMs = (dateVal) => {
+        if (!dateVal) return 0;
+        if (dateVal.seconds) return dateVal.seconds * 1000;
+        const d = new Date(dateVal);
+        return isNaN(d.getTime()) ? 0 : d.getTime();
+      };
+      const sortByDate = (a, b) => getMs(b.createdAt) - getMs(a.createdAt);
+
       const grab = async (name) =>
         (await getDocs(collection(db, name))).docs.map((d) => ({ id: d.id, ...d.data() })).sort(sortByDate);
 
       const [blogs, c, n, t, cm, gb] = await Promise.all([
-        getDocs(query(collection(db, 'blogs'), orderBy('createdAt', 'desc')))
-          .then((s) => s.docs.map((d) => ({ id: d.id, ...d.data() })))
+        getDocs(collection(db, 'blogs'))
+          .then((s) => s.docs.map((d) => ({ id: d.id, ...d.data() })).sort(sortByDate))
           .catch(() => []),
         grab('contacts').catch(() => []),
         grab('newsletter').catch(() => []),
@@ -793,7 +800,7 @@ export default function Admin() {
                     </div>
 
                     <div className="cms-list-grid">
-                      {posts.map((p) => {
+                      {posts.filter(Boolean).map((p) => {
                         const statusBadge = p.publishing?.status === 'draft' ? 'Draft' : 'Published';
                         return (
                           <div key={p.id} className="cms-post-card">
@@ -803,7 +810,7 @@ export default function Admin() {
                             </div>
                             <div className="cms-post-info">
                               <h4>{p.title}</h4>
-                              <p className="cms-post-excerpt">{(p.excerpt || '').slice(0, 90)}...</p>
+                              <p className="cms-post-excerpt">{String(p.excerpt || '').slice(0, 90)}...</p>
                               <div className="cms-post-meta">
                                 <span>🏷️ {p.category || 'Uncategorized'}</span>
                                 <span>📚 {p.difficulty || 'Beginner'}</span>

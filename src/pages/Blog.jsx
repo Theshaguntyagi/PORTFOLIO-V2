@@ -20,18 +20,21 @@ const Blog = () => {
     try {
       setLoading(true);
 
-      const q = query(
-        collection(db, 'blogs'),
-        orderBy('createdAt', 'desc')
-      );
-
-      const snapshot = await getDocs(q);
+      const snapshot = await getDocs(collection(db, 'blogs'));
       const data = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       }));
 
-      setBlogs(Array.isArray(data) ? data : []);
+      const getMs = (dateVal) => {
+        if (!dateVal) return 0;
+        if (dateVal.seconds) return dateVal.seconds * 1000;
+        const d = new Date(dateVal);
+        return isNaN(d.getTime()) ? 0 : d.getTime();
+      };
+
+      const sorted = data.sort((a, b) => getMs(b.createdAt) - getMs(a.createdAt));
+      setBlogs(Array.isArray(sorted) ? sorted : []);
     } catch (error) {
       console.error('❌ Failed to load blogs:', error);
       setBlogs([]);
