@@ -1226,16 +1226,26 @@
 .blog-faq-list p {
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
-  margin: 0;
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.blog-faq-list p:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 .light-theme .blog-faq-list p {
   color: #334155;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
 }
 
 .blog-faq-list strong {
   color: #a855f7;
-  display: inline-block;
-  margin-top: 0.5rem;
+  display: block; /* Forces answer to next line */
+  margin-bottom: 0.4rem;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 .blog-faq-list p:first-child strong {
   margin-top: 0;
