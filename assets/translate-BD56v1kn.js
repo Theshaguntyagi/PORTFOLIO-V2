@@ -1,0 +1,1 @@
+const e=(e,t,n=`en`)=>{if(!e)return``;let r=n.slice(0,2);if(r!==`en`){let n=`${t}_${r}`;if(e[n])return e[n]}return e[t]||``};export{e as t};

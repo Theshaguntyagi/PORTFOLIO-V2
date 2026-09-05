@@ -1,0 +1,1 @@
+import{a as e,i as t,r as n,s as r}from"./vendor-motion-DHpA7YRm.js";var i=r();function a(){let{scrollYProgress:r}=t(),a=n(r,[0,.02,.03],[0,0,1]);return(0,i.jsx)(e.div,{className:`scroll-progress-bar`,style:{scaleX:r,opacity:a}})}export{a as ScrollProgress};
