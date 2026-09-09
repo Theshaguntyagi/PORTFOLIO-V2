@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { projectsData } from "../data/projects";
 import { useState } from "react";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import SEO from "../components/SEO";
 import "../styles/ProjectDetail.css";
 
 export default function ProjectDetail() {
@@ -14,6 +15,17 @@ export default function ProjectDetail() {
   if (!project) return <h2>Project not found</h2>;
 
   return (
+    <>
+    <SEO
+      title={`${project.title} | Shagun Tyagi — Project Case Study`}
+      desc={project.description}
+      path={`/project/${project.id}`}
+      image={project.image}
+      breadcrumb={[
+        { name: "Projects", path: "/projects" },
+        { name: project.title, path: `/project/${project.id}` },
+      ]}
+    />
     <section className="project-detail-page">
       <div className="container">
 
@@ -179,5 +191,6 @@ export default function ProjectDetail() {
         </div>
       </div>
     </section>
+    </>
   );
 }

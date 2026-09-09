@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { motion as Motion, useReducedMotion } from 'framer-motion';
+import { motion as Motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import VideoBackground from './VideoBackground';
 import Footer from "./Footer";
@@ -90,14 +90,17 @@ const Layout = () => {
       
       <Navbar theme={theme} toggleTheme={toggleTheme} />
       <main className="main-content">
-        <Motion.div
-          key={location.pathname}
-          initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-        >
-          <Outlet />
-        </Motion.div>
+        <AnimatePresence mode="wait">
+          <Motion.div
+            key={location.pathname}
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
+            <Outlet />
+          </Motion.div>
+        </AnimatePresence>
       </main>
       <Footer />
       <Suspense fallback={null}>

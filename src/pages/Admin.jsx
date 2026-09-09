@@ -18,6 +18,7 @@ import { resizeAndCompressImage } from '../utils/image';
 import { geminiGenerate, geminiConfigured } from '../services/api';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import SEO from '../components/SEO';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import '../styles/Admin.css';
 import '../styles/BlogDetail.css';
@@ -746,6 +747,8 @@ export default function Admin() {
   ];
 
   return (
+    <>
+    <SEO title="Admin" path="/admin" noindex />
     <section className="admin-page section section-lg">
       <div className="container admin-inner">
         <div className="admin-head">
@@ -1692,5 +1695,6 @@ A: You can use the useState hook."
         )}
       </div>
     </section>
+  </>
   );
 }

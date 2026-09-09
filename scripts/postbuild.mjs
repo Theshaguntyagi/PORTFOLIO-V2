@@ -20,7 +20,11 @@ const STATIC_ROUTES = [
 
 // 2. Fetch dynamic blog posts from Firestore to generate their routes
 async function getBlogSlugs() {
-  let projectId = 'portfolio-v2-5c9c3'; // default fallback
+  // See gen-sitemap.mjs for why there's no hardcoded fallback project id —
+  // a wrong guess here silently produces zero physical routes for blog posts,
+  // which breaks the whole point of this script (200 OK static routes for
+  // crawlers), with no error surfaced anywhere.
+  let projectId = null;
   try {
     const envText = readFileSync(join(__dirname, '..', '.env'), 'utf-8');
     const match = /VITE_FIREBASE_PROJECT_ID\s*=\s*(.+)/.exec(envText);
@@ -29,6 +33,11 @@ async function getBlogSlugs() {
     }
   } catch (e) {
     // ignore
+  }
+
+  if (!projectId) {
+    console.error('✗ VITE_FIREBASE_PROJECT_ID not found — no physical blog routes will be generated.');
+    return [];
   }
 
   const slugs = [];
@@ -46,9 +55,11 @@ async function getBlogSlugs() {
           slugs.push(slug);
         }
       });
+    } else {
+      console.error(`✗ Firestore REST API returned status ${res.status} for project "${projectId}".`);
     }
   } catch (err) {
-    console.warn('⚠️ Failed to fetch blog slugs for pre-routing:', err.message);
+    console.error('✗ Failed to fetch blog slugs for pre-routing:', err.message);
   }
   return slugs;
 }

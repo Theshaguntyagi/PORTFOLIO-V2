@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { certifications } from "../data/certifications";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import SEO from "../components/SEO";
 import "../styles/CertificateDetail.css";
 
 export default function CertificateDetail() {
@@ -12,6 +13,13 @@ export default function CertificateDetail() {
   if (!cert) return <h2>Certificate not found</h2>;
 
   return (
+    <>
+    <SEO
+      title={`${cert.title} | Shagun Tyagi — Certification`}
+      desc={cert.description}
+      path={`/certificate/${cert.id}`}
+      image={cert.image}
+    />
     <section className="cert-page">
       <div className="container">
 
@@ -58,5 +66,6 @@ export default function CertificateDetail() {
         </div>
       </div>
     </section>
+    </>
   );
 }

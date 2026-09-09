@@ -58,9 +58,20 @@ const ROUTE_META = {
     title: `Research | ${NAME} — IJSRA 2024 Published Author`,
     desc: "Peer-reviewed research by Shagun Tyagi on ECG/PPG-based IoT health monitoring published in IJSRA Vol. 12, No. 1, 2024. DOI: 10.30574/ijsra.2024.12.1.0781.",
   },
+  "/guestbook": {
+    title: `Guestbook | ${NAME}`,
+    desc: "Leave a note for Shagun Tyagi — an open guestbook for visitors, collaborators, and fellow builders.",
+  },
 };
 
-// Prefix-based fallbacks for dynamic routes (e.g. /blog/:id)
+// Prefix-based fallbacks for dynamic routes (e.g. /blog/:id).
+// NOTE: these prefixes must match the actual react-router paths registered
+// in App.jsx. "/projects/" and "/certifications/" below never matched
+// anything — the real routes are singular: "project/:id" and
+// "certificate/:id" (see App.jsx <Route path="project/:id" .../> and
+// <Route path="certificate/:id" .../>). That meant every project and
+// certificate detail page silently fell through to DEFAULT_META instead of
+// getting even the generic per-type fallback title/description below.
 const DYNAMIC_META = [
   {
     prefix: "/blog/",
@@ -68,12 +79,12 @@ const DYNAMIC_META = [
     desc: "Read this article by Shagun Tyagi on LLM agents, RAG pipelines, FastAPI, LangChain, and production ML engineering.",
   },
   {
-    prefix: "/projects/",
+    prefix: "/project/",
     title: `Project | ${NAME}`,
     desc: "Project case study by Shagun Tyagi — problem, solution, tech stack, and measurable results.",
   },
   {
-    prefix: "/certifications/",
+    prefix: "/certificate/",
     title: `Certificate | ${NAME}`,
     desc: "Verified certification earned by Shagun Tyagi — AWS, Microsoft Azure, Cisco, or HackerRank.",
   },

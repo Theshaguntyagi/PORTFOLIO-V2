@@ -92,7 +92,12 @@ export default function Guestbook() {
 
   return (
     <section className="guestbook-page section section-lg">
-      <SEO title={`${t("guestbook.title")} | Shagun Tyagi`} desc={t("guestbook.subtitle")} path="/guestbook" />
+      <SEO
+        title={`${t("guestbook.title")} | Shagun Tyagi`}
+        desc={t("guestbook.subtitle")}
+        path="/guestbook"
+        breadcrumb={[{ name: "Guestbook", path: "/guestbook" }]}
+      />
       <div className="container">
         <div className="section-title">
           <h2><BookHeart size={26} style={{ verticalAlign: '-4px' }} /> {t("guestbook.title")}</h2>

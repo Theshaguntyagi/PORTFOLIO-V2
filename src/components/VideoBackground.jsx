@@ -11,9 +11,13 @@ const VideoBackground = ({ theme }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const videoSrc = theme === 'dark'
+  const videoSrcMp4 = theme === 'dark'
     ? `${import.meta.env.BASE_URL}moon1.mp4`
     : `${import.meta.env.BASE_URL}sun.mp4`;
+
+  const videoSrcWebm = theme === 'dark'
+    ? `${import.meta.env.BASE_URL}moon1.webm`
+    : `${import.meta.env.BASE_URL}sun.webm`;
 
   const posterSrc = theme === 'dark'
     ? `${import.meta.env.BASE_URL}moon-poster.jpg`
@@ -39,7 +43,8 @@ const VideoBackground = ({ theme }) => {
           playsInline
           className="video-bg"
         >
-          <source src={videoSrc} type="video/mp4" />
+          <source src={videoSrcWebm} type="video/webm" />
+          <source src={videoSrcMp4} type="video/mp4" />
           <track kind="captions" src={`${import.meta.env.BASE_URL}captions.vtt`} srcLang="en" label="English" default />
         </video>
       )}

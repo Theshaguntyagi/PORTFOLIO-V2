@@ -957,6 +957,37 @@
   box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
 }
 
+/* Code block copy button — reuses the copy-btn purple accent above, just as a
+   small pill instead of a circle so it fits inline at the top-right of a
+   fenced code block. */
+.code-block-wrapper {
+  position: relative;
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  background: rgba(124, 58, 237, 0.15);
+  color: #c4b5fd;
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  transition: all 0.2s ease;
+}
+
+.code-copy-btn:hover {
+  background: #7c3aed;
+  color: #ffffff;
+}
+
 /* ==============================================
    BLOG DETAIL NEW CMS STYLES
    ============================================== */

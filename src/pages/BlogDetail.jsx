@@ -5,8 +5,36 @@ import { doc, getDoc, updateDoc, increment, query, collection, where, limit, get
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, Share2, Eye, Heart, Sparkles, List, Linkedin, Link } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// Async-light build + explicit language registration instead of `Prism` (which
+// bundles ~200 languages, ~600KB) — this is the single biggest contributor to
+// the oversized BlogDetail chunk. Add a `SyntaxHighlighter.registerLanguage`
+// call below if a post ever needs a language not listed here.
+import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-async-light';
+import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
+import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
+import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
+import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
+import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
+import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
+import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
+import markup from 'react-syntax-highlighter/dist/esm/languages/prism/markup';
+import sql from 'react-syntax-highlighter/dist/esm/languages/prism/sql';
+import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+SyntaxHighlighter.registerLanguage('jsx', jsx);
+SyntaxHighlighter.registerLanguage('javascript', jsx);
+SyntaxHighlighter.registerLanguage('typescript', typescript);
+SyntaxHighlighter.registerLanguage('tsx', tsx);
+SyntaxHighlighter.registerLanguage('python', python);
+SyntaxHighlighter.registerLanguage('bash', bash);
+SyntaxHighlighter.registerLanguage('shell', bash);
+SyntaxHighlighter.registerLanguage('json', json);
+SyntaxHighlighter.registerLanguage('css', css);
+SyntaxHighlighter.registerLanguage('html', markup);
+SyntaxHighlighter.registerLanguage('markup', markup);
+SyntaxHighlighter.registerLanguage('sql', sql);
+SyntaxHighlighter.registerLanguage('yaml', yaml);
 import ReactMarkdown from 'react-markdown';
 import { db } from '../firebase';
 import { geminiGenerate, geminiConfigured } from '../services/api';
@@ -23,6 +51,40 @@ const slugify = (s) =>
   String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const childText = (children) =>
   React.Children.toArray(children).map((c) => (typeof c === 'string' ? c : '')).join('');
+
+// Wraps a fenced code block with a copy-to-clipboard button, reusing the same
+// visual language as the existing share/copy-link button (.share-icon-btn.copy-btn)
+// so it matches the site's established pattern rather than introducing a new one.
+const CodeBlock = ({ code, language }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      toast.error('Failed to copy code.');
+    }
+  };
+
+  return (
+    <div className="code-block-wrapper">
+      <button
+        type="button"
+        className="code-copy-btn"
+        onClick={handleCopy}
+        aria-label="Copy code"
+        title={copied ? 'Copied!' : 'Copy code'}
+      >
+        {copied ? '✓ Copied' : 'Copy'}
+      </button>
+      <SyntaxHighlighter PreTag="div" language={language} style={oneDark}>
+        {code}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -140,6 +202,8 @@ const BlogDetail = () => {
       const existing = document.querySelectorAll('script[data-schema="blog"]');
       existing.forEach(el => el.remove());
 
+      const canonicalUrl = `https://shaguntyagi.tech/blog/${blog.slug || blog.id}`;
+
       const schemasToInject = [];
       if (blog.schemas) {
         if (blog.schemas.blogPosting) schemasToInject.push(blog.schemas.blogPosting);
@@ -147,6 +211,28 @@ const BlogDetail = () => {
         if (blog.schemas.breadcrumbs) schemasToInject.push(blog.schemas.breadcrumbs);
         if (blog.schemas.faq) schemasToInject.push(blog.schemas.faq);
       }
+      // Fallback BreadcrumbList when the post wasn't authored with one in Admin.
+      if (!blog.schemas?.breadcrumbs) {
+        schemasToInject.push({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://shaguntyagi.tech/" },
+            { "@type": "ListItem", position: 2, name: "Blog", item: "https://shaguntyagi.tech/blog" },
+            { "@type": "ListItem", position: 3, name: blog.title, item: canonicalUrl },
+          ],
+        });
+      }
+      // Speakable — lets voice assistants read the title + excerpt.
+      schemasToInject.push({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        url: canonicalUrl,
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: [".blog-detail-title"],
+        },
+      });
 
       if (schemasToInject.length > 0) {
         const script = document.createElement('script');
@@ -175,10 +261,25 @@ const BlogDetail = () => {
       
       const twImg = document.querySelector('meta[name="twitter:image"]');
       if (twImg) twImg.setAttribute('content', blog.social?.twitterImage || blog.imageUrl || '');
+
+      // BUG FIX: canonical link was never updated here, so every blog post
+      // inherited the static index.html canonical (the homepage URL). That
+      // told Google every post was a duplicate of "/", which can suppress
+      // individual posts from ranking entirely. Also clear any stale
+      // noindex a previous route (e.g. /admin) may have left behind.
+      const canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (canonicalLink) canonicalLink.setAttribute('href', canonicalUrl);
+
+      const robotsMeta = document.querySelector('meta[name="robots"]');
+      if (robotsMeta) robotsMeta.setAttribute('content', 'index, follow, max-image-preview:large');
     }
     return () => {
       const existing = document.querySelectorAll('script[data-schema="blog"]');
       existing.forEach(el => el.remove());
+      // Restore the default canonical/robots so navigating away (e.g. to a
+      // page with no per-route override yet) doesn't leak this post's URL.
+      const canonicalLink = document.querySelector('link[rel="canonical"]');
+      if (canonicalLink) canonicalLink.setAttribute('href', 'https://shaguntyagi.tech/');
     };
   }, [blog]);
 
@@ -187,7 +288,10 @@ const BlogDetail = () => {
     const fetchRelatedAndNav = async () => {
       if (!blog) return;
 
-      // 1. Related Posts
+      // 1. Related Posts — manual links from Admin take priority; if none were
+      // set, fall back to an algorithmic match by shared tags (same collection,
+      // scored by tag overlap, excluding the current post), so posts published
+      // without manual linking still get related content.
       if (blog.links?.relatedArticles?.length > 0) {
         try {
           const fetched = await Promise.all(
@@ -201,7 +305,33 @@ const BlogDetail = () => {
           console.error("Failed fetching related posts:", e);
         }
       } else {
-        setRelatedPosts([]);
+        try {
+          const parseTags = (t) =>
+            typeof t === 'string' ? t.split(',').map((x) => x.trim()).filter(Boolean)
+              : Array.isArray(t) ? t : [];
+          const currentTags = parseTags(blog.tags);
+
+          if (currentTags.length > 0) {
+            const snapshot = await getDocs(collection(db, 'blogs'));
+            const scored = snapshot.docs
+              .filter((d) => d.id !== blog.id)
+              .map((d) => {
+                const data = d.data();
+                const tags = parseTags(data.tags);
+                const overlap = tags.filter((t) => currentTags.includes(t)).length;
+                return { id: d.id, ...data, __overlap: overlap };
+              })
+              .filter((p) => p.__overlap > 0)
+              .sort((a, b) => b.__overlap - a.__overlap)
+              .slice(0, 3);
+            setRelatedPosts(scored);
+          } else {
+            setRelatedPosts([]);
+          }
+        } catch (e) {
+          console.error("Failed computing algorithmic related posts:", e);
+          setRelatedPosts([]);
+        }
       }
 
       // 2. Nav Posts
@@ -563,12 +693,9 @@ const BlogDetail = () => {
                   const { children, className, node, ...rest } = props;
                   const match = /language-(\w+)/.exec(className || '');
                   return match ? (
-                    <SyntaxHighlighter
-                      {...rest}
-                      PreTag="div"
-                      children={String(children).replace(/\n$/, '')}
+                    <CodeBlock
+                      code={String(children).replace(/\n$/, '')}
                       language={match[1]}
-                      style={oneDark}
                     />
                   ) : (
                     <code {...rest} className={className}>

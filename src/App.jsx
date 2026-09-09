@@ -47,27 +47,41 @@ function App() {
     trackVisitor(); // Custom Firestore session telemetry tracker
   }, [location.pathname]);
 
-  // Active/Inactive tab title dynamic effect
+  // Active/Inactive tab title easter egg — swaps the tab title when the user
+  // switches away and back. Two bugs fixed here:
+  // 1. It used to restore `seo.title` from data/seoMeta.js, which is a
+  //    separate, generic per-route string — not necessarily what Helmet
+  //    actually rendered (e.g. BlogDetail sets a per-post title that
+  //    overrides the generic one). Restoring the stale generic title could
+  //    silently replace a correct, more specific title. Now it captures
+  //    whatever document.title actually was right before hiding, and
+  //    restores exactly that.
+  // 2. It ran unconditionally, including for headless-browser bots (link
+  //    preview scrapers for Twitter/LinkedIn/Slack/WhatsApp, some SEO
+  //    crawlers) that can render with a backgrounded/hidden tab — which
+  //    risked baking "come back 😩" into what should be the real scraped
+  //    title. Now skipped entirely for known bot user agents.
   useEffect(() => {
+    const isBot = /bot|crawl|spider|slurp|facebookexternalhit|whatsapp|telegrambot|slackbot|linkedinbot|embedly|quora|pinterest|vkshare|lighthouse|headless/i.test(
+      navigator.userAgent || ""
+    );
+    if (isBot) return undefined;
+
     let timeoutId = null;
+    let capturedTitle = document.title;
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
+        capturedTitle = document.title;
         if (timeoutId) clearTimeout(timeoutId);
         document.title = "come back 😩";
       } else {
         document.title = "welcome back 😊";
         timeoutId = setTimeout(() => {
-          document.title = seo.title;
+          document.title = capturedTitle;
         }, 2000);
       }
     };
-
-    if (document.hidden) {
-      document.title = "come back 😩";
-    } else {
-      document.title = seo.title;
-    }
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
@@ -75,7 +89,7 @@ function App() {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [seo.title]);
+  }, [location.pathname]);
 
   return (
     <HelmetProvider>
