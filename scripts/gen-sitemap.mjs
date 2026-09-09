@@ -18,6 +18,13 @@ const ROUTES = [
   { path: '/testimonials', priority: '0.6', changefreq: 'monthly' },
   { path: '/now', priority: '0.5', changefreq: 'monthly' },
   { path: '/uses', priority: '0.5', changefreq: 'yearly' },
+  { path: '/analytics', priority: '0.4', changefreq: 'daily' },
+  { path: '/colophon', priority: '0.4', changefreq: 'yearly' },
+  { path: '/links', priority: '0.5', changefreq: 'monthly' },
+  { path: '/press', priority: '0.4', changefreq: 'yearly' },
+  { path: '/speaking', priority: '0.4', changefreq: 'monthly' },
+  { path: '/changelog', priority: '0.5', changefreq: 'weekly' },
+  { path: '/start-here', priority: '0.6', changefreq: 'monthly' },
 ];
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

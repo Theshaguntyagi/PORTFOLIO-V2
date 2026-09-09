@@ -18,6 +18,13 @@ const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const CertificateDetail = lazy(() => import("./pages/CertificateDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Now = lazy(() => import("./pages/Now"));
+const PublicAnalytics = lazy(() => import("./pages/PublicAnalytics"));
+const Colophon = lazy(() => import("./pages/Colophon"));
+const Links = lazy(() => import("./pages/Links"));
+const Press = lazy(() => import("./pages/Press"));
+const Talks = lazy(() => import("./pages/Talks"));
+const Changelog = lazy(() => import("./pages/Changelog"));
+const StartHere = lazy(() => import("./pages/StartHere"));
 const Uses = lazy(() => import("./pages/Uses"));
 const Admin = lazy(() => import("./pages/Admin"));
 const Guestbook = lazy(() => import("./pages/Guestbook"));
@@ -131,6 +138,13 @@ function App() {
                 <Route path="project/:id" element={<ProjectDetail />} />
                 <Route path="contact" element={<Contact />} />
                 <Route path="now" element={<Now />} />
+                <Route path="analytics" element={<PublicAnalytics />} />
+                <Route path="colophon" element={<Colophon />} />
+                <Route path="links" element={<Links />} />
+                <Route path="press" element={<Press />} />
+                <Route path="speaking" element={<Talks />} />
+                <Route path="changelog" element={<Changelog />} />
+                <Route path="start-here" element={<StartHere />} />
                 <Route path="uses" element={<Uses />} />
                 <Route path="guestbook" element={<Guestbook />} />
                 <Route path="certificate/:id" element={<CertificateDetail />} />

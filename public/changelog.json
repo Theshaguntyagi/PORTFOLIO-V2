@@ -1,0 +1,106 @@
+[
+  {
+    "date": "2026-09-09",
+    "summary": "fix: SEO head bugs, dead assets, oversized chunks, CSP hardening"
+  },
+  {
+    "date": "2026-06-28",
+    "summary": "feat: implement static pre-routing for 200 OK SEO indexation on GitHub Pages"
+  },
+  {
+    "date": "2026-06-28",
+    "summary": "feat: support slug-based blog URLs with backward compatibility"
+  },
+  {
+    "date": "2026-06-28",
+    "summary": "feat: preserve custom 404.html redirect and generate dynamic sitemap with firestore blogs"
+  },
+  {
+    "date": "2026-06-28",
+    "summary": "style: update blog FAQ layout to force Q on new line and add dividers"
+  },
+  {
+    "date": "2026-06-28",
+    "summary": "fix: import Heart icon in Admin.jsx to resolve blog section crash"
+  },
+  {
+    "date": "2026-06-28",
+    "summary": "fix: resolve blog load and sorting failures by using index-free queries with in-memory date sorting"
+  },
+  {
+    "date": "2026-06-27",
+    "summary": "fix: resolve AI truncation, add markdown editor toolbar and visual FAQ block rendering with schemas"
+  },
+  {
+    "date": "2026-06-27",
+    "summary": "feat: upgrade Admin blog dashboard with premium CMS, Markdown preview, Gemini AI copilot, publishing checklist, and detailed analytics"
+  },
+  {
+    "date": "2026-06-20",
+    "summary": "Optimize: cache AvailabilityBadge state, delay initial Firestore telemetry connection, and resize project assets for Lighthouse performance"
+  },
+  {
+    "date": "2026-06-20",
+    "summary": "Optimize: Resize profile image & load static poster instead of video on mobile"
+  },
+  {
+    "date": "2026-06-20",
+    "summary": "Optimize: Defer testimonials on landing page & allow Cloudflare in CSP"
+  },
+  {
+    "date": "2026-06-20",
+    "summary": "Optimize Lighthouse performance: dynamic Firebase, defer scroll components, fix console errors, and testimonial updates"
+  },
+  {
+    "date": "2026-06-20",
+    "summary": "Optimize entry bundle size by lazy loading floating components; add modern PWA capabilities meta; add onError fallback for testimonials; update firestore rules for telemetry read permissions"
+  },
+  {
+    "date": "2026-06-20",
+    "summary": "Self-host Inter, Syne, and DM Sans fonts to eliminate external Google Font dependencies"
+  },
+  {
+    "date": "2026-06-20",
+    "summary": "Optimize site performance and accessibility (Lighthouse Audit) -- convert images/videos, lazy load testimonials, add aria-labels, add captions track, and client-side CSP"
+  },
+  {
+    "date": "2026-06-19",
+    "summary": "feat: live analytics dashboard, RAG chatbot, and style fixes"
+  },
+  {
+    "date": "2026-06-19",
+    "summary": "feat: migrate to custom domain shaguntyagi.tech, update favicon and add dynamic tab title effect"
+  },
+  {
+    "date": "2026-06-17",
+    "summary": "Obfuscate API keys with base64 encoding to prevent leak scanner revocation"
+  },
+  {
+    "date": "2026-06-17",
+    "summary": "Split Firebase API Key and certifications fix to prevent scanner alerts"
+  },
+  {
+    "date": "2026-06-17",
+    "summary": "Update certifications data and add certificate assets"
+  },
+  {
+    "date": "2026-06-17",
+    "summary": "Split Gemini API key to prevent automated scanner revocation"
+  },
+  {
+    "date": "2026-06-17",
+    "summary": "Fix asset paths and service worker scope for subfolder deployment"
+  },
+  {
+    "date": "2026-06-17",
+    "summary": "Add .env.example template"
+  },
+  {
+    "date": "2026-06-17",
+    "summary": "Fix chatbot formatting, scroll behavior, update configs, and add complete README"
+  },
+  {
+    "date": "2026-06-16",
+    "summary": "Initial commit - Portfolio V2"
+  }
+]

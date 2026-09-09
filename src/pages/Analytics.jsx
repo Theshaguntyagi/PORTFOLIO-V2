@@ -28,6 +28,7 @@ const INITIAL_STATE = {
   projectClicks: {},
   languages: {},
   dailyQueries: {},
+  utmSources: {},
 };
 
 // Populate default queries to 0 for chart mapping
@@ -73,6 +74,7 @@ export default function Analytics({ isNested = false }) {
           projectClicks: telemetry.projectClicks || {},
           languages: telemetry.languages || {},
           dailyQueries: { ...INITIAL_STATE.dailyQueries, ...telemetry.dailyQueries },
+          utmSources: telemetry.utmSources || {},
         };
         setData(merged);
       } catch (err) {
@@ -406,6 +408,35 @@ export default function Analytics({ isNested = false }) {
           })}
         </div>
       </div>
+
+      {/* Traffic Sources (UTM) — simple list, not a new chart type; reuses
+          the same glass-panel/chart-header pattern used above. */}
+      {Object.keys(data.utmSources).length > 0 && (
+        <div className="chart-wrapper glass-panel">
+          <div className="chart-header-block">
+            <BarChart2 size={18} className="chart-header-icon" />
+            <h3 className="chart-title">Traffic Sources</h3>
+          </div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {Object.entries(data.utmSources)
+              .sort((a, b) => b[1] - a[1])
+              .map(([source, count]) => (
+                <li
+                  key={source}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '0.5rem 0',
+                    borderBottom: '1px solid rgba(255,255,255,0.06)',
+                  }}
+                >
+                  <span>{source.replace(/-/g, ' ')}</span>
+                  <span style={{ fontWeight: 600 }}>{count}</span>
+                </li>
+              ))}
+          </ul>
+        </div>
+      )}
     </Motion.div>
   );
 }

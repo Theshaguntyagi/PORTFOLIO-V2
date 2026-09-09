@@ -114,6 +114,18 @@ const BlogDetail = () => {
     return items;
   }, [blog]);
 
+  // Falls back to a word-count estimate (200 wpm, the commonly-cited average
+  // for technical reading) when the post has no manually-entered readTime —
+  // previously the "X min read" meta item just silently disappeared for any
+  // post the admin didn't fill that field in for.
+  const estimatedReadTime = useMemo(() => {
+    if (blog?.readTime) return blog.readTime;
+    const text = blog?.readMoreContent || '';
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    if (words === 0) return null;
+    return Math.max(1, Math.round(words / 200));
+  }, [blog]);
+
   // Reading-progress bar.
   useEffect(() => {
     const onScroll = () => {
@@ -559,13 +571,13 @@ const BlogDetail = () => {
                   {formatDate(blog.createdAt)}
                 </motion.span>
               )}
-              {blog.readTime && (
+              {estimatedReadTime && (
                 <motion.span 
                   className="meta-item"
                   whileHover={{ scale: 1.05 }}
                 >
                   <Clock size={16} />
-                  {blog.readTime} min read
+                  {estimatedReadTime} min read
                 </motion.span>
               )}
               {typeof blog.views === 'number' && (

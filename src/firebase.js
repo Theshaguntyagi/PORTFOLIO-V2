@@ -1,5 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import {
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+} from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getMessaging, isSupported } from "firebase/messaging";
 
@@ -30,7 +34,24 @@ export const VAPID_KEY = env.VITE_FIREBASE_VAPID_KEY;
 
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+
+// Offline persistence: caches every document a visitor has already read
+// (blog posts, project data) in IndexedDB, so re-opening a post they've
+// already viewed — or the /blog listing — still renders with real content
+// when offline or on a flaky connection, instead of an infinite spinner.
+// Wrapped in try/catch because IndexedDB isn't available in every context
+// (some in-app browsers, private-browsing modes in older Safari) — Firestore
+// just runs memory-only in that case, same as before this change.
+let db;
+try {
+  db = initializeFirestore(app, {
+    localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+  });
+} catch (e) {
+  console.warn('Firestore offline persistence unavailable, falling back to memory-only:', e);
+  db = initializeFirestore(app, {});
+}
+export { db };
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 

@@ -62,6 +62,30 @@ const ROUTE_META = {
     title: `Guestbook | ${NAME}`,
     desc: "Leave a note for Shagun Tyagi — an open guestbook for visitors, collaborators, and fellow builders.",
   },
+  "/colophon": {
+    title: `Colophon | ${NAME} — How This Site Is Built`,
+    desc: "The stack, hosting setup, and type choices behind shaguntyagi.tech.",
+  },
+  "/links": {
+    title: `Links | ${NAME} — All Profiles in One Place`,
+    desc: "Every place to find Shagun Tyagi online — portfolio, GitHub, LinkedIn, and social profiles.",
+  },
+  "/press": {
+    title: `Press & Media Kit | ${NAME}`,
+    desc: "Bio, facts, and media assets for press and collaboration inquiries about Shagun Tyagi, AI/ML Engineer.",
+  },
+  "/speaking": {
+    title: `Speaking | ${NAME}`,
+    desc: "Workshops led and speaking availability for Shagun Tyagi, AI/ML Engineer.",
+  },
+  "/changelog": {
+    title: `Changelog | ${NAME} — Build Log for This Site`,
+    desc: "A real, git-generated log of changes to shaguntyagi.tech.",
+  },
+  "/start-here": {
+    title: `Start Here | ${NAME}`,
+    desc: "New to this site? Here's where to go first, depending on what you're looking for.",
+  },
 };
 
 // Prefix-based fallbacks for dynamic routes (e.g. /blog/:id).

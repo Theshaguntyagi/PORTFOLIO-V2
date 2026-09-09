@@ -75,6 +75,15 @@ export const trackVisitor = async () => {
       if (isNewSession) {
         sessionStorage.setItem('portfolio_session_tracked', 'true');
         updateData.visitorCount = increment(1);
+
+        // Record which channel this new session actually came from, so the
+        // owner can see real acquisition breakdown (e.g. "twitter" vs
+        // "linkedin" vs organic) instead of just a raw visitor count.
+        const { getUtmAttribution } = await import('../utils/utm');
+        const utm = getUtmAttribution();
+        const source = utm?.utm_source || 'direct-or-organic';
+        const safeSource = source.replace(/[.$/[\]#]/g, '_');
+        updateData[`utmSources.${safeSource}`] = increment(1);
       }
       await setDoc(
         doc(db, 'stats', 'global'),
@@ -128,6 +137,7 @@ export const fetchTelemetryData = async () => {
       projectClicks: globalData.projectClicks || {},
       languages: globalData.languages || {},
       dailyQueries: globalData.dailyQueries || {},
+      utmSources: globalData.utmSources || {},
     };
   } catch (e) {
     console.error('Telemetry: fetchTelemetryData failed:', e);

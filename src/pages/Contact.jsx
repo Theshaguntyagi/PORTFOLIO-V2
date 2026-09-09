@@ -13,6 +13,7 @@ import {
   Instagram
 } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import LinkedInBadge from '../components/LinkedInBadge';
 import toast from 'react-hot-toast';
 import { db } from '../firebase';
 import '../styles/Contact.css';
@@ -208,6 +209,10 @@ const Contact = () => {
                       {social.icon}
                     </a>
                   ))}
+                </div>
+
+                <div style={{ marginTop: '1.25rem' }}>
+                  <LinkedInBadge />
                 </div>
 
               </div>

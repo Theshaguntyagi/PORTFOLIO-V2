@@ -16,6 +16,13 @@ const STATIC_ROUTES = [
   'now',
   'uses',
   'guestbook',
+  'analytics',
+  'colophon',
+  'links',
+  'press',
+  'speaking',
+  'changelog',
+  'start-here',
 ];
 
 // 2. Fetch dynamic blog posts from Firestore to generate their routes

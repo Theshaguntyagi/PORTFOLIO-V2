@@ -5,6 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 import '../styles/Blog.css';
 
+// Same 200wpm fallback estimate used in BlogDetail — keeps the "X min read"
+// badge showing on the listing cards even for posts where readTime wasn't
+// manually filled in during publishing.
+const estimateReadTime = (blog) => {
+  if (blog.readTime) return blog.readTime;
+  const words = (blog.readMoreContent || '').trim().split(/\s+/).filter(Boolean).length;
+  if (words === 0) return null;
+  return Math.max(1, Math.round(words / 200));
+};
+
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -153,10 +163,10 @@ const Blog = () => {
                     <Calendar size={14} />
                     {formatDate(blog.createdAt)}
                   </span>
-                  {blog.readTime && (
+                  {estimateReadTime(blog) && (
                     <span className="blog-read-time">
                       <Clock size={14} />
-                      {blog.readTime} min read
+                      {estimateReadTime(blog)} min read
                     </span>
                   )}
                   {typeof blog.views === 'number' && (

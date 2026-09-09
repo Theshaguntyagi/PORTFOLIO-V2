@@ -5,6 +5,12 @@ import App from './App.jsx';
 import './index.css';
 import './i18n';
 import { initAnalytics } from './analytics';
+import { captureUtmParams } from './utils/utm';
+
+// Capture first-touch UTM params (if present in the landing URL) before
+// anything else runs, so both GA4 and the custom Firestore telemetry below
+// can attribute this session correctly.
+captureUtmParams();
 
 // GA4 (no-op until VITE_GA_ID is set) — see #12.
 initAnalytics();

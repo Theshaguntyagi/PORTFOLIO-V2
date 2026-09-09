@@ -1,5 +1,5 @@
 import React from "react";
-import { GraduationCap, Calendar, MapPin, Trophy, Award } from "lucide-react";
+import { GraduationCap, Calendar, MapPin, Trophy, Award, Github } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { education } from "../data/education";
@@ -8,6 +8,7 @@ import { achievements } from "../data/achievements";
 import { certifications } from "../data/certifications";
 import { Link } from "react-router-dom";
 import { getLocal } from "../utils/translate";
+import GitHubStats from "../components/GitHubStats";
 
 import "../styles/About.css";
 
@@ -140,6 +141,12 @@ export default function About() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* GITHUB ACTIVITY */}
+      <div className="github-activity">
+        <h2><Github size={18}/> {t("about.githubActivity", "GitHub Activity")}</h2>
+        <GitHubStats />
       </div>
 
     </section>
