@@ -1,0 +1,1 @@
+import{t as e}from"./dns-zone-file-Beoar_aV.js";export{e as default};

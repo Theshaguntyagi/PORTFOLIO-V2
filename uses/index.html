@@ -18,15 +18,28 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!-- Security Headers (CSP Client-Side Protection) -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https://*.firebaseapp.com; object-src 'none'; base-uri 'self';" />
+<!-- Security Headers (CSP Client-Side Protection).
+     'unsafe-eval' removed — grepped the full source tree and all bundled
+     node_modules (three.js, postprocessing, syntax-highlighter, etc.) for
+     eval()/new Function() and found none. Vite's production output doesn't
+     need it either. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https://*.firebaseapp.com; object-src 'none'; base-uri 'self';" />
+
+<!-- Preconnect: warms the connection to the third-party origins the app
+     actually calls (Firestore on every page, GA/GTM + Cloudflare beacon after
+     consent/idle) so those requests don't pay full DNS+TLS handshake cost
+     the first time they fire. -->
+<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+<link rel="preconnect" href="https://www.googletagmanager.com" />
+<link rel="preconnect" href="https://static.cloudflareinsights.com" />
 
 <!-- Title (CTR optimized, not keyword spam) -->
-<title>Shagun Tyagi | AI/ML Engineer </title>
+<title>Shagun Tyagi | AI/ML Engineer — Production AI Systems & Agent Orchestration</title>
 
-<!-- Primary SEO -->
-<meta name="description" content="AI/ML Engineer and Full Stack Developer specializing in Python, IoT, and Cloud. Building scalable data-driven systems and intelligent applications." />
-<meta name="keywords" content="Shagun Tyagi, AI Engineer, ML Engineer, Python Developer, Full Stack Developer, IoT, AWS, Portfolio" />
+<!-- Primary SEO. Kept in sync with SEO.jsx's DEFAULT_DESC — this copy is what
+     non-JS crawlers/social scrapers see; SEO.jsx's Helmet overrides it once
+     the app boots on every route that renders <SEO>. -->
+<meta name="description" content="AI/ML Engineer building production AI systems (Envigo), autonomous agent architectures, and full-stack AI products. B.Tech CSE, published IoT/health-tech researcher. Based in Gurugram, India." />
 <meta name="author" content="Shagun Tyagi" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 
@@ -36,25 +49,36 @@
 <!-- Sitemap (CRITICAL) -->
 <link rel="sitemap" type="application/xml" title="Sitemap" href="https://shaguntyagi.tech/sitemap.xml" />
 
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="Shagun Tyagi — Blog RSS Feed" href="https://shaguntyagi.tech/rss.xml" />
+
+<!-- JSON Resume (https://jsonresume.org) -->
+<link rel="alternate" type="application/json" title="Shagun Tyagi — JSON Resume" href="https://shaguntyagi.tech/resume.json" />
+
 <!-- Theme -->
 <meta name="theme-color" content="#0f1428" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Shagun Tyagi | AI/ML Engineer" />
-<meta property="og:description" content="Building intelligent systems, scalable APIs, and cloud-native applications." />
+<meta property="og:title" content="Shagun Tyagi | AI/ML Engineer — Production AI Systems & Agent Orchestration" />
+<meta property="og:description" content="AI/ML Engineer building production AI systems, autonomous agent architectures, and full-stack AI products." />
 <meta property="og:url" content="https://shaguntyagi.tech/" />
-<meta property="og:image" content="https://shaguntyagi.tech/profile.webp" />
+<meta property="og:image" content="https://shaguntyagi.tech/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Shagun Tyagi | AI/ML Engineer" />
 <meta name="twitter:description" content="AI/ML Engineer & Full Stack Developer portfolio." />
-<meta name="twitter:image" content="https://shaguntyagi.tech/profile.webp" />
+<meta name="twitter:image" content="https://shaguntyagi.tech/og-image.jpg" />
 
 <!-- Performance -->
 <link rel="preload" as="image" href="/profile.webp" fetchpriority="high" />
-<!-- Self-hosted Fonts (Inter, Syne, DM Sans) -->
+<!-- Self-hosted Fonts (Inter, Syne, DM Sans) — trimmed to latin/latin-ext
+     subsets only (site content is en/hi/es; Hindi is Devanagari and isn't
+     covered by these Latin faces regardless, so cyrillic/greek/vietnamese
+     subsets were pure dead weight). -->
 <link rel="stylesheet" href="/fonts/fonts.css" media="print" onload="this.media='all'" />
 <noscript>
   <link rel="stylesheet" href="/fonts/fonts.css" />
@@ -70,67 +94,68 @@
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-title" content="Shagun Tyagi" />
 
-<!-- ================= SCHEMA (FIXED & EXPANDED) ================= -->
+<!-- ================= SCHEMA ================= -->
 
-<!-- Person Schema -->
+<!-- ProfilePage wrapping Person — this is the ONLY Person/ProfilePage schema
+     on the site. SEO.jsx used to inject a second, competing Person block on
+     "/" via Helmet; that was removed there specifically to avoid duplicate
+     schema on the homepage. Using ProfilePage (not bare Person) is the
+     Schema.org-correct type for a page whose main entity is a person's own
+     profile/portfolio site, per Google's profile page guidance. -->
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "Person",
- "name": "Shagun Tyagi",
- "url": "https://shaguntyagi.tech",
- "image": "https://shaguntyagi.tech/profile.webp",
- "jobTitle": "AI/ML Engineer",
- "worksFor": {
-   "@type": "Organization",
-   "name": "Envigo"
- },
- "sameAs": [
-   "https://github.com/theshaguntyagi",
-   "https://linkedin.com/in/theshaguntyagi"
- ],
- "knowsAbout": [
-   "Machine Learning",
-   "Python",
-   "Full Stack Development",
-   "Cloud Computing",
-   "IoT"
- ]
+ "@type": "ProfilePage",
+ "dateCreated": "2024-01-01",
+ "mainEntity": {
+   "@type": "Person",
+   "name": "Shagun Tyagi",
+   "url": "https://shaguntyagi.tech",
+   "image": "https://shaguntyagi.tech/profile.webp",
+   "jobTitle": "AI/ML Engineer",
+   "worksFor": {
+     "@type": "Organization",
+     "name": "Envigo"
+   },
+   "alumniOf": {
+     "@type": "CollegeOrUniversity",
+     "name": "Meerut Institute of Engineering and Technology"
+   },
+   "sameAs": [
+     "https://github.com/theshaguntyagi",
+     "https://linkedin.com/in/theshaguntyagi"
+   ],
+   "knowsAbout": [
+     "Machine Learning",
+     "Python",
+     "Full Stack Development",
+     "Cloud Computing",
+     "IoT"
+   ]
+ }
 }
 </script>
 
-<!-- WebSite Schema -->
+<!-- WebSite Schema.
+     SearchAction removed — it pointed at "https://shaguntyagi.tech/?q={...}",
+     but there is no search feature on the homepage (or anywhere) that reads a
+     ?q= param. An unfulfillable SearchAction is invalid structured data and
+     Google Search Console will flag it as broken; better to omit it than
+     ship a fake affordance. Re-add it if/when a real site search ships. -->
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
  "@type": "WebSite",
  "name": "Shagun Tyagi Portfolio",
- "url": "https://shaguntyagi.tech",
- "potentialAction": {
-   "@type": "SearchAction",
-   "target": "https://shaguntyagi.tech/?q={search_term_string}",
-   "query-input": "required name=search_term_string"
- }
+ "url": "https://shaguntyagi.tech"
 }
 </script>
 
-<!-- WebPage Schema -->
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "WebPage",
- "name": "Shagun Tyagi Portfolio",
- "url": "https://shaguntyagi.tech",
- "description": "Portfolio of Shagun Tyagi showcasing AI, ML, and full stack projects.",
- "inLanguage": "en"
-}
-</script>
-
-  <script type="module" crossorigin src="/assets/index-7Hsc7wOP.js"></script>
+  <script type="module" crossorigin src="/assets/index-DgVrF0_h.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-XE_PPbSL.js">
-  <link rel="modulepreload" crossorigin href="/assets/vendor-motion-DHpA7YRm.js">
-  <link rel="modulepreload" crossorigin href="/assets/vendor-react-BI5ByEiH.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-CsHYvE8a.css">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-motion-auVSsmmu.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-react-Cj8udqBR.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-COchR38S.css">
 </head>
 
 <body>
@@ -142,8 +167,8 @@
 <noscript>
   <div style="max-width:760px;margin:0 auto;padding:48px 20px;font-family:system-ui,Arial,sans-serif;color:#e6e6f0;background:#0f1428;">
     <h1>Shagun Tyagi — AI/ML Engineer &amp; Full Stack Developer</h1>
-    <p>AI/ML Engineer and Full Stack Developer specializing in Python, IoT, and Cloud.
-       Building scalable data-driven systems and intelligent applications.</p>
+    <p>AI/ML Engineer building production AI systems, autonomous agent architectures,
+       and full-stack AI products. Based in Gurugram, India.</p>
     <nav>
       <h2>Explore</h2>
       <ul>

@@ -1,0 +1,1 @@
+import{t as e}from"./gedcom-BT_W30MI.js";export{e as default};

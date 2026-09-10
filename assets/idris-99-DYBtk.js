@@ -1,0 +1,1 @@
+import"./haskell-BVGk3fcN.js";import{t as e}from"./idris-CIjOI3sK.js";export{e as default};

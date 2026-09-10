@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shagun Tyagi — Blog</title>
+    <link>https://shaguntyagi.tech/blog</link>
+    <atom:link href="https://shaguntyagi.tech/rss.xml" rel="self" type="application/rss+xml" />
+    <description>AI/ML engineering, production systems, and full-stack development notes from Shagun Tyagi.</description>
+    <language>en</language>
+    <lastBuildDate>Thu, 10 Sep 2026 13:51:34 GMT</lastBuildDate>
+
+  </channel>
+</rss>

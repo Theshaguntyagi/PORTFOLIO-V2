@@ -1,0 +1,1 @@
+import{t as e}from"./lolcode-x58GIAyR.js";export{e as default};

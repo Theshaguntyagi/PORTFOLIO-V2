@@ -1,0 +1,1 @@
+import{t as e}from"./editorconfig-D4dlbwBy.js";export{e as default};

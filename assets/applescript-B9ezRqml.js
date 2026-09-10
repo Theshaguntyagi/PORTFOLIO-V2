@@ -1,0 +1,1 @@
+import{t as e}from"./applescript-ClR5s-gM.js";export{e as default};

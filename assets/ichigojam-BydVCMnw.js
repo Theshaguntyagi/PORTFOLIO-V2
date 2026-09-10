@@ -1,0 +1,1 @@
+import{t as e}from"./ichigojam-BYpmkNzz.js";export{e as default};

@@ -1,0 +1,1 @@
+import{t as e}from"./avro-idl-dRGalC7d.js";export{e as default};

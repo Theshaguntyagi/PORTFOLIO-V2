@@ -1,0 +1,1 @@
+import"./turtle-C0F-ecsL.js";import{t as e}from"./sparql-CFjdQhEu.js";export{e as default};

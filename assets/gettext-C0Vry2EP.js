@@ -1,0 +1,1 @@
+import{t as e}from"./gettext-CgkfOtkI.js";export{e as default};

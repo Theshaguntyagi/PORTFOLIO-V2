@@ -1,0 +1,1 @@
+import{t as e}from"./rego-QAXgcrEz.js";export{e as default};

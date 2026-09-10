@@ -1,0 +1,1 @@
+import{t as e}from"./brainfuck-C7DnY8Yj.js";export{e as default};

@@ -1,0 +1,1 @@
+import{t as e}from"./icu-message-format-DYVIl70l.js";export{e as default};

@@ -1,0 +1,1 @@
+import{t as e}from"./web-idl-DfyTH4zq.js";export{e as default};

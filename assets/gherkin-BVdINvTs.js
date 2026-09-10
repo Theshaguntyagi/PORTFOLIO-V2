@@ -1,0 +1,1 @@
+import{t as e}from"./gherkin-B_7kXL3B.js";export{e as default};

@@ -1,0 +1,1 @@
+import{t as e}from"./kumir-0O3T1LX-.js";export{e as default};

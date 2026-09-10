@@ -1,0 +1,1 @@
+import{t as e}from"./bbcode-CCFqjeie.js";export{e as default};

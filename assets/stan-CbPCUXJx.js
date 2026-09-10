@@ -1,0 +1,1 @@
+import{t as e}from"./stan-DUIe22I7.js";export{e as default};

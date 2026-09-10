@@ -1,0 +1,1 @@
+import{t as e}from"./parigp-C9b42hIW.js";export{e as default};

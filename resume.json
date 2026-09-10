@@ -1,0 +1,235 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/master/schema.json",
+  "basics": {
+    "name": "Shagun Tyagi",
+    "label": "AI/ML Engineer",
+    "email": "theshaguntyagi@gmail.com",
+    "url": "https://shaguntyagi.tech",
+    "summary": "AI/ML Engineer building production AI systems (Envigo), autonomous agent architectures, and full-stack AI products. B.Tech CSE (IoT), published IoT/health-tech researcher (IJSRA 2024).",
+    "location": {
+      "city": "Gurugram",
+      "countryCode": "IN"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "theshaguntyagi",
+        "url": "https://github.com/theshaguntyagi"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "theshaguntyagi",
+        "url": "https://linkedin.com/in/theshaguntyagi"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Envigo",
+      "position": "AI/ML Engineer",
+      "location": "Gurugram, India",
+      "startDate": "2025-08",
+      "summary": "Architecting end-to-end ML pipelines on AWS and Azure powering Envigo's AI-driven SEO intelligence platform. Own the full ML lifecycle from training to deployment.",
+      "highlights": [
+        "Reduced manual data processing by ~40% via LangChain-based LLM agents integrated into backend APIs",
+        "Architecting ML pipelines ingesting client data and surfacing actionable SEO recommendations at scale",
+        "Own full ML lifecycle: training → Docker containerisation → cloud deployment → monitoring & optimisation",
+        "Translate ML output into measurable business KPIs in collaboration with product and data teams"
+      ]
+    },
+    {
+      "name": "Airtel",
+      "position": "Software Engineer",
+      "location": "Gurugram, India",
+      "startDate": "2024-04",
+      "endDate": "2025-08",
+      "summary": "Designed and deployed FastAPI microservices powering Airtel's internal ops workflows. Built automation pipelines and real-time data infrastructure used daily by analytics and ML teams.",
+      "highlights": [
+        "Cut API response latency by ~30% via optimised FastAPI microservices",
+        "Eliminated ~10 hours/week of manual tasks with Python automation pipelines",
+        "Improved backend throughput by ~25% within 3 months via query and architecture optimisation",
+        "Engineered real-time data pipelines feeding dashboards for analytics and ML teams"
+      ]
+    },
+    {
+      "name": "Trainity",
+      "position": "Data Analyst Intern",
+      "location": "Remote",
+      "startDate": "2023-04",
+      "endDate": "2023-06",
+      "summary": "Worked with SQL and Power BI to build business dashboards, automated data cleaning workflows, and analysed business data to identify trends and performance metrics.",
+      "highlights": [
+        "Built business dashboards using SQL and Power BI",
+        "Automated data cleaning workflows using Python",
+        "Analysed business data to surface trends and performance metrics"
+      ]
+    },
+    {
+      "name": "Internship Studio",
+      "position": "Software Developer Intern",
+      "location": "Remote",
+      "startDate": "2022-11",
+      "endDate": "2023-01",
+      "summary": "Built backend components using Python and supported development of automation scripts for client projects.",
+      "highlights": [
+        "Built backend components using Python",
+        "Developed automation scripts for client projects",
+        "Delivered project modules in collaboration with the engineering team"
+      ]
+    },
+    {
+      "name": "Robust Results Private Limited",
+      "position": "Python Developer Intern",
+      "location": "India",
+      "startDate": "2022-08",
+      "endDate": "2022-10",
+      "summary": "Developed backend features using Python and Flask, worked on API integrations, data processing scripts, and prototype development for internal tools.",
+      "highlights": [
+        "Developed backend features using Python and Flask",
+        "Built API integrations and data processing scripts",
+        "Assisted in prototype development for internal tools"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Chandigarh University",
+      "area": "Master of Business Administration (MBA)",
+      "studyType": "Master of Business Administration (MBA)",
+      "startDate": "2026-01",
+      "endDate": "2027-12",
+      "location": "Chandigarh, India"
+    },
+    {
+      "institution": "Meerut Institute of Engineering and Technology (MIET)",
+      "area": "B.Tech, Computer Science Engineering (IoT)",
+      "studyType": "B.Tech, Computer Science Engineering (IoT)",
+      "startDate": "2020-07",
+      "endDate": "2024-12",
+      "location": "Meerut, India"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Languages & Core",
+      "keywords": [
+        "Python",
+        "SQL",
+        "C",
+        "Data Structures & Algorithms",
+        "Object-Oriented Programming",
+        "Problem Solving",
+        "Git"
+      ]
+    },
+    {
+      "name": "AI / GenAI",
+      "keywords": [
+        "Large Language Models (LLMs)",
+        "LLM Agents",
+        "Agentic AI",
+        "Multi-Agent Systems",
+        "Retrieval-Augmented Generation (RAG)",
+        "OpenAI API",
+        "LangChain",
+        "LangGraph",
+        "Model Context Protocol (MCP)",
+        "Prompt Engineering",
+        "Embeddings",
+        "Vector Search",
+        "FAISS",
+        "Speech Recognition",
+        "Text-to-Speech (TTS)",
+        "Whisper"
+      ]
+    },
+    {
+      "name": "Machine Learning & Computer Vision",
+      "keywords": [
+        "Machine Learning",
+        "Deep Learning",
+        "TensorFlow",
+        "Scikit-Learn",
+        "Pandas",
+        "NumPy",
+        "Computer Vision",
+        "OpenCV",
+        "CNNs",
+        "Transfer Learning",
+        "Image Classification",
+        "Object Detection",
+        "Face Recognition",
+        "DeepFace"
+      ]
+    },
+    {
+      "name": "Backend Development",
+      "keywords": [
+        "FastAPI",
+        "Flask",
+        "REST APIs",
+        "Microservices",
+        "Authentication & Authorization",
+        "Firebase",
+        "Firestore",
+        "Firebase Cloud Functions",
+        "Twilio"
+      ]
+    },
+    {
+      "name": "Automation & Data Extraction",
+      "keywords": [
+        "Playwright",
+        "Browser Automation",
+        "Web Scraping",
+        "Web Crawling",
+        "Lead Generation Pipelines",
+        "Workflow Automation",
+        "Email Automation",
+        "Cron Jobs"
+      ]
+    },
+    {
+      "name": "Databases",
+      "keywords": [
+        "MySQL",
+        "MongoDB"
+      ]
+    },
+    {
+      "name": "Cloud & DevOps",
+      "keywords": [
+        "AWS (EC2, S3, Lambda)",
+        "Azure (AZ-900, PL-900)",
+        "Docker",
+        "CI/CD",
+        "GitHub Actions",
+        "Linux",
+        "Nginx",
+        "Cloud Deployment",
+        "Containerization"
+      ]
+    },
+    {
+      "name": "IoT & Embedded Systems",
+      "keywords": [
+        "Raspberry Pi",
+        "Arduino",
+        "ESP32",
+        "ESP8266",
+        "Temperature Sensors (DHT11, DHT22, LM35)",
+        "Humidity Sensors",
+        "Gas Sensors (MQ Series)",
+        "Light Sensors (LDR)",
+        "Signal Processing",
+        "Embedded Systems",
+        "Sensor Integration"
+      ]
+    }
+  ],
+  "meta": {
+    "canonical": "https://shaguntyagi.tech/resume.json",
+    "version": "1.0.0",
+    "lastModified": "2026-09-10T13:51:34.675Z"
+  }
+}

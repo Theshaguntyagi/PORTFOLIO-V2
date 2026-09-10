@@ -1,0 +1,1 @@
+import{t as e}from"./t4-templating-BKY8kNBp.js";export{e as default};
