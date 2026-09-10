@@ -24,12 +24,25 @@ const Layout = () => {
     const run = async () => {
       try {
         if (!('Notification' in window) || Notification.permission === 'denied') return;
+
+        // Root cause of the "Browser errors were logged to the console"
+        // Lighthouse/Best-Practices failure: VITE_FIREBASE_VAPID_KEY is
+        // empty until it's actually generated (Firebase Console -> Project
+        // Settings -> Cloud Messaging -> Web Push certificates). Without
+        // it, this code used to still (a) pop the native notification
+        // permission prompt on every fresh visit for every visitor, then
+        // (b) call getToken() with an empty vapidKey, which Firebase always
+        // rejects -- guaranteeing a console.error on any visit where
+        // permission got granted. Bail out before either happens until a
+        // real key is configured.
+        const { db, getMessagingIfSupported, VAPID_KEY } = await import('../firebase');
+        if (!VAPID_KEY) return;
+
         const permission =
           Notification.permission === 'granted' ? 'granted' : await Notification.requestPermission();
         if (permission !== 'granted') return;
 
-        const [{ db, getMessagingIfSupported, VAPID_KEY }, { getToken }, fs] = await Promise.all([
-          import('../firebase'),
+        const [{ getToken }, fs] = await Promise.all([
           import('firebase/messaging'),
           import('firebase/firestore'),
         ]);

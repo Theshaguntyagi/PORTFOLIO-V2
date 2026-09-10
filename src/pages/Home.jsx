@@ -187,10 +187,23 @@ const Home = () => {
         <div className="container">
           <div className="hero-grid">
 
-            {/* Profile Image */}
+            {/* Profile Image — LCP FIX: this was previously wrapped in
+                initial={{opacity:0, scale:0.9}}, meaning even though the
+                <img> below correctly hints loading="eager" +
+                fetchPriority="high" + is <link rel=preload>'d in index.html,
+                the actual PIXELS stayed invisible until React hydrated AND
+                Framer Motion's JS executed its animate() call. On Slow 4G
+                with ~500KB+ of JS (react+motion+router) needed before that
+                can happen, this alone accounted for several seconds of the
+                5.4s LCP measured in PageSpeed Insights -- the resource
+                hints were being completely defeated by the animation gate.
+                initial={false} renders directly in the final (visible)
+                state on first mount; the fade-in simply doesn't happen for
+                this element anymore, everywhere else on the page is
+                unaffected. */}
             <Motion.div
               className="hero-image-section"
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={false}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, ease: 'easeOut' }}
             >
@@ -208,8 +221,16 @@ const Home = () => {
               </div>
             </Motion.div>
 
-            {/* Text Content */}
-            <Motion.div className="hero-content" variants={stagger} initial="hidden" animate="visible">
+            {/* Text Content — same LCP fix: the hero title (h1.hero-title)
+                is the other realistic LCP candidate on this page and had
+                the identical opacity:0 gate via the fadeUp/stagger
+                variants' `hidden` state. initial={false} on this parent
+                propagates to every fadeUp child that doesn't set its own
+                initial (hero-text, hero-actions, hero-social below) — so
+                the whole above-the-fold hero block now paints immediately
+                instead of fading in, which is what we want for anything
+                in the LCP-critical viewport, not just the h1 itself. */}
+            <Motion.div className="hero-content" variants={stagger} initial={false} animate="visible">
               <Motion.div className="hero-text" variants={fadeUp}>
                 <AvailabilityBadge />
                 <h1 className="hero-title">{t('hero.greeting')}</h1>
