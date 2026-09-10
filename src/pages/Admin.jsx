@@ -9,7 +9,7 @@ import {
   FileText, Check, CircleDot, MessageSquare, CornerDownRight, BookHeart, BarChart2,
   Edit, Eye, Settings, Globe, Sparkles, Image as ImageIcon, Calendar, ChevronRight,
   RefreshCw, AlertCircle, CheckCircle, ArrowLeft, Loader2, Info, Share2, TrendingUp, HelpCircle,
-  Heart
+  Heart, Lightbulb
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { auth, googleProvider, db, OWNER_EMAIL } from '../firebase';
@@ -61,6 +61,18 @@ const EMPTY_BLOG = {
   publishedDate: new Date().toISOString().split('T')[0],
   updatedDate: '',
   faq: '',
+  // Content repurposing (item 60) — raw AI-generated snippet text, kept as
+  // a single field rather than parsed per-platform to avoid over-engineering
+  // a format the owner just copies out manually anyway.
+  socialSnippets: '',
+  // Cross-post distribution tracker (item 61) — per-platform posted flag +
+  // URL once it's live there.
+  distribution: {
+    devto: { posted: false, url: '' },
+    medium: { posted: false, url: '' },
+    hashnode: { posted: false, url: '' },
+    linkedin: { posted: false, url: '' },
+  },
 };
 
 const slugify = (s) =>
@@ -109,6 +121,9 @@ export default function Admin() {
   const [testimonials, setTestimonials] = useState([]);
   const [comments, setComments] = useState([]);
   const [guestbook, setGuestbook] = useState([]);
+  const [ideas, setIdeas] = useState([]);
+  const [newIdeaTitle, setNewIdeaTitle] = useState('');
+  const [newIdeaNote, setNewIdeaNote] = useState('');
   const [replyDrafts, setReplyDrafts] = useState({});
   const [status, setStatus] = useState({ status: 'available', text: '' });
 
@@ -129,7 +144,7 @@ export default function Admin() {
       const grab = async (name) =>
         (await getDocs(collection(db, name))).docs.map((d) => ({ id: d.id, ...d.data() })).sort(sortByDate);
 
-      const [blogs, c, n, t, cm, gb] = await Promise.all([
+      const [blogs, c, n, t, cm, gb, ideasList] = await Promise.all([
         getDocs(collection(db, 'blogs'))
           .then((s) => s.docs.map((d) => ({ id: d.id, ...d.data() })).sort(sortByDate))
           .catch(() => []),
@@ -138,6 +153,7 @@ export default function Admin() {
         grab('testimonials').catch(() => []),
         grab('comments').catch(() => []),
         grab('guestbook').catch(() => []),
+        grab('blogIdeas').catch(() => []),
       ]);
       setPosts(blogs);
       setContacts(c);
@@ -145,6 +161,7 @@ export default function Admin() {
       setTestimonials(t);
       setComments(cm);
       setGuestbook(gb);
+      setIdeas(ideasList);
 
       const s = await getDoc(doc(db, 'settings', 'site')).catch(() => null);
       if (s && s.exists()) setStatus({ status: s.data().status || 'available', text: s.data().text || '' });
@@ -166,6 +183,18 @@ export default function Admin() {
       }
       return updated;
     });
+  };
+
+  // Cross-post distribution tracker (item 61) — updates one field of one
+  // platform's entry in form.distribution without touching the others.
+  const changeDistribution = (platform, field, value) => {
+    setForm((f) => ({
+      ...f,
+      distribution: {
+        ...f.distribution,
+        [platform]: { ...f.distribution?.[platform], [field]: value },
+      },
+    }));
   };
 
   const insertMarkdown = (syntax) => {
@@ -271,9 +300,46 @@ export default function Admin() {
       author: post.publishing?.author || 'Shagun Tyagi',
       publishedDate: post.publishing?.publishedDate || new Date().toISOString().split('T')[0],
       updatedDate: post.publishing?.updatedDate || '',
+      socialSnippets: post.socialSnippets || '',
+      distribution: post.distribution || EMPTY_BLOG.distribution,
     });
     setEditorMode('editor');
     setActiveFormTab('general');
+  };
+
+  // ── Quick-capture idea -> draft pipeline (item 59) ──
+  const addIdea = async (e) => {
+    e.preventDefault();
+    if (!newIdeaTitle.trim()) return;
+    try {
+      await addDoc(collection(db, 'blogIdeas'), {
+        title: newIdeaTitle.trim(),
+        note: newIdeaNote.trim(),
+        converted: false,
+        createdAt: serverTimestamp(),
+      });
+      setNewIdeaTitle('');
+      setNewIdeaNote('');
+      toast.success('Idea captured.');
+      loadAll();
+    } catch (err) {
+      console.error('Add idea failed:', err);
+      toast.error('Could not save idea.');
+    }
+  };
+
+  const convertIdeaToDraft = async (idea) => {
+    setForm({ ...EMPTY_BLOG, title: idea.title, excerpt: idea.note || '', publishingStatus: 'draft' });
+    setEditingPostId(null);
+    setTab('blog');
+    setEditorMode('editor');
+    setActiveFormTab('general');
+    try {
+      await updateDoc(doc(db, 'blogIdeas', idea.id), { converted: true });
+      loadAll();
+    } catch (err) {
+      console.error('Mark idea converted failed:', err);
+    }
   };
 
   const del = async (name, id, label) => {
@@ -418,6 +484,9 @@ export default function Admin() {
           break;
         case 'schema':
           prompt = `Write a valid JSON-LD metadata schema object incorporating both BlogPosting and Article types for a blog post.\nTitle: ${form.title}\nExcerpt: ${form.excerpt}\nSlug: ${form.slug}\nAuthor: ${form.author}\nDate: ${form.publishedDate}\n\nReturn ONLY raw JSON. Do not include markdown code block formatting like \`\`\`json.`;
+          break;
+        case 'socialSnippets':
+          prompt = `Repurpose this blog post into short-form social copy for three platforms. Title: "${form.title}". Excerpt: "${form.excerpt}".\n\nContent:\n${contentText.slice(0, 4000)}\n\nOutput in exactly this format, plain text, no markdown:\nLINKEDIN:\n<a 3-5 sentence LinkedIn post, professional tone, ending with a question to invite comments>\n\nTWITTER:\n<a single tweet under 280 characters, punchy, no hashtag spam>\n\nINSTAGRAM:\n<a short caption, 2-3 sentences, casual tone, 3-5 relevant hashtags at the end>`;
           break;
         default:
           return;
@@ -691,6 +760,8 @@ export default function Admin() {
           ...(faqSchema ? { faq: faqSchema } : {})
         },
         toc: tocItems,
+        socialSnippets: form.socialSnippets || '',
+        distribution: form.distribution || EMPTY_BLOG.distribution,
       };
 
       if (editingPostId) {
@@ -737,6 +808,7 @@ export default function Admin() {
 
   const TABS = [
     { id: 'blog', label: 'Blog CMS', icon: FileText, count: posts.length },
+    { id: 'ideas', label: 'Ideas', icon: Lightbulb, count: ideas.filter(i => !i.converted).length },
     { id: 'messages', label: 'Messages', icon: Mail, count: contacts.length },
     { id: 'newsletter', label: 'Newsletter', icon: Newspaper, count: subscribers.length },
     { id: 'testimonials', label: 'Recommendations', icon: MessageSquareQuote, count: pendingT.length },
@@ -791,6 +863,58 @@ export default function Admin() {
             </div>
 
             {/* ── BLOG CMS HUB ── */}
+            {tab === 'ideas' && (
+              <div className="cms-list-view">
+                <div className="cms-list-header">
+                  <h3>Blog Ideas ({ideas.filter(i => !i.converted).length} open)</h3>
+                </div>
+
+                <form onSubmit={addIdea} className="admin-row" style={{ marginBottom: '1.5rem', alignItems: 'flex-end' }}>
+                  <label className="admin-field" style={{ flex: 2 }}>
+                    <span>Idea title</span>
+                    <input
+                      value={newIdeaTitle}
+                      onChange={(e) => setNewIdeaTitle(e.target.value)}
+                      placeholder="e.g. Why RAG pipelines fail in production"
+                    />
+                  </label>
+                  <label className="admin-field" style={{ flex: 3 }}>
+                    <span>Note (optional)</span>
+                    <input
+                      value={newIdeaNote}
+                      onChange={(e) => setNewIdeaNote(e.target.value)}
+                      placeholder="Rough angle, source, or why it matters"
+                    />
+                  </label>
+                  <button type="submit" className="btn btn-primary" disabled={!newIdeaTitle.trim()}>
+                    <Plus size={16} /> Capture
+                  </button>
+                </form>
+
+                <div className="cms-list-grid">
+                  {ideas.filter((i) => !i.converted).map((idea) => (
+                    <div key={idea.id} className="cms-post-card">
+                      <div className="cms-post-info">
+                        <h4>{idea.title}</h4>
+                        {idea.note && <p className="cms-post-excerpt">{idea.note}</p>}
+                      </div>
+                      <div className="cms-post-actions">
+                        <button className="btn btn-primary btn-sm" onClick={() => convertIdeaToDraft(idea)}>
+                          <Edit size={14} /> Convert to Draft
+                        </button>
+                        <button className="btn btn-ghost btn-sm" onClick={() => del('blogIdeas', idea.id, 'idea')}>
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  {ideas.filter((i) => !i.converted).length === 0 && (
+                    <p className="cms-ai-empty">No open ideas — capture one above.</p>
+                  )}
+                </div>
+              </div>
+            )}
+
             {tab === 'blog' && (
               <div className="cms-wrapper">
                 {/* 1. LIST MODE */}
@@ -898,6 +1022,7 @@ export default function Admin() {
                           <button className={`cms-form-tab ${activeFormTab === 'media' ? 'active' : ''}`} onClick={() => setActiveFormTab('media')}>📷 Media</button>
                           <button className={`cms-form-tab ${activeFormTab === 'publishing' ? 'active' : ''}`} onClick={() => setActiveFormTab('publishing')}>📅 Publish</button>
                           <button className={`cms-form-tab ${activeFormTab === 'ai' ? 'active' : ''}`} onClick={() => setActiveFormTab('ai')}>🤖 AI Suite</button>
+                          <button className={`cms-form-tab ${activeFormTab === 'distribution' ? 'active' : ''}`} onClick={() => setActiveFormTab('distribution')}>📡 Distribute</button>
                           {editingPostId && (
                             <button className={`cms-form-tab ${activeFormTab === 'analytics' ? 'active' : ''}`} onClick={() => setActiveFormTab('analytics')}>📊 Stats</button>
                           )}
@@ -1236,6 +1361,9 @@ A: You can use the useState hook."
                                   <button className={`btn-ai-action ${selectedAiFeature === 'schema' ? 'active' : ''}`} onClick={() => handleAIFeature('schema')}>
                                     📦 Generate JSON-LD Schema
                                   </button>
+                                  <button className={`btn-ai-action ${selectedAiFeature === 'socialSnippets' ? 'active' : ''}`} onClick={() => handleAIFeature('socialSnippets')}>
+                                    📱 Generate Social Snippets
+                                  </button>
                                 </div>
 
                                 <div className="cms-ai-output-box">
@@ -1255,7 +1383,7 @@ A: You can use the useState hook."
                                       <p className="cms-ai-empty">Select an action on the left to trigger AI assistance.</p>
                                     )}
                                   </div>
-                                  {aiOutput && !aiLoading && ['excerpt', 'metaDescription', 'tags', 'faq'].includes(selectedAiFeature) && (
+                                  {aiOutput && !aiLoading && ['excerpt', 'metaDescription', 'tags', 'faq', 'socialSnippets'].includes(selectedAiFeature) && (
                                     <div className="cms-ai-output-footer">
                                       <button className="btn btn-primary btn-sm" onClick={() => applyAIOutput(selectedAiFeature)}>
                                         <Check size={12} /> Apply suggestion to {selectedAiFeature}
@@ -1264,6 +1392,51 @@ A: You can use the useState hook."
                                   )}
                                 </div>
                               </div>
+                            </div>
+                          )}
+
+                          {/* TAB: CROSS-POST DISTRIBUTION TRACKER */}
+                          {activeFormTab === 'distribution' && (
+                            <div className="cms-form-group-list">
+                              <p className="cms-ai-hint">
+                                Track where this post has been cross-posted. Purely a checklist —
+                                doesn't publish anywhere automatically.
+                              </p>
+                              {[
+                                { key: 'devto', label: 'Dev.to' },
+                                { key: 'medium', label: 'Medium' },
+                                { key: 'hashnode', label: 'Hashnode' },
+                                { key: 'linkedin', label: 'LinkedIn Articles' },
+                              ].map(({ key, label }) => (
+                                <div className="admin-row" key={key}>
+                                  <label className="admin-field" style={{ flexDirection: 'row', alignItems: 'center', gap: '0.5rem' }}>
+                                    <input
+                                      type="checkbox"
+                                      checked={!!form.distribution?.[key]?.posted}
+                                      onChange={(e) => changeDistribution(key, 'posted', e.target.checked)}
+                                    />
+                                    <span>{label}</span>
+                                  </label>
+                                  <label className="admin-field">
+                                    <span>URL (once live)</span>
+                                    <input
+                                      type="url"
+                                      placeholder={`https://${key}.com/...`}
+                                      value={form.distribution?.[key]?.url || ''}
+                                      onChange={(e) => changeDistribution(key, 'url', e.target.value)}
+                                    />
+                                  </label>
+                                </div>
+                              ))}
+
+                              {form.socialSnippets && (
+                                <div className="cms-ai-output-box" style={{ marginTop: '1rem' }}>
+                                  <div className="cms-ai-output-header"><span>Saved social snippets (from AI Suite)</span></div>
+                                  <div className="cms-ai-output-body">
+                                    <pre className="cms-ai-pre">{form.socialSnippets}</pre>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           )}
 
