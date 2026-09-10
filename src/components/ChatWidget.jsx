@@ -92,6 +92,11 @@ const ChatWidget = () => {
     }
   };
 
+  const [leadFormOpen, setLeadFormOpen] = useState(false);
+  const [leadEmail, setLeadEmail] = useState('');
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+
   const executeCommand = (action, param) => {
     try {
       const cleanParam = param.trim();
@@ -108,9 +113,48 @@ const ChatWidget = () => {
         if (['en', 'hi', 'es'].includes(lang)) {
           i18n.changeLanguage(lang);
         }
+      } else if (action === 'SHOW_LEAD_FORM') {
+        // The AI emits this when it detects hiring/collaboration/consulting
+        // intent in the conversation (see the instruction added to
+        // portfolioKnowledge.js) — shows a one-field email capture inline in
+        // the chat rather than making the visitor leave to find the contact
+        // page. `param` is a short reason string used only for the Firestore
+        // record (e.g. "hiring", "consulting", "collaboration").
+        setLeadFormOpen(true);
+        setLeadSubmitted(false);
+        setLeadReason(cleanParam || 'general');
       }
     } catch (e) {
       console.warn('ChatWidget execute command failed:', action, param, e);
+    }
+  };
+
+  const [leadReason, setLeadReason] = useState('general');
+
+  const submitLead = async (e) => {
+    e.preventDefault();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadEmail);
+    if (!valid || leadSubmitting) return;
+    setLeadSubmitting(true);
+    try {
+      const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+      const { db } = await import('../firebase');
+      const { getUtmAttribution } = await import('../utils/utm');
+      await addDoc(collection(db, 'chatLeads'), {
+        email: leadEmail.trim().toLowerCase(),
+        reason: leadReason,
+        // Last few turns for context — not the full history, to keep the
+        // lead record short and reviewable at a glance.
+        conversationSnippet: chatMessages.slice(-4).map((m) => `${m.role}: ${m.content}`).join('\n'),
+        utm: getUtmAttribution() || null,
+        createdAt: serverTimestamp(),
+      });
+      setLeadSubmitted(true);
+      setLeadEmail('');
+    } catch (err) {
+      console.error('Lead capture failed:', err);
+    } finally {
+      setLeadSubmitting(false);
     }
   };
 
@@ -255,6 +299,52 @@ const ChatWidget = () => {
               </div>
             ))}
             
+            {/* Inline lead-capture form — rendered as an assistant chat
+                bubble so it reads as part of the conversation rather than a
+                separate widget. Reuses the exact chat-bubble/chat-input
+                classes already used for every other message and the text
+                input below, so no new visual style is introduced. */}
+            {leadFormOpen && (
+              <div className="chat-message chat-message-assistant">
+                <div className={`chat-bubble ${isDark ? 'chat-bubble-assistant-dark' : 'chat-bubble-assistant-light'}`}>
+                  {leadSubmitted ? (
+                    <p>Thanks — Shagun will follow up at that address soon.</p>
+                  ) : (
+                    <form onSubmit={submitLead}>
+                      <p style={{ marginBottom: '0.5rem' }}>
+                        Leave your email and Shagun will reach out directly.
+                      </p>
+                      <input
+                        type="email"
+                        required
+                        placeholder="you@example.com"
+                        value={leadEmail}
+                        onChange={(e) => setLeadEmail(e.target.value)}
+                        className={`chat-input ${!isDark ? 'chat-input-light' : ''}`}
+                        style={{ width: '100%', marginBottom: '0.5rem' }}
+                      />
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button
+                          type="submit"
+                          disabled={leadSubmitting}
+                          className="chat-suggestion"
+                        >
+                          {leadSubmitting ? 'Sending…' : 'Send'}
+                        </button>
+                        <button
+                          type="button"
+                          className="chat-suggestion"
+                          onClick={() => setLeadFormOpen(false)}
+                        >
+                          No thanks
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Quick-reply suggestions (only on the fresh welcome screen) */}
             {chatMessages.length === 1 && !isTyping && (
               <div className="chat-suggestions">

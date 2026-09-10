@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
 import { doc, getDoc, updateDoc, increment, query, collection, where, limit, getDocs } from 'firebase/firestore';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
@@ -36,6 +36,7 @@ SyntaxHighlighter.registerLanguage('markup', markup);
 SyntaxHighlighter.registerLanguage('sql', sql);
 SyntaxHighlighter.registerLanguage('yaml', yaml);
 import ReactMarkdown from 'react-markdown';
+import { autoLinkText } from '../utils/internalLinks';
 import { db } from '../firebase';
 import { geminiGenerate, geminiConfigured } from '../services/api';
 import BlogComments from '../components/BlogComments';
@@ -104,6 +105,12 @@ const BlogDetail = () => {
   const [nextPost, setNextPost] = useState(null);
 
   // Table of contents from the markdown's ## / ### headings.
+  // Tracks which project names have already been auto-linked so only the
+  // FIRST mention of each project in the whole post becomes a link — resets
+  // whenever a different post loads.
+  const linkedTermsRef = useRef(new Set());
+  useMemo(() => { linkedTermsRef.current = new Set(); }, [blog?.id]);
+
   const toc = useMemo(() => {
     const md = blog?.readMoreContent || '';
     const items = [];
@@ -701,6 +708,24 @@ const BlogDetail = () => {
               components={{
                 h2: ({ children }) => <h2 id={slugify(childText(children))}>{children}</h2>,
                 h3: ({ children }) => <h3 id={slugify(childText(children))}>{children}</h3>,
+                p: ({ children }) => {
+                  // Only auto-link plain-text paragraphs (a single string
+                  // child) — a paragraph with existing bold/italic/links is
+                  // left untouched rather than risk mangling nested markdown.
+                  if (typeof children !== 'string') return <p>{children}</p>;
+                  const parts = autoLinkText(children, linkedTermsRef.current);
+                  return (
+                    <p>
+                      {parts.map((part, i) =>
+                        typeof part === 'string' ? (
+                          <React.Fragment key={i}>{part}</React.Fragment>
+                        ) : (
+                          <RouterLink key={i} to={part.path}>{part.term}</RouterLink>
+                        )
+                      )}
+                    </p>
+                  );
+                },
                 code(props) {
                   const { children, className, node, ...rest } = props;
                   const match = /language-(\w+)/.exec(className || '');
