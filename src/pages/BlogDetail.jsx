@@ -772,7 +772,7 @@ const BlogDetail = () => {
               <div className="blog-related-grid">
                 {relatedPosts.map(post => (
                   <div key={post.id} className="blog-related-card" onClick={() => navigate(`/blog/${post.slug || post.id}`)}>
-                    {post.imageUrl && <img src={post.imageUrl} alt={post.title} />}
+                    {post.imageUrl && <img src={post.imageUrl} alt={post.title} loading="lazy" decoding="async" />}
                     <div className="related-card-content">
                       <h5>{post.title}</h5>
                       <span className="related-category">{post.category || 'Development'}</span>

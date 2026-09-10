@@ -33,8 +33,20 @@ export default function CommandPalette() {
         setOpen(false);
       }
     };
+    // Discoverability: a visible navbar button dispatches this event instead
+    // of duplicating the open logic — most visitors never learn the Cmd+K
+    // shortcut exists since it was previously invisible/undiscoverable.
+    const onOpenRequest = () => {
+      setQuery('');
+      setActive(0);
+      setOpen(true);
+    };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener('open-command-palette', onOpenRequest);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('open-command-palette', onOpenRequest);
+    };
   }, []);
 
   // Focus the input when the palette opens (DOM side-effect only).

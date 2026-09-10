@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sun, Moon, Menu, X } from 'lucide-react';
+import { Sun, Moon, Menu, X, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 import '../styles/Navbar.css';
@@ -99,6 +99,14 @@ const Navbar = ({ theme, toggleTheme }) => {
           {/* Right controls — always visible */}
           <div className="navbar-right-controls">
             <LanguageSwitcher />
+            <button
+              className="theme-toggle"
+              onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
+              aria-label="Open command palette"
+              title="Search & navigate (⌘K)"
+            >
+              <Search size={18} />
+            </button>
             <button
               className="theme-toggle"
               onClick={toggleTheme}

@@ -1,5 +1,5 @@
 import { motion as Motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Copyright, ExternalLink, Heart } from "lucide-react";
 import Newsletter from "./Newsletter";
@@ -7,6 +7,12 @@ import "../styles/Footer.css";
 
 export default function Footer() {
   const { t } = useTranslation();
+  // Newsletter placement: it previously rendered on every route, including
+  // /admin -- a public "subscribe to updates" prompt on the site owner's own
+  // private, noindexed dashboard. Hidden there specifically; still shows
+  // everywhere else exactly as before.
+  const { pathname } = useLocation();
+  const showNewsletter = pathname !== '/admin';
   return (
     <footer className="footer">
 
@@ -81,9 +87,11 @@ export default function Footer() {
           </div>
 
           {/* NEWSLETTER */}
-          <div className="footer-col">
-            <Newsletter />
-          </div>
+          {showNewsletter && (
+            <div className="footer-col">
+              <Newsletter />
+            </div>
+          )}
 
         </Motion.div>
 

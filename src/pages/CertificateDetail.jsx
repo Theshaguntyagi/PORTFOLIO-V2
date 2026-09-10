@@ -36,7 +36,7 @@ export default function CertificateDetail() {
 
           {/* IMAGE */}
           <div className="cert-image">
-            <img src={cert.image} alt={cert.title} />
+            <img src={cert.image} alt={cert.title} loading="lazy" decoding="async" />
           </div>
 
           {/* INFO GRID */}

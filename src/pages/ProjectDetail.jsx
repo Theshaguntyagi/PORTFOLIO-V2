@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { projectsData } from "../data/projects";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import SEO from "../components/SEO";
+import ArchitectureDiagram from "../components/ArchitectureDiagram";
 import "../styles/ProjectDetail.css";
 
 export default function ProjectDetail() {
@@ -11,6 +12,25 @@ export default function ProjectDetail() {
 
   const project = projectsData.find(p => p.id === id);
   const [index, setIndex] = useState(0);
+
+  // Architecture diagram nodes, derived only from data the project already
+  // states — never invented. Prefers an explicit arrow-pipeline already
+  // written in `solution` (e.g. "crawl → AI audit → GPT synthesis →
+  // email delivery"); falls back to the project's own `technologies` list,
+  // in the order it's already given, when no such pipeline exists.
+  const archNodes = useMemo(() => {
+    if (!project) return [];
+    if (project.solution?.includes('→')) {
+      const match = project.solution.match(/[A-Za-z][A-Za-z0-9 /&-]*(?:\s*→\s*[A-Za-z][A-Za-z0-9 /&-]*)+/);
+      if (match) {
+        return match[0]
+          .split('→')
+          .map((s) => s.trim().split(/\s+/).slice(0, 4).join(' ')) // cap trailing modifier phrases
+          .filter(Boolean);
+      }
+    }
+    return project.technologies || [];
+  }, [project]);
 
   if (!project) return <h2>Project not found</h2>;
 
@@ -145,6 +165,15 @@ export default function ProjectDetail() {
             <div className="detail-section">
               <h3>Solution &amp; Approach</h3>
               <p>{project.solution}</p>
+            </div>
+          )}
+
+          {/* ARCHITECTURE — derived from the pipeline above or the tech
+              stack list below; never invented content. */}
+          {archNodes.length >= 2 && (
+            <div className="detail-section">
+              <h3>Architecture</h3>
+              <ArchitectureDiagram nodes={archNodes} />
             </div>
           )}
 

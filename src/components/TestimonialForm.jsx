@@ -81,7 +81,7 @@ export default function TestimonialForm() {
         </label>
         {form.avatar && (
           <div className="tf-avatar-preview-wrapper">
-            <img src={form.avatar} alt="Avatar preview" className="tf-avatar-preview" />
+            <img src={form.avatar} alt="Avatar preview" className="tf-avatar-preview" loading="lazy" decoding="async" />
           </div>
         )}
       </div>

@@ -112,7 +112,7 @@ export default function Guestbook() {
           ) : (
             <form className="guestbook-form" onSubmit={submit}>
               <div className="gb-user">
-                {user.photoURL && <img src={user.photoURL} alt="" />}
+                {user.photoURL && <img src={user.photoURL} alt="" loading="lazy" decoding="async" />}
                 <span>{user.displayName}</span>
                 <button type="button" className="gb-signout" onClick={() => signOut(auth)} aria-label="Sign out">
                   <LogOut size={14} />
@@ -146,7 +146,7 @@ export default function Guestbook() {
             >
               <div className="gb-card-head">
                 {e.photoURL ? (
-                  <img src={e.photoURL} alt="" />
+                  <img src={e.photoURL} alt="" loading="lazy" decoding="async" />
                 ) : (
                   <div className="gb-avatar">{(e.name || '?').charAt(0).toUpperCase()}</div>
                 )}

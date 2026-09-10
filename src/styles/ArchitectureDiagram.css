@@ -1,0 +1,42 @@
+/* Reuses the exact glass-panel + purple-accent language already established
+   in ProjectDetail.css (rgba(255,255,255,0.03) background, rgba(...,0.12)
+   border, #7c3aed accent) rather than introducing a new visual style. */
+.arch-diagram {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.arch-node {
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: default;
+  transition: 0.3s ease;
+}
+
+.arch-node:hover {
+  border-color: #7c3aed;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+.light-theme .arch-node {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.arch-arrow {
+  color: #7c3aed;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 640px) {
+  .arch-diagram { flex-direction: column; align-items: stretch; }
+  .arch-arrow { text-align: center; transform: rotate(90deg); }
+}

@@ -55,3 +55,21 @@ body {
   color: var(--text);
   transition: background-color var(--transition-medium), color var(--transition-medium);
 }
+
+/* Theme-switch smoothing for everything else.
+   Root cause of the "snap" on toggle: dozens of components read var(--bg),
+   var(--text), var(--glass-bg), var(--border) etc. directly in their own
+   background-color/color/border-color, but only <body> itself declared a
+   transition. Swapping .light-theme/.dark-theme on <body> changes what
+   those variables RESOLVE to instantly, so every card/button/panel using
+   them snapped to the new color the instant the class changed, even while
+   the body itself was still fading. This adds the same transition
+   site-wide for exactly those three properties.
+   Deliberately scoped to background-color/color/border-color only (not
+   `all`) so it can't fight Framer Motion's transform/opacity animations
+   (Motion animates those directly, not via CSS transitions) or any
+   component's own more specific transition rule, which still wins by
+   normal CSS specificity/cascade. */
+*, *::before, *::after {
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}

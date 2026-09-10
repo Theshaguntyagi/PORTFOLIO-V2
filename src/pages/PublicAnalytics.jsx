@@ -72,7 +72,11 @@ export default function PublicAnalytics() {
             <div className="metric-icon-wrapper blue"><Users size={20} /></div>
             <div className="metric-content">
               <span className="metric-label">Unique Visitors</span>
-              <h2 className="metric-value">{data?.visitorCount ?? '—'}</h2>
+              {data ? (
+                <h2 className="metric-value">{data.visitorCount ?? 0}</h2>
+              ) : (
+                <div className="skeleton" style={{ width: 60, height: 32, borderRadius: 6 }} />
+              )}
             </div>
           </div>
 
@@ -80,7 +84,11 @@ export default function PublicAnalytics() {
             <div className="metric-icon-wrapper green"><Eye size={20} /></div>
             <div className="metric-content">
               <span className="metric-label">Page Views</span>
-              <h2 className="metric-value">{data?.pageViews ?? '—'}</h2>
+              {data ? (
+                <h2 className="metric-value">{data.pageViews ?? 0}</h2>
+              ) : (
+                <div className="skeleton" style={{ width: 60, height: 32, borderRadius: 6 }} />
+              )}
             </div>
           </div>
 
@@ -88,9 +96,11 @@ export default function PublicAnalytics() {
             <div className="metric-icon-wrapper purple"><MousePointerClick size={20} /></div>
             <div className="metric-content">
               <span className="metric-label">Project Clicks Tracked</span>
-              <h2 className="metric-value">
-                {topProjects.reduce((sum, p) => sum + p.clicks, 0) || '—'}
-              </h2>
+              {data ? (
+                <h2 className="metric-value">{topProjects.reduce((sum, p) => sum + p.clicks, 0)}</h2>
+              ) : (
+                <div className="skeleton" style={{ width: 60, height: 32, borderRadius: 6 }} />
+              )}
             </div>
           </div>
 
@@ -98,7 +108,11 @@ export default function PublicAnalytics() {
             <div className="metric-icon-wrapper orange"><Globe2 size={20} /></div>
             <div className="metric-content">
               <span className="metric-label">Languages Used</span>
-              <h2 className="metric-value">{topLanguages.length || '—'}</h2>
+              {data ? (
+                <h2 className="metric-value">{topLanguages.length}</h2>
+              ) : (
+                <div className="skeleton" style={{ width: 60, height: 32, borderRadius: 6 }} />
+              )}
             </div>
           </div>
         </div>
