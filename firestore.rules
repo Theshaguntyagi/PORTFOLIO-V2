@@ -17,8 +17,8 @@ service cloud.firestore {
     // BLOG POSTS — published posts are public; only the owner can create/edit/delete.
     // Visitors may bump ONLY the `likes` / `views` counters (nothing else).
     match /blogs/{postId} {
-      // Visitors see published posts only; drafts and scheduled posts stay
-      // private until publishing.status flips to 'published'. List queries from
+      // Visitors see published posts only; drafts stay
+      // private until you set them to Published. List queries from
       // the site MUST filter on publishing.status == 'published' to pass.
       allow read: if isOwner()
         || resource.data.publishing.status == 'published';
