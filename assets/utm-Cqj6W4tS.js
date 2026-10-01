@@ -1,1 +1,0 @@
-import{n as e,r as t}from"./index-BFTpMnRs.js";export{t as getUtmAttribution};

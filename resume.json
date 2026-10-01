@@ -20,6 +20,11 @@
         "network": "LinkedIn",
         "username": "theshaguntyagi",
         "url": "https://linkedin.com/in/theshaguntyagi"
+      },
+      {
+        "network": "Instagram",
+        "username": "shaguntyagi.tech",
+        "url": "https://www.instagram.com/shaguntyagi.tech/"
       }
     ]
   },
@@ -230,6 +235,6 @@
   "meta": {
     "canonical": "https://shaguntyagi.tech/resume.json",
     "version": "1.0.0",
-    "lastModified": "2026-10-01T05:26:11.689Z"
+    "lastModified": "2026-10-01T08:27:52.060Z"
   }
 }
