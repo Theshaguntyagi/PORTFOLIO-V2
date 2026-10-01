@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+
+<!-- GitHub Pages SPA redirect decoder (pairs with public/404.html).
+     Restores the clean URL that 404.html encoded into ?/… before the app boots. -->
+<script type="text/javascript">
+  (function (l) {
+    if (l.search[1] === '/') {
+      var decoded = l.search.slice(1).split('&').map(function (s) {
+        return s.replace(/~and~/g, '&');
+      }).join('?');
+      window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+    }
+  })(window.location);
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Security Headers (CSP Client-Side Protection).
+     'unsafe-eval' removed — grepped the full source tree and all bundled
+     node_modules (three.js, postprocessing, syntax-highlighter, etc.) for
+     eval()/new Function() and found none. Vite's production output doesn't
+     need it either. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https://*.firebaseapp.com; object-src 'none'; base-uri 'self';" />
+
+<!-- Preconnect: warms the connection to the third-party origins the app
+     actually calls (Firestore on every page, GA/GTM + Cloudflare beacon after
+     consent/idle) so those requests don't pay full DNS+TLS handshake cost
+     the first time they fire. -->
+<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+<link rel="preconnect" href="https://www.googletagmanager.com" />
+<link rel="preconnect" href="https://static.cloudflareinsights.com" />
+
+<!-- Title (CTR optimized, not keyword spam) -->
+<title>Why AI Chatbots Fail — And How RAG Actually Fixes It</title>
+
+<!-- Primary SEO. Kept in sync with SEO.jsx's DEFAULT_DESC — this copy is what
+     non-JS crawlers/social scrapers see; SEO.jsx's Helmet overrides it once
+     the app boots on every route that renders <SEO>. -->
+<meta name="description" content="Most AI chatbots are just FAQ bots in disguise. Here's how Retrieval-Augmented Generation (RAG) gives chatbots real context and accuracy." />
+<meta name="author" content="Shagun Tyagi" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+
+<!-- Canonical -->
+<link rel="canonical" href="https://shaguntyagi.tech/blog/why-ai-chatbots-fail-how-rag-fixes-it" />
+
+<!-- Sitemap (CRITICAL) -->
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://shaguntyagi.tech/sitemap.xml" />
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="Shagun Tyagi — Blog RSS Feed" href="https://shaguntyagi.tech/rss.xml" />
+
+<!-- JSON Resume (https://jsonresume.org) -->
+<link rel="alternate" type="application/json" title="Shagun Tyagi — JSON Resume" href="https://shaguntyagi.tech/resume.json" />
+
+<!-- Theme -->
+<meta name="theme-color" content="#0f1428" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Why AI Chatbots Fail — And How RAG Actually Fixes It" />
+<meta property="og:description" content="Most AI chatbots are just FAQ bots in disguise. Here's how Retrieval-Augmented Generation (RAG) gives chatbots real context and accuracy." />
+<meta property="og:url" content="https://shaguntyagi.tech/blog/why-ai-chatbots-fail-how-rag-fixes-it" />
+<meta property="og:image" content="https://shaguntyagi.tech/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Why AI Chatbots Fail — And How RAG Actually Fixes It" />
+<meta name="twitter:description" content="Most AI chatbots are just FAQ bots in disguise. Here's how Retrieval-Augmented Generation (RAG) gives chatbots real context and accuracy." />
+<meta name="twitter:image" content="https://shaguntyagi.tech/og-image.jpg" />
+
+<!-- Performance -->
+<link rel="preload" as="image" href="/profile.webp" fetchpriority="high" />
+<!-- Self-hosted Fonts (Inter, Syne, DM Sans) — trimmed to latin/latin-ext
+     subsets only (site content is en/hi/es; Hindi is Devanagari and isn't
+     covered by these Latin faces regardless, so cyrillic/greek/vietnamese
+     subsets were pure dead weight). -->
+<link rel="stylesheet" href="/fonts/fonts.css" media="print" onload="this.media='all'" />
+<noscript>
+  <link rel="stylesheet" href="/fonts/fonts.css" />
+</noscript>
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+<!-- PWA / installable -->
+<link rel="manifest" href="site.webmanifest" />
+<link rel="apple-touch-icon" href="profile.webp" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Shagun Tyagi" />
+
+<!-- ================= SCHEMA ================= -->
+
+<!-- ProfilePage wrapping Person — this is the ONLY Person/ProfilePage schema
+     on the site. SEO.jsx used to inject a second, competing Person block on
+     "/" via Helmet; that was removed there specifically to avoid duplicate
+     schema on the homepage. Using ProfilePage (not bare Person) is the
+     Schema.org-correct type for a page whose main entity is a person's own
+     profile/portfolio site, per Google's profile page guidance. -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "ProfilePage",
+ "dateCreated": "2024-01-01",
+ "mainEntity": {
+   "@type": "Person",
+   "name": "Shagun Tyagi",
+   "url": "https://shaguntyagi.tech",
+   "image": "https://shaguntyagi.tech/profile.webp",
+   "jobTitle": "AI/ML Engineer",
+   "worksFor": {
+     "@type": "Organization",
+     "name": "Envigo"
+   },
+   "alumniOf": {
+     "@type": "CollegeOrUniversity",
+     "name": "Meerut Institute of Engineering and Technology"
+   },
+   "sameAs": [
+     "https://github.com/theshaguntyagi",
+     "https://linkedin.com/in/theshaguntyagi",
+     "https://www.instagram.com/theshaguntyagi"
+   ],
+   "knowsAbout": [
+     "Machine Learning",
+     "Large Language Models",
+     "Retrieval-Augmented Generation",
+     "AI Agents",
+     "LLM Infrastructure",
+     "Python",
+     "FastAPI",
+     "Product Management"
+   ]
+ }
+}
+</script>
+
+<!-- WebSite Schema.
+     SearchAction removed — it pointed at "https://shaguntyagi.tech/?q={...}",
+     but there is no search feature on the homepage (or anywhere) that reads a
+     ?q= param. An unfulfillable SearchAction is invalid structured data and
+     Google Search Console will flag it as broken; better to omit it than
+     ship a fake affordance. Re-add it if/when a real site search ships. -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Shagun Tyagi Portfolio",
+ "url": "https://shaguntyagi.tech"
+}
+</script>
+
+  <script type="module" crossorigin src="/assets/index-BFTpMnRs.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/vendor-firebase-6JYbpQ2V.js">
+  <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-XE_PPbSL.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-motion-auVSsmmu.js">
+  <link rel="modulepreload" crossorigin href="/assets/vendor-react-Cj8udqBR.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-lw2s2TZ3.css">
+</head>
+
+<body>
+<div id="root"></div>
+
+<!-- Crawler / no-JS fallback: real, indexable content for bots that don't
+     execute JavaScript and for link previews. Hidden the moment the app
+     boots (JS-enabled crawlers like Googlebot render the full SPA above). -->
+<noscript>
+  <div style="max-width:760px;margin:0 auto;padding:48px 20px;font-family:system-ui,Arial,sans-serif;color:#e6e6f0;background:#0f1428;">
+    <!--route-fallback--><h1>Why AI Chatbots Fail — And How RAG Actually Fixes It</h1>
+    <p>Most AI chatbots are just FAQ bots in disguise. Here's how Retrieval-Augmented Generation (RAG) gives chatbots real context and accuracy.</p><!--/route-fallback-->
+    <nav>
+      <h2>Explore</h2>
+      <ul>
+        <li><a href="/about" style="color:#a855f7;">About</a></li>
+        <li><a href="/experience" style="color:#a855f7;">Experience</a></li>
+        <li><a href="/projects" style="color:#a855f7;">Projects</a></li>
+        <li><a href="/blog" style="color:#a855f7;">Blog</a></li>
+        <li><a href="/contact" style="color:#a855f7;">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>Connect</h2>
+    <ul>
+      <li><a href="https://github.com/theshaguntyagi" style="color:#a855f7;">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/theshaguntyagi" style="color:#a855f7;">LinkedIn</a></li>
+      <li><a href="https://www.instagram.com/theshaguntyagi" style="color:#a855f7;">Instagram</a></li>
+      <li><a href="mailto:theshaguntyagi@gmail.com" style="color:#a855f7;">Email</a></li>
+    </ul>
+    <p>This portfolio is an interactive app. Please enable JavaScript for the full experience.</p>
+  </div>
+</noscript>
+
+</body>
+</html>
