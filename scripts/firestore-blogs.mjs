@@ -37,47 +37,75 @@ function unwrap(v) {
 
 let cache = null;
 
+// In CI (STRICT_BLOGS=1) a failed fetch must fail the build — otherwise an
+// outage would silently deploy a site with every blog page and sitemap entry
+// missing. Locally we only warn.
+function fail(msg) {
+  if (process.env.STRICT_BLOGS === '1') throw new Error(msg);
+  console.error(`✗ ${msg} — blog posts will be skipped.`);
+}
+
 /**
- * @returns {Promise<Array<{slug:string,title:string,desc:string,image:string|null,lastmod:string|null}>>}
+ * Published posts via Firestore runQuery. Must filter server-side: the
+ * security rules only let anonymous clients read published posts, so an
+ * unfiltered list request is rejected outright.
+ * @returns {Promise<Array<{slug,title,desc,excerpt,image,lastmod,publishedDate,author}>>}
  */
 export async function getPublishedPosts() {
   if (cache) return cache;
   const projectId = resolveProjectId();
   if (!projectId) {
-    console.error('✗ VITE_FIREBASE_PROJECT_ID not found (.env or env var) — blog posts will be skipped.');
+    fail('VITE_FIREBASE_PROJECT_ID not found (.env or env var)');
     return (cache = []);
   }
 
   const posts = [];
-  let pageToken = '';
   try {
-    do {
-      const url =
-        `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/blogs?pageSize=300` +
-        (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : '');
-      const res = await fetch(url);
-      if (!res.ok) {
-        console.error(`✗ Firestore REST returned ${res.status} for "${projectId}" — blog posts will be skipped.`);
-        break;
-      }
-      const data = await res.json();
-      for (const doc of data.documents || []) {
-        const f = unwrap({ mapValue: { fields: doc.fields || {} } });
-        if (f.publishing?.status !== 'published' || !f.slug) continue;
-        const image = typeof f.imageUrl === 'string' && /^https?:\/\//.test(f.imageUrl) ? f.imageUrl : null;
-        const ts = f.updatedAt || f.createdAt || doc.updateTime || null;
-        posts.push({
-          slug: f.slug,
-          title: f.seo?.metaTitle || f.title || 'Article | Shagun Tyagi',
-          desc: f.seo?.metaDescription || f.excerpt || '',
-          image,
-          lastmod: ts ? String(ts).slice(0, 10) : null,
-        });
-      }
-      pageToken = data.nextPageToken || '';
-    } while (pageToken);
+    const res = await fetch(
+      `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:runQuery`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          structuredQuery: {
+            from: [{ collectionId: 'blogs' }],
+            where: {
+              fieldFilter: {
+                field: { fieldPath: 'publishing.status' },
+                op: 'EQUAL',
+                value: { stringValue: 'published' },
+              },
+            },
+          },
+        }),
+      },
+    );
+    if (!res.ok) {
+      fail(`Firestore runQuery returned ${res.status} for "${projectId}"`);
+      return (cache = []);
+    }
+    const rows = await res.json();
+    for (const row of rows) {
+      if (!row.document) continue; // runQuery emits a bare {readTime} row when empty
+      const doc = row.document;
+      const f = unwrap({ mapValue: { fields: doc.fields || {} } });
+      if (!f.slug) continue;
+      const image = typeof f.imageUrl === 'string' && /^https?:\/\//.test(f.imageUrl) ? f.imageUrl : null;
+      const ts = f.updatedAt || f.createdAt || doc.updateTime || null;
+      posts.push({
+        slug: f.slug,
+        title: f.seo?.metaTitle || f.title || 'Article | Shagun Tyagi',
+        rawTitle: f.title || 'Untitled',
+        desc: f.seo?.metaDescription || f.excerpt || '',
+        excerpt: f.excerpt || '',
+        image,
+        lastmod: ts ? String(ts).slice(0, 10) : null,
+        publishedDate: f.publishing?.publishedDate || (ts ? String(ts).slice(0, 10) : null),
+        author: f.publishing?.author || 'Shagun Tyagi',
+      });
+    }
   } catch (err) {
-    console.error('✗ Failed to fetch blog posts:', err.message);
+    fail(`Failed to fetch blog posts: ${err.message}`);
   }
   return (cache = posts);
 }

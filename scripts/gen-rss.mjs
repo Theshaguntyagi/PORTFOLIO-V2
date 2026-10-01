@@ -1,22 +1,12 @@
 // Generates public/rss.xml from published Firestore blog posts.
 // Runs automatically before each build (prebuild), alongside gen-sitemap.mjs.
-import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
+import { getPublishedPosts } from './firestore-blogs.mjs';
+import { writeFileSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const ORIGIN = 'https://shaguntyagi.tech';
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
-function resolveProjectId() {
-  try {
-    const envText = readFileSync(join(__dirname, '..', '.env'), 'utf-8');
-    const match = /VITE_FIREBASE_PROJECT_ID\s*=\s*(.+)/.exec(envText);
-    if (match) return match[1].trim().replace(/['"]/g, '');
-  } catch (e) {
-    // ignore
-  }
-  return null;
-}
 
 function escapeXml(str = '') {
   return String(str)
@@ -28,42 +18,18 @@ function escapeXml(str = '') {
 }
 
 async function main() {
-  const projectId = resolveProjectId();
   const items = [];
 
-  if (!projectId) {
-    console.error('✗ VITE_FIREBASE_PROJECT_ID not found — rss.xml will have zero items.');
-  } else {
-    try {
-      const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/blogs?pageSize=300`;
-      const res = await fetch(url);
-      if (res.ok) {
-        const data = await res.json();
-        const docs = data.documents || [];
-        docs.forEach((doc) => {
-          const f = doc.fields || {};
-          const status = f?.publishing?.mapValue?.fields?.status?.stringValue;
-          const slug = f?.slug?.stringValue;
-          if (status !== 'published' || !slug) return;
-
-          const title = f?.title?.stringValue || 'Untitled';
-          const excerpt = f?.excerpt?.stringValue || '';
-          const publishedDate =
-            f?.publishing?.mapValue?.fields?.publishedDate?.stringValue ||
-            new Date().toISOString().slice(0, 10);
-          const author =
-            f?.publishing?.mapValue?.fields?.author?.stringValue || 'Shagun Tyagi';
-
-          items.push({ title, excerpt, slug, publishedDate, author });
-        });
-        console.log(`✓ Added ${items.length} published posts to rss.xml`);
-      } else {
-        console.error(`✗ Firestore REST API returned status ${res.status}. rss.xml will have zero items.`);
-      }
-    } catch (err) {
-      console.error('✗ Failed to fetch blog posts for RSS feed:', err.message);
-    }
+  for (const p of await getPublishedPosts()) {
+    items.push({
+      title: p.rawTitle,
+      excerpt: p.excerpt,
+      slug: p.slug,
+      publishedDate: p.publishedDate || new Date().toISOString().slice(0, 10),
+      author: p.author,
+    });
   }
+  console.log(`✓ Added ${items.length} published posts to rss.xml`);
 
   items.sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate));
 
@@ -100,4 +66,7 @@ ${rssItems}
   console.log(`✓ Generated rss.xml (${items.length} items) in public/`);
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

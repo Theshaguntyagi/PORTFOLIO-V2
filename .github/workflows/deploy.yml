@@ -1,0 +1,83 @@
+# Builds the site and publishes dist/ to the gh-pages branch (shaguntyagi.tech).
+#
+# Triggers:
+#   - push to main                → code changes
+#   - repository_dispatch         → a blog post was published/edited/unpublished
+#                                    (sent by the rebuildOnBlogChange Cloud Function)
+#   - daily schedule              → backstop if a dispatch was ever missed
+#   - workflow_dispatch           → manual "Run workflow" button
+#
+# Required repo secret:
+#   DOTENV — the full contents of your local .env file (VITE_* keys)
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "functions/**"
+      - "firestore.rules"
+      - "**/*.md"
+  repository_dispatch:
+    types: [blog-changed]
+  schedule:
+    - cron: "30 20 * * *" # 02:00 IST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Several blog edits in quick succession → only the latest build deploys.
+concurrency:
+  group: deploy-site
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Write .env
+        env:
+          DOTENV: ${{ secrets.DOTENV }}
+        run: |
+          if [ -z "$DOTENV" ]; then
+            echo "::error::Repo secret DOTENV is missing (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+          printf '%s\n' "$DOTENV" > .env
+          grep -q '^VITE_FIREBASE_PROJECT_ID=' .env || { echo "::error::DOTENV has no VITE_FIREBASE_PROJECT_ID"; exit 1; }
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Build
+        env:
+          # Fail the build instead of deploying a site with blog pages missing
+          # if Firestore can't be reached.
+          STRICT_BLOGS: "1"
+        run: npm run build
+
+      - name: Sanity-check output
+        run: |
+          test -f dist/index.html
+          test -f dist/CNAME
+          test -f dist/sitemap.xml
+          grep -q '<loc>https://shaguntyagi.tech/blog/' dist/sitemap.xml \
+            || echo "::warning::sitemap has no blog post URLs (no published posts?)"
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "deploy: ${{ github.event_name }} ${{ github.event.client_payload.slug || github.sha }}"

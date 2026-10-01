@@ -173,17 +173,25 @@ const BlogDetail = () => {
 
         // 1. Try fetching by Document ID
         const ref = doc(db, 'blogs', id);
-        const snap = await getDoc(ref);
+        // Non-owners can only read published posts (Firestore rules), so a draft
+        // id/slug raises permission-denied — treat that the same as "not found".
+        const snap = await getDoc(ref).catch(() => null);
 
-        if (snap.exists()) {
+        if (snap && snap.exists()) {
           blogData = { id: snap.id, ...snap.data() };
           docRef = ref;
         } else {
-          // 2. Fallback: Try fetching by Slug
-          const q = query(collection(db, 'blogs'), where('slug', '==', id), limit(1));
-          const qSnap = await getDocs(q);
-          if (!qSnap.empty) {
-            const docSnap = qSnap.docs[0];
+          // 2. Fallback: fetch by slug. Published first (allowed for everyone);
+          // then unfiltered, which only succeeds for the signed-in owner and
+          // lets you preview drafts by slug.
+          const bySlug = async (published) => {
+            const constraints = [where('slug', '==', id), limit(1)];
+            if (published) constraints.unshift(where('publishing.status', '==', 'published'));
+            const qSnap = await getDocs(query(collection(db, 'blogs'), ...constraints)).catch(() => null);
+            return qSnap && !qSnap.empty ? qSnap.docs[0] : null;
+          };
+          const docSnap = (await bySlug(true)) || (await bySlug(false));
+          if (docSnap) {
             blogData = { id: docSnap.id, ...docSnap.data() };
             docRef = docSnap.ref;
           }
@@ -315,8 +323,9 @@ const BlogDetail = () => {
         try {
           const fetched = await Promise.all(
             blog.links.relatedArticles.slice(0, 3).map(async (relatedId) => {
-              const snap = await getDoc(doc(db, 'blogs', relatedId));
-              return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+              // A linked draft is unreadable for visitors — skip it, don't fail all three.
+              const snap = await getDoc(doc(db, 'blogs', relatedId)).catch(() => null);
+              return snap && snap.exists() ? { id: snap.id, ...snap.data() } : null;
             })
           );
           setRelatedPosts(fetched.filter(Boolean));
@@ -331,7 +340,9 @@ const BlogDetail = () => {
           const currentTags = parseTags(blog.tags);
 
           if (currentTags.length > 0) {
-            const snapshot = await getDocs(collection(db, 'blogs'));
+            const snapshot = await getDocs(
+              query(collection(db, 'blogs'), where('publishing.status', '==', 'published'))
+            );
             const scored = snapshot.docs
               .filter((d) => d.id !== blog.id)
               .map((d) => {
@@ -356,15 +367,15 @@ const BlogDetail = () => {
       // 2. Nav Posts
       try {
         if (blog.links?.previousArticle) {
-          const snap = await getDoc(doc(db, 'blogs', blog.links.previousArticle));
-          if (snap.exists()) setPrevPost({ id: snap.id, ...snap.data() });
+          const snap = await getDoc(doc(db, 'blogs', blog.links.previousArticle)).catch(() => null);
+          if (snap && snap.exists()) setPrevPost({ id: snap.id, ...snap.data() });
         } else {
           setPrevPost(null);
         }
 
         if (blog.links?.nextArticle) {
-          const snap = await getDoc(doc(db, 'blogs', blog.links.nextArticle));
-          if (snap.exists()) setNextPost({ id: snap.id, ...snap.data() });
+          const snap = await getDoc(doc(db, 'blogs', blog.links.nextArticle)).catch(() => null);
+          if (snap && snap.exists()) setNextPost({ id: snap.id, ...snap.data() });
         } else {
           setNextPost(null);
         }

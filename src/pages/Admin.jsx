@@ -525,6 +525,22 @@ export default function Admin() {
     e.preventDefault();
     if (!form.title.trim() || saving) return;
 
+    // Scheduled posts need a future publish time; the Cloud Function
+    // publishScheduledPosts flips them to 'published' once it passes.
+    let publishAt = '';
+    if (form.publishingStatus === 'scheduled') {
+      const at = form.schedulePublish ? new Date(form.schedulePublish) : null; // datetime-local → browser's local tz
+      if (!at || isNaN(at.getTime())) {
+        toast.error('Pick a "Schedule Publish" date & time for a scheduled post.');
+        return;
+      }
+      if (at.getTime() <= Date.now() + 60 * 1000) {
+        toast.error('Schedule time must be in the future — or set status to Published.');
+        return;
+      }
+      publishAt = at.toISOString();
+    }
+
     setSaving(true);
     setPipelineActive(true);
     setPipelineFinished(false);
@@ -747,6 +763,8 @@ export default function Admin() {
         publishing: {
           status: form.publishingStatus,
           schedulePublish: form.schedulePublish || '',
+          // UTC instant the scheduler compares against (empty unless scheduled).
+          publishAt,
           isFeatured: form.isFeatured,
           isPinned: form.isPinned,
           author: form.author,
@@ -929,7 +947,10 @@ export default function Admin() {
 
                     <div className="cms-list-grid">
                       {posts.filter(Boolean).map((p) => {
-                        const statusBadge = p.publishing?.status === 'draft' ? 'Draft' : 'Published';
+                        const statusBadge = p.publishing?.status === 'draft' ? 'Draft'
+                          : p.publishing?.status === 'scheduled'
+                            ? `Scheduled · ${p.publishing?.publishAt ? new Date(p.publishing.publishAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '?'}`
+                            : 'Published';
                         return (
                           <div key={p.id} className="cms-post-card">
                             <div className="cms-post-image">
@@ -1290,6 +1311,7 @@ A: You can use the useState hook."
                                   <span>Publishing Status</span>
                                   <select name="publishingStatus" value={form.publishingStatus} onChange={change}>
                                     <option value="draft">Draft / Offline</option>
+                                    <option value="scheduled">Scheduled (goes live at the time →)</option>
                                     <option value="published">Published / Live</option>
                                   </select>
                                 </label>

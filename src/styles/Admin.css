@@ -512,6 +512,10 @@
   background: #10b981;
   color: #fff;
 }
+.cms-status-badge.scheduled {
+  background: #6366f1;
+  color: #fff;
+}
 .cms-post-info {
   padding: 1.25rem;
   flex-grow: 1;

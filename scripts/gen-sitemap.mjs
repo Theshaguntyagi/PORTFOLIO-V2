@@ -60,4 +60,7 @@ async function main() {
   console.log(`✓ Generated sitemap.xml (${ROUTES.length} routes) + robots.txt in public/`);
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

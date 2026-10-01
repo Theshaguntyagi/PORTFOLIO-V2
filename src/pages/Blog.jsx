@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, ArrowRight, Eye, Heart } from 'lucide-react';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 import '../styles/Blog.css';
@@ -30,7 +30,11 @@ const Blog = () => {
     try {
       setLoading(true);
 
-      const snapshot = await getDocs(collection(db, 'blogs'));
+      // Only published posts are public — Firestore rules reject an unfiltered
+      // list for visitors, and drafts/scheduled posts must never leak here.
+      const snapshot = await getDocs(
+        query(collection(db, 'blogs'), where('publishing.status', '==', 'published'))
+      );
       const data = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()

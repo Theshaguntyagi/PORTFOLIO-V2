@@ -14,14 +14,19 @@ service cloud.firestore {
           && request.auth.token.email == 'theshaguntyagi@gmail.com';
     }
 
-    // BLOG POSTS — world-readable; only the owner can create/edit/delete.
+    // BLOG POSTS — published posts are public; only the owner can create/edit/delete.
     // Visitors may bump ONLY the `likes` / `views` counters (nothing else).
     match /blogs/{postId} {
-      allow read: if true;
+      // Visitors see published posts only; drafts and scheduled posts stay
+      // private until publishing.status flips to 'published'. List queries from
+      // the site MUST filter on publishing.status == 'published' to pass.
+      allow read: if isOwner()
+        || resource.data.publishing.status == 'published';
       allow create, delete: if isOwner();
       allow update: if isOwner()
-        || request.resource.data.diff(resource.data)
-             .affectedKeys().hasOnly(['likes', 'views']);
+        || (resource.data.publishing.status == 'published'
+            && request.resource.data.diff(resource.data)
+                 .affectedKeys().hasOnly(['likes', 'views']));
     }
 
     // CONTACT FORM — anyone may submit; only the owner may read/manage.
