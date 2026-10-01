@@ -91,6 +91,7 @@ function buildResume() {
       profiles: [
         { network: 'GitHub', username: 'theshaguntyagi', url: 'https://github.com/theshaguntyagi' },
         { network: 'LinkedIn', username: 'theshaguntyagi', url: 'https://linkedin.com/in/theshaguntyagi' },
+        { network: 'Instagram', username: 'shaguntyagi.tech', url: 'https://www.instagram.com/shaguntyagi.tech/' },
       ],
     },
     work,

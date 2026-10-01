@@ -25,7 +25,7 @@ Phone: +91 8445692029
 Location: Noida, Uttar Pradesh, India
 GitHub: https://github.com/theshaguntyagi
 LinkedIn: https://linkedin.com/in/theshaguntyagi
-Instagram: https://instagram.com/theshaguntyagi
+Instagram: https://www.instagram.com/shaguntyagi.tech/
 Twitter: https://twitter.com/theshaguntyagi
 Calendar / Meeting Scheduling Link: ${CALENDLY_URL}`;
 

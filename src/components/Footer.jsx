@@ -74,7 +74,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://instagram.com/theshaguntyagi" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/shaguntyagi.tech/" target="_blank" rel="noopener noreferrer">
                   Instagram
                 </a>
               </li>

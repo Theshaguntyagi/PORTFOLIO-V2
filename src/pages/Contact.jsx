@@ -102,7 +102,7 @@ const Contact = () => {
     },
     {
       icon: <Instagram className="social-icon-svg" />,
-      url: 'https://instagram.com/theshaguntyagi',
+      url: 'https://www.instagram.com/shaguntyagi.tech/',
       label: 'Instagram'
     }
   ];

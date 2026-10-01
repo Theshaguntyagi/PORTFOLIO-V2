@@ -166,7 +166,7 @@ const Home = () => {
     { icon: <Github   className="social-icon-svg" />, url: 'https://github.com/theshaguntyagi',   label: 'GitHub'   },
     { icon: <Linkedin className="social-icon-svg" />, url: 'https://linkedin.com/in/theshaguntyagi', label: 'LinkedIn' },
     { icon: <Twitter  className="social-icon-svg" />, url: 'https://twitter.com/theshaguntyagi',  label: 'Twitter'  },
-    { icon: <Instagram className="social-icon-svg" />, url: 'https://instagram.com/theshaguntyagi', label: 'Instagram' },
+    { icon: <Instagram className="social-icon-svg" />, url: 'https://www.instagram.com/shaguntyagi.tech/', label: 'Instagram' },
     { icon: <Mail     className="social-icon-svg" />, url: 'mailto:theshaguntyagi@gmail.com',       label: 'Email'    },
   ];
 

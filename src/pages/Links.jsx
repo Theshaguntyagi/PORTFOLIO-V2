@@ -15,7 +15,7 @@ const PRIMARY = [
 const LINKS = [
   { label: 'GitHub', url: 'https://github.com/theshaguntyagi', icon: Github },
   { label: 'LinkedIn', url: 'https://linkedin.com/in/theshaguntyagi', icon: Linkedin },
-  { label: 'Instagram', url: 'https://instagram.com/theshaguntyagi', icon: Instagram },
+  { label: 'Instagram', url: 'https://www.instagram.com/shaguntyagi.tech/', icon: Instagram },
   { label: 'X / Twitter', url: 'https://twitter.com/theshaguntyagi', icon: Twitter },
   { label: 'RSS Feed', url: 'https://shaguntyagi.tech/rss.xml', icon: Rss },
   { label: 'Email', url: 'mailto:theshaguntyagi@gmail.com', icon: Mail },
