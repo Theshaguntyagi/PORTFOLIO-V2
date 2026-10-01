@@ -1,9 +1,18 @@
-import { Github, Linkedin, Mail, FileText, Rss, Instagram, Twitter } from 'lucide-react';
+import { Github, Linkedin, Mail, FileText, Rss, Instagram, Twitter, BookOpen, Compass } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import Newsletter from '../components/Newsletter';
 import '../styles/NowUses.css';
 
+// Link-in-bio targets (Instagram bio points here). Internal routes use the
+// router so the first-touch UTM captured on /links survives the click.
+const PRIMARY = [
+  { label: 'Read the blog — RAG, agents, LLM infra', to: '/blog', icon: BookOpen },
+  { label: 'Start here', to: '/start-here', icon: Compass },
+  { label: 'Projects', to: '/projects', icon: FileText },
+];
+
 const LINKS = [
-  { label: 'Portfolio & Blog', url: 'https://shaguntyagi.tech', icon: FileText },
   { label: 'GitHub', url: 'https://github.com/theshaguntyagi', icon: Github },
   { label: 'LinkedIn', url: 'https://linkedin.com/in/theshaguntyagi', icon: Linkedin },
   { label: 'Instagram', url: 'https://instagram.com/theshaguntyagi', icon: Instagram },
@@ -17,7 +26,7 @@ export default function Links() {
     <>
       <SEO
         title="Links | Shagun Tyagi — All Profiles in One Place"
-        desc="Every place to find Shagun Tyagi online — portfolio, GitHub, LinkedIn, and social profiles."
+        desc="Every place to find Shagun Tyagi online — blog, projects, GitHub, LinkedIn, and Instagram."
         path="/links"
         breadcrumb={[{ name: 'Links', path: '/links' }]}
       />
@@ -27,6 +36,21 @@ export default function Links() {
             <h2>Links</h2>
           </div>
           <span className="nowuses-updated">Everywhere to find me</span>
+
+          <div className="nowuses-block">
+            <ul className="nowuses-list">
+              {PRIMARY.map(({ label, to, icon: Icon }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}
+                  >
+                    <Icon size={16} /> <b>{label}</b>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div className="nowuses-block">
             <ul className="nowuses-list">
@@ -44,6 +68,8 @@ export default function Links() {
               ))}
             </ul>
           </div>
+
+          <Newsletter />
         </div>
       </section>
     </>

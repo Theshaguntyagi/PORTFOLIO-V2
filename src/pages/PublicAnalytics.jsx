@@ -48,6 +48,7 @@ export default function PublicAnalytics() {
         title="Public Analytics | Shagun Tyagi — Portfolio Traffic, Transparently"
         desc="Live, public traffic numbers for shaguntyagi.tech — visitors, page views, and the most-clicked projects. No sign-in required."
         path="/analytics"
+        noindex
         breadcrumb={[{ name: "Analytics", path: "/analytics" }]}
       />
       <div className="analytics-page container">

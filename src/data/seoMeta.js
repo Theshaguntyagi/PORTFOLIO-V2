@@ -68,7 +68,7 @@ const ROUTE_META = {
   },
   "/links": {
     title: `Links | ${NAME} — All Profiles in One Place`,
-    desc: "Every place to find Shagun Tyagi online — portfolio, GitHub, LinkedIn, and social profiles.",
+    desc: "Every place to find Shagun Tyagi online — blog, projects, GitHub, LinkedIn, and Instagram.",
   },
   "/press": {
     title: `Press & Media Kit | ${NAME}`,
