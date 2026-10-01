@@ -170,9 +170,3 @@ exports.chat = onRequest({ secrets: [OPENAI_API_KEY], cors: ALLOWED_ORIGINS }, a
     res.status(500).json({ error: "Server error" });
   }
 });
-
-// Blog auto-publish: rebuild the static site when a published post changes,
-// and publish scheduled posts when their time comes. See blog-pipeline.js.
-const blogPipeline = require("./blog-pipeline");
-exports.rebuildOnBlogChange = blogPipeline.rebuildOnBlogChange;
-exports.publishScheduledPosts = blogPipeline.publishScheduledPosts;

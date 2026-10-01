@@ -13,7 +13,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { getSeoMeta } from '../src/data/seoMeta.js';
-import { getPublishedPosts } from './firestore-blogs.mjs';
+import { getContentHash, getPublishedPosts } from './firestore-blogs.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
@@ -94,6 +94,9 @@ async function main() {
   }
 
   const posts = await getPublishedPosts();
+  // Content fingerprint for the scheduled "did anything change?" check in deploy.yml.
+  const hash = await getContentHash();
+  if (hash) writeFileSync(join(distDir, 'content-hash.txt'), `${hash}\n`);
   for (const p of posts) {
     write(`blog/${p.slug}`, render(template, {
       path: `/blog/${p.slug}`,

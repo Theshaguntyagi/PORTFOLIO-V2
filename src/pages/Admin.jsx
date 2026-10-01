@@ -525,8 +525,8 @@ export default function Admin() {
     e.preventDefault();
     if (!form.title.trim() || saving) return;
 
-    // Scheduled posts need a future publish time; the Cloud Function
-    // publishScheduledPosts flips them to 'published' once it passes.
+    // Scheduled posts need a future publish time; the GitHub workflow
+    // (scripts/site-sync.mjs, every 15 min) flips them to 'published' once it passes.
     let publishAt = '';
     if (form.publishingStatus === 'scheduled') {
       const at = form.schedulePublish ? new Date(form.schedulePublish) : null; // datetime-local → browser's local tz

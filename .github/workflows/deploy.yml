@@ -1,14 +1,17 @@
 # Builds the site and publishes dist/ to the gh-pages branch (shaguntyagi.tech).
 #
 # Triggers:
-#   - push to main                → code changes
-#   - repository_dispatch         → a blog post was published/edited/unpublished
-#                                    (sent by the rebuildOnBlogChange Cloud Function)
-#   - daily schedule              → backstop if a dispatch was ever missed
-#   - workflow_dispatch           → manual "Run workflow" button
+#   - push to main         → always rebuild (code changed)
+#   - every 15 min         → publish due scheduled posts, then rebuild ONLY if
+#                            published blog content differs from what's live
+#                            (compares Firestore with /content-hash.txt)
+#   - daily 02:00 IST      → forced rebuild (backstop)
+#   - workflow_dispatch    → manual "Run workflow" button (forced rebuild)
 #
-# Required repo secret:
-#   DOTENV — the full contents of your local .env file (VITE_* keys)
+# Repo secrets (Settings → Secrets and variables → Actions):
+#   DOTENV                    — full contents of your local .env (VITE_* keys). Required.
+#   FIREBASE_SERVICE_ACCOUNT  — Firebase service-account JSON. Optional; without
+#                               it, "Scheduled" posts never flip to published.
 name: Deploy site
 
 on:
@@ -18,19 +21,19 @@ on:
       - "functions/**"
       - "firestore.rules"
       - "**/*.md"
-  repository_dispatch:
-    types: [blog-changed]
   schedule:
-    - cron: "30 20 * * *" # 02:00 IST
+    - cron: "*/15 * * * *"
+    - cron: "30 20 * * *" # 02:00 IST forced rebuild
   workflow_dispatch:
 
 permissions:
   contents: write
 
-# Several blog edits in quick succession → only the latest build deploys.
+# Queue, never cancel: a cancelled run could leave a scheduled post flipped
+# in Firestore but not yet deployed (the next check would catch it, but why wait).
 concurrency:
   group: deploy-site
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -42,7 +45,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
       - name: Write .env
         env:
@@ -55,24 +57,53 @@ jobs:
           printf '%s\n' "$DOTENV" > .env
           grep -q '^VITE_FIREBASE_PROJECT_ID=' .env || { echo "::error::DOTENV has no VITE_FIREBASE_PROJECT_ID"; exit 1; }
 
-      - run: npm ci --no-audit --no-fund
+      # Dependency-free: runs before npm ci so a no-change check costs ~10s.
+      - name: Publish due scheduled posts + fingerprint content
+        id: sync
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node scripts/site-sync.mjs
+
+      - name: Decide whether to rebuild
+        id: decide
+        env:
+          EVENT: ${{ github.event_name }}
+          CRON: ${{ github.event.schedule }}
+          HASH: ${{ steps.sync.outputs.hash }}
+        run: |
+          if [ "$EVENT" != "schedule" ] || [ "$CRON" = "30 20 * * *" ]; then
+            echo "build=true" >> "$GITHUB_OUTPUT"; echo "Forced build ($EVENT)"; exit 0
+          fi
+          LIVE=$(curl -fsS --max-time 20 "https://shaguntyagi.tech/content-hash.txt?t=$(date +%s)" | tr -d '[:space:]' || true)
+          if [ "$LIVE" = "$HASH" ]; then
+            echo "build=false" >> "$GITHUB_OUTPUT"; echo "No content change — skipping."
+          else
+            echo "build=true" >> "$GITHUB_OUTPUT"; echo "Content changed (live=${LIVE:-none} new=$HASH) — rebuilding."
+          fi
+
+      - name: Install
+        if: steps.decide.outputs.build == 'true'
+        run: npm ci --no-audit --no-fund
 
       - name: Build
+        if: steps.decide.outputs.build == 'true'
         env:
-          # Fail the build instead of deploying a site with blog pages missing
-          # if Firestore can't be reached.
+          # Fail instead of deploying a site with blog pages missing if Firestore is down.
           STRICT_BLOGS: "1"
         run: npm run build
 
       - name: Sanity-check output
+        if: steps.decide.outputs.build == 'true'
         run: |
           test -f dist/index.html
           test -f dist/CNAME
           test -f dist/sitemap.xml
+          test -s dist/content-hash.txt
           grep -q '<loc>https://shaguntyagi.tech/blog/' dist/sitemap.xml \
             || echo "::warning::sitemap has no blog post URLs (no published posts?)"
 
       - name: Deploy to gh-pages
+        if: steps.decide.outputs.build == 'true'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -80,4 +111,4 @@ jobs:
           publish_branch: gh-pages
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit_message: "deploy: ${{ github.event_name }} ${{ github.event.client_payload.slug || github.sha }}"
+          commit_message: "deploy: ${{ github.event_name }} ${{ github.sha }}"
